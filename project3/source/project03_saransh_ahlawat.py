@@ -1,9 +1,21 @@
 from prettytable import PrettyTable
-import datetime
-from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order, get_age
+from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
+from util_date import Date
 
 
 def gedcom_file_parser(path):
+    """gedcom file parser opens and reads a gedcom file line-byline
+    and stores the fields of individuals and families in separate dictionaries.
+    The key of individuals dictionary is the individual id, for families dictionary 
+    it is family id.
+    
+    Arguments:
+        path {string} -- this is the path of the gedcom file
+    
+    Returns:
+        {tuple of dictionaries} -- the return value is a tuple of
+        individuals and families dictinary
+    """
     try:
         fp = open(path, "r")
     except FileNotFoundError:
@@ -37,15 +49,15 @@ def gedcom_file_parser(path):
                                             if line != "":
                                                 line_split = line.split()
                                                 if line_split[1] == "DATE":
-                                                    individuals_dict[individual_id]["BIRT"] = " ".join(
-                                                        line_split[2:])
+                                                    individuals_dict[individual_id]["BIRT"] = Date(" ".join(
+                                                        line_split[2:]))
                                         elif line_split[1] == "DEAT":
                                             line = fp.readline().rstrip("\n")
                                             if line != "":
                                                 line_split = line.split()
                                                 if line_split[1] == "DATE":
-                                                    individuals_dict[individual_id]["DEAT"] = " ".join(
-                                                        line_split[2:])
+                                                    individuals_dict[individual_id]["DEAT"] = Date(" ".join(
+                                                        line_split[2:]))
                                         else:
                                             individuals_dict[individual_id][line_split[1]] = " ".join(
                                                 line_split[2:])
@@ -68,15 +80,15 @@ def gedcom_file_parser(path):
                                             if line:
                                                 line_split = line.split()
                                                 if line_split[1] == "DATE":
-                                                    family_dict[family_id]["MARR"] = " ".join(
-                                                        line_split[2:])
+                                                    family_dict[family_id]["MARR"] = Date(" ".join(
+                                                        line_split[2:]))
                                         elif line_split[1] == "DIV":
                                             line = fp.readline().rstrip("\n")
                                             if line:
                                                 line_split = line.split()
                                                 if line_split[1] == "DATE":
-                                                    family_dict[family_id]["DIV"] = " ".join(
-                                                        line_split[2:])
+                                                    family_dict[family_id]["DIV"] = Date(" ".join(
+                                                        line_split[2:]))
                                         elif line_split[1] == "CHIL":
                                             if family_dict[family_id].get("CHIL") == None:
                                                 family_dict[family_id]["CHIL"] = [
@@ -95,12 +107,10 @@ def gedcom_file_parser(path):
                                         continue
                                 else:
                                     break
-
                         else:
                             if "INDI" not in line_split:
                                 line = fp.readline().rstrip("\n")
                             continue
-
                     else:
                         line = fp.readline().rstrip("\n")
                         continue
@@ -118,13 +128,12 @@ def print_individuals_pretty_table(individuals_dict):
                      "ID", "Name", "Gender", "Birthday", "Age", "Alive", "Death", "Child", "Spouse"])
     for individual_id, individual_info in individuals_dict.items():
         individual_info["ALIVE"] = individual_info.get("DEAT") == None
-        birth_date = None
         if individual_info.get("BIRT") != None:
-            birth_date = datetime.datetime.strptime(individual_info.get("BIRT"), "%d %b %Y")
+            birth_date = individual_info.get("BIRT").date_time_obj
         death_date = None
         if individual_info.get("DEAT") != None:
-            datetime.datetime.strptime(individual_info.get("DEAT"), "%d %b %Y")
-        individual_info["AGE"] = get_age(birth_date, death_date)
+            death_date = individual_info.get("DEAT").date_time_obj
+        individual_info["AGE"] = Date.get_dates_difference(birth_date, death_date)
         individual_info["FAMC"] = individual_info.get(
             "FAMC") if individual_info.get("FAMC") != None else "NA"
         individual_info["FAMS"] = individual_info.get(
@@ -166,5 +175,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# test comment
