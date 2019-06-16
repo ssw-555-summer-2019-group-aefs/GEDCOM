@@ -17,13 +17,3 @@ def get_individual_pretty_Table_order():
 
 def get_families_pretty_table_order():
     return ["MARR", "DIV", "HUSB", "HNAME", "WIFE", "WNAME", "CHIL"]
-
-def get_age(birth_date, death_date=None):
-    today = datetime.date.today()
-    age = 0
-    if death_date == None and birth_date != None:
-        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-    else:
-        if birth_date != None:
-            age = death_date.year - birth_date.year - 1
-    return age if age > -1 else 0
