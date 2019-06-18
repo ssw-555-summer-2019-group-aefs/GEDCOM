@@ -167,11 +167,68 @@ def print_families_pretty_table(families_dict, individuals_dict):
         pt.add_row(family_info_list)
     print(pt)
 
+# User Story 07
+def check_150_years_age(individual_info_dict):
+
+    age_limit = 150
+
+    # gets dates from individual info
+    for individual_id, individual_info in individual_info_dict.items():
+        id = individual_id
+        birth_date = Date(str(individual_info.get("BIRT")))
+        if individual_info.get("DEAT") != None:
+            death_date = Date(str(individual_info.get("DEAT")))
+        else:
+            death_date = None
+    
+        # calculates age with the dates
+        if death_date == None and birth_date != None:
+            age = Date.get_dates_difference(birth_date.date_time_obj)
+        else:
+            if death_date != None and birth_date != None:
+                age = Date.get_dates_difference(birth_date.date_time_obj, death_date.date_time_obj)
+
+        # checks to see if age exceeds age limit and prints error
+        if age > age_limit and death_date == None:
+            print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
+        elif age > age_limit and death_date != None:
+            print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
+# End of User Story 07
+
+# User story 08
+def check_birth_before_marriage_of_parents(family_info_dict, individual_info_dict):
+    
+    for family_id, family_info in family_info_dict.items():
+        # gets marriage and divorce dates in family if they exist
+        if family_info.get("MARR") != None:
+            marriage_date = Date(str(family_info.get("MARR")))
+        else:
+            marriage_date = None
+        if family_info.get("DIV") != None:
+            divorce_date = Date(str(family_info.get("DIV")))
+        else:
+            divorce_date = None
+        
+        # obtains all childen in family
+        children = family_info.get('CHIL')
+
+        #if children exist, it gets the birth dates and compares it to the marriage/divorce dates, and prints error if marriage is before birth and/or birth is after divorce
+        if children != None:
+            for child in children:
+                child_dict = individual_info_dict.get(child)
+                birth_date = Date(str(child_dict.get('BIRT')))
+                if marriage_date != None and marriage_date.date_time_obj < birth_date.date_time_obj:
+                    print('ANOMOLY: FAMILY: US08: {}: Child {} born {} before marriage on {}'.format(family_id, child, birth_date, marriage_date))
+                if divorce_date != None and birth_date > divorce_date:
+                    print('ANOMOLY: FAMILY: US08: {}: Child {} born {} after divorce on {}'.format(family_id, child, birth_date, divorce_date))
+# End of User Story 08
 
 def main():
-    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/project3/data/project01.ged"
+    directory_path = r'C:\Users\Erik\Desktop\SSW555\Test\GEDCOM\project3\data\project01.ged'
     print_pretty_table(directory_path)
-
+    individual_dict, family_dict = gedcom_file_parser(directory_path)
+    check_150_years_age(individual_dict) # US07
+    check_birth_before_marriage_of_parents(family_dict, individual_dict) #US08
 
 if __name__ == '__main__':
     main()
