@@ -121,6 +121,8 @@ def print_pretty_table(directory_path):
     individuals, families = gedcom_file_parser(directory_path)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
+    # birth_before_parents_death(individuals, families)
+    
 
 
 def print_individuals_pretty_table(individuals_dict):
@@ -168,8 +170,38 @@ def print_families_pretty_table(families_dict, individuals_dict):
     print(pt)
 
 
+
+
+
+def birth_before_parents_death(individuals_dict, families_dict):
+    for family_id, family_info in families_dict.items():
+        print(family_id, family_info)
+        husb_info = individuals_dict[family_info['HUSB']]
+        wife_info = individuals_dict[family_info['WIFE']]
+        print(husb_info.get('DEAT'))
+        if husb_info.get('DEAT') != None and husb_info.get('DEAT') != 'NA':
+            if family_info.get('CHIL') != None:
+                for child in family_info.get('CHIL'):
+                    child_info = individuals_dict[child]
+                    try:
+                        if Date.get_dates_difference(husb_info.get('DEAT').date_time_obj, child_info.get('BIRT').date_time_obj) < 0:
+                            raise ValueError(f"ERROR: Husband died before the birth of his child - {family_id}")
+                    except ValueError as e:
+                        print(e)
+
+        if wife_info.get('DEAT') != None and wife_info.get('DEAT') != 'NA':
+            if family_info.get('CHIL') != None:
+                for child in family_info.get('CHIL'):
+                    child_info = individuals_dict[child]
+                    try:
+                        if Date.get_dates_difference(wife_info.get('DEAT').date_time_obj, child_info.get('BIRT').date_time_obj) < 0:
+                            raise ValueError(f"ERROR: Husband died before the birth of his child - {family_id}")
+                    except ValueError as e:
+                        print(e)
+
+
 def main():
-    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/project3/data/project01.ged"
+    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/faultyDates.ged"
     print_pretty_table(directory_path)
 
 
