@@ -15,8 +15,8 @@ def us03(individuals):
                 if Date.get_dates_difference(birth_dt,death_dt) < 0:
                     print(f"US03: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs after the death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}'.")
                     errors[i] = True
-        else:
-            print(f"Error: Invalid date format")
         i+=1
     
     return errors
+
+
