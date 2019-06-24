@@ -4,6 +4,7 @@ from util_date import Date
 from Proj04_Awingate_03 import get_dates
 from Homework05_US01 import us01
 from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
+from US09 import birth_before_parents_death
 from US03 import us03
 
 
@@ -133,6 +134,7 @@ def print_pretty_table(directory_path):
     
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
+    birth_before_parents_death(individuals, families)
 
     return errors    
 
