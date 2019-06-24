@@ -1,6 +1,10 @@
 from prettytable import PrettyTable
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
+from Proj04_Awingate_03 import get_dates
+from Homework05_US01 import us01
+from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
+from US03 import us03
 
 
 def gedcom_file_parser(path):
@@ -118,9 +122,19 @@ def gedcom_file_parser(path):
 
 
 def print_pretty_table(directory_path):
+    
     individuals, families = gedcom_file_parser(directory_path)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
+    e1 = get_dates(individuals, families) #US02, US04, US05, US06, US10
+    e2 = us01(individuals, families)
+    e3 = us03(individuals)
+    errors = [e1, e2, e3]
+    
+    check_150_years_age(individuals)
+    check_birth_before_marriage_of_parents(families, individuals)
+
+    return errors    
 
 
 def print_individuals_pretty_table(individuals_dict):
@@ -169,7 +183,7 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 
 def main():
-    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/project3/data/project01.ged"
+    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/PPTtest2.ged"
     print_pretty_table(directory_path)
 
 

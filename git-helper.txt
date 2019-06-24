@@ -1,0 +1,47 @@
+Useful Git Commands:
+
+1. Cloning this repository to your compouter (cloning just means downloading the repository to your computer):
+git clone https://github.com/ssw-555-summer-2019-group-aefs/GEDCOM.git
+
+By default, you will be on 'master' branch.
+
+2. Create a new branch:
+git checkout -b branch-name
+
+3. Once the branch is created, checking out to that branch:
+git checkout branch-name
+
+Once you are on a different branch (other than master branch), you can begin your work.
+
+4. Check the status of your changes:
+git status
+
+5. Add all the changed files for pushing:
+git add .  // '.' means you want to add all the changed files
+
+if you only want to add selected files, you will manually do:
+git add file-name1 file-name2 etc
+
+6. Commit changes:
+git commit -m "commit message"
+
+7. Pushing your changes to the reporsitory:
+git push
+
+Note: Alaways check what branch you are currently on before pushing your changes. You should always push to the branch you have created. NEVER TO THE MASTER BRANCH.
+
+8. Removing all the local changes:
+git stash
+
+This is perticularly useful in the situation when you have by mistake made all the changes on the master branch and now you realize before pushing that you have been making
+these changes on the master branch instead of the branch that you had created. In that case, you simply to "git stash", then checkout to your branch and do "git stash apply"
+
+9. Applying stashed changes:
+git stash apply
+
+10. For merging your code to master branch:
+Create a pull request on github from your branch to master branch and assign everyone on the team as reviewer.
+
+
+The following is the link to the git cheat sheet which may be helpful for learning Git:
+https://www.git-tower.com/blog/git-cheat-sheet
