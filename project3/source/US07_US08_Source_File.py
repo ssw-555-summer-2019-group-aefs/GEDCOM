@@ -32,9 +32,9 @@ def check_150_years_age(individual_info_dict):
                 age = Date.get_dates_difference(birth_date.date_time_obj, death_date.date_time_obj)
 
         # checks to see if age exceeds age limit and prints error
-        if age > age_limit and death_date == None:
+        if type(age) is not str and age > age_limit and death_date == None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
-        elif age > age_limit and death_date != None:
+        elif type(age) is not str and age > age_limit and death_date != None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
 # End of User Story 07
 
