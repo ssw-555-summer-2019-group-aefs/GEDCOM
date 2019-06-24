@@ -81,7 +81,7 @@ def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id):
         error2 = True
     elif marriage_dt != None and divorce_dt != None:
         if date_before(marriage_dt, divorce_dt):
-            print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}'")
+            print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
             error3 = True
         
     errors = [error1, error2, error3]
