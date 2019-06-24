@@ -26,6 +26,6 @@ def birth_before_parents_death(individuals_dict, families_dict):
                     else:
                         try:
                             if Date.get_dates_difference(wife_info.get('DEAT').date_time_obj, child_info.get('BIRT').date_time_obj) < 0:
-                                raise ValueError(f"ERROR: Wife died before the birth of his child - {family_id}")
+                                raise ValueError(f"ERROR: Wife died before the birth of her child - {family_id}")
                         except ValueError as e:
                             print(e)
