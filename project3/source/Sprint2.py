@@ -197,7 +197,7 @@ def get_child_block(individuals, families):
                 us14(children, num_chil, fam['FAM'], individuals)
                 us15(children, num_chil, fam['FAM'])
                 us17(children, husband_id, wife_id)
-                US18(husband_id, wife_id, individuals, families)
+                us18(husband_id, wife_id, individuals, families)
                 us28(children, num_chil, fam['FAM'], individuals)
                 if Date.get_dates_difference(individuals[fam['HUSB']]['DEAT'])!='NA' and Date.get_dates_difference(individuals[fam['WIFE']]['DEAT'])!='NA':
                     us33(children, num_chil, fam['FAM'], individuals)

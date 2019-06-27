@@ -16,7 +16,7 @@
 
 import datetime
 from util_date import Date
-from Homework05_US01 import us01
+
 
 def date_before(dt1, dt2):
     """ Send two dates to Date class for comparison """
@@ -195,10 +195,12 @@ def us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id):
     return errors
 
 
-def get_dates(individuals, families):
+def get_spouse_block(individuals, families):
     """ Stores dates for marriage, divorce, birth and death of spouses. Calls user story 02, 04, 05, and 06 for date comparison."""
     
     errors = dict()
+    us01_errors = dict()
+    us03_errors = dict()
     us02_errors = dict()
     us04_errors = dict()
     us05_errors = dict()
@@ -241,7 +243,7 @@ def get_dates(individuals, families):
         us05_errors[i] = us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id)
         us06_errors[i] = us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id)
         us01_errors[i] = us01(individuals, families)
-        us02_errors[i] = us03(individuals)
+        us03_errors[i] = us03(individuals)
 
         i+=1
     
