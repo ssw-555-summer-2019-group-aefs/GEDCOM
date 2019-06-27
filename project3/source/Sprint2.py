@@ -20,14 +20,13 @@
 
 import datetime
 from util_date import Date
-from gedcom_file_parser import print_individuals_pretty_table
 from collections import OrderedDict
+from gedcom_file_parser import print_individuals_pretty_table
 
 
 #
 # Begin Sprint 2 Child Block
 #
-
 
 
 def us13(children, num_chil, fam_id, individuals):
@@ -97,10 +96,37 @@ def us15(children, num_chil, fam_id):
     return None
 
 
-def us17(children, individuals):
+def us17(children, husband_id, wife_id):
     """ Parents should not marry any of their children. """
-    
+    # Needs revision
 
+    if wife_id in children:
+        print(f"US17: Error: Ew! Parents should not marry children. 100% Judgement. Seek help.")
+    if husband_id in children:
+        print(f"US17: Error: Ew! Parents should not marry children. 1005 Judgement. Seek help.")
+    
+    return None
+
+
+def us18(husband_id, wife_id, individuals, families):
+    """ Siblings should not marry one another. """
+    # Needs revision
+
+    for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
+        if ind_id == wife_id:
+            family_id = ind['FAMC']
+            children = families[family_id]['CHIL']
+            if husband_id in children:
+                print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
+        elif ind_id == husband_id:
+            family_id = ind['FAMC']
+            children = families[family_id]['CHIL']
+            if wife_id in children:
+                print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
+    
+    return None
+            
+    
 def us28(children, num_chil, fam_id, individuals):
     """ List siblings in families by decreasing age, i.e. oldest siblings first. """
     #Needs Revision
@@ -153,7 +179,7 @@ def us33(children, num_chil, fam_id, individuals):
     return None
 
 
-def get_child_block(individuals,families):
+def get_child_block(individuals, families):
    """ Get the individiual record of each child. """
    
    for fam in families.values():  # each fam is dict with the attributes of the family
@@ -161,6 +187,8 @@ def get_child_block(individuals,families):
             continue
         else:
             children = fam['CHIL']
+            husband_id = fam['HUSB']
+            wife_id = fam['WIFE']
             num_chil = len(children)
             if num_chil == 0:
                 continue
@@ -168,7 +196,8 @@ def get_child_block(individuals,families):
                 us13(children, num_chil, fam['FAM'], individuals)
                 us14(children, num_chil, fam['FAM'], individuals)
                 us15(children, num_chil, fam['FAM'])
-                us17(children, individuals)
+                us17(children, husband_id, wife_id)
+                US18(husband_id, wife_id, individuals, families)
                 us28(children, num_chil, fam['FAM'], individuals)
                 if Date.get_dates_difference(individuals[fam['HUSB']]['DEAT'])!='NA' and Date.get_dates_difference(individuals[fam['WIFE']]['DEAT'])!='NA':
                     us33(children, num_chil, fam['FAM'], individuals)
