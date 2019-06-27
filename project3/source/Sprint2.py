@@ -21,7 +21,9 @@
 import datetime
 from util_date import Date
 from collections import OrderedDict
-from gedcom_file_parser import print_individuals_pretty_table
+from prettytable import PrettyTable
+
+#from gedcom_file_parser import print_individuals_pretty_table
 
 
 #
@@ -50,7 +52,7 @@ def us13(children, num_chil, fam_id, individuals):
         
         return diff, time_typ
 
-    for i in range(num_chil):
+    for i in range(num_chil-1):
         sib1 = individuals[children[i]]['BIRT']
         sib2 = individuals[children[i+1]]['BIRT']
         diff, time_typ = get_dates_diff(sib1.date_time_obj, sib2.date_time_obj)
@@ -68,22 +70,31 @@ def us13(children, num_chil, fam_id, individuals):
 
 def us14(children, num_chil, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
-    #note:  Current version of this code does not take into account multiple occurences of twins or triplets or other multiples in a single family
+    # Needs Revision
+   
+    def us32(mult_rec, fam_id, individuals):
+        """ List all multiple births in a GEDCOM file. """
 
-    num_mult = 0
+        for bday, mults in mult_rec.items:
+            print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{bday}'")
+            pt = PrettyTable(field_names=["ID", "Name"])
+            for i in mults:
+                pt.add_row(mults[i], [individuals[mults[i]]['NAME']])
+            print(pt)
+            
+
+        return None
+
     mult_rec = dict()
     for i in range(num_chil):
-        sib1 = individuals[children[i]]['BIRT']
-        sib2 = individuals[children[i+1]]['BIRT']
-        diff = Date.get_dates_difference(sib1, sib2)
-        if diff == 0:
-            num_mult += 1
-            mult_rec[children[i]]= individuals[children[i]]
-    if num_mult > 1:
-        us32(mult_rec, fam_id)
-    if num_mult > 5: 
-        print(f"US14: Error: More than five children born on the same date in family '{fam_id}'")
-        
+        mult_rec[individuals[children[i]]['BIRT']] = children[i]
+
+    for birth_dt, mults in mult_rec.items: # Not an iterable object error
+        if len(mults) > 1:
+            us32(mult_rec, fam_id, individuals)    
+        if len(mults) > 5:
+            print(f"US14: Error: More than five children born on date '{birth_dt}' in family '{fam_id}'")
+
     return None
 
 
@@ -132,49 +143,51 @@ def us28(children, num_chil, fam_id, individuals):
     # Needs Revision
 
     order = list()
-    child_ord = OrderedDict()
     for i in range(num_chil + 1):
         if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[i+1]]['BIRT'])<0:
-            if len(order) == 0:
-                order[i] = children[i]
-                order[i+1] = children[i+1]
-            else:
-                for n in range(len(order) + 1):
-                    if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])<0:
-                        order.insert(n, children[i])
-        elif Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[i+1]]['BIRT'])>0:
             if len(order) == 0:
                 order[i] = children[i+1]
                 order[i+1] = children[i]
             else:
                 for n in range(len(order) + 1):
                     if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])>0:
-                        continue
-                    else:
                         order.insert(n, children[i])
-    
-    for ord in range(num_chil + 1):
-        child_ord[order[ord]] = individuals[order[ord]]
+                    elif Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])<0:
+                        order.append(n, children[i])
+        elif Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[i+1]]['BIRT'])>0:
+            if len(order) == 0:
+                order[i] = children[i]
+                order[i+1] = children[i+1]
+            else:
+                for n in range(len(order) + 1):
+                    if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])>0:
+                        order.insert(n, children[i])
+                    else:
+                        continue
+                        
     print(f"US33: List: Eldest to youngest children in family '{fam_id}'.")
-    print_individuals_pretty_table(child_ord)
+    pt = PrettyTable(field_names=["ID", "Name"])
+    for ord in range(num_chil + 1):
+        pt.add_row(individuals[order[ord]],individuals[order[ord]]['NAME'])
+    print(pt)
 
     return None
 
-
-def us32(mult_rec, fam_id):
-    """ List all multiple births in a GEDCOM file. """
-    print(f"US32: List: The following multiple births occured in family '{fam_id}'")
-    print_individuals_pretty_table(mult_rec)
-
-    return None
 
 def us33(children, num_chil, fam_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
+    # Needs Revision
+
     orphan_rec = dict()
-    for i in range(num_chil+1):
-        orphan_rec[children[i]]= individuals[children[i]]
-    print(f"US33: List: The children in family '{fam_id}' are orphans.")
-    print_individuals_pretty_table(orphan_rec)
+    for i in range(num_chil + 1):
+        if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
+            orphan_rec[children[i]]= individuals[children[i]]
+    print(f"US33: List: These children in family '{fam_id}' are orphans.")
+    pt = PrettyTable(field_names=["ID", "Name"])
+    for orphan_id, orphans in orphan_rec.items:
+        pt.add_row(orphan_id, orphans[orphan_id]['NAME'])
+    print(pt)
+
 
     return None
 
@@ -182,7 +195,7 @@ def us33(children, num_chil, fam_id, individuals):
 def get_child_block(individuals, families):
     """ Get the children. """
     
-    for fam in families.values():  # each fam is dict with the attributes of the family
+    for fam_id, fam in families.items():  # each fam is dict with the attributes of the family
         if fam['CHIL'] == 'NA':
             continue
         else:
@@ -192,20 +205,16 @@ def get_child_block(individuals, families):
             num_chil = len(children)
             if num_chil == 0:
                 continue
-            else:
-                if 'FAM' in fam.keys():
-                    us13(children, num_chil, fam['FAM'], individuals)
-                    us14(children, num_chil, fam['FAM'], individuals)
-                    us15(children, num_chil, fam['FAM'])
+            else:  
+                if num_chil > 1:              
+                    us13(children, num_chil, fam_id, individuals)
+                    us14(children, num_chil, fam_id, individuals)
+                    us15(children, num_chil, fam_id)
                     us17(children, husband_id, wife_id)
                     us18(husband_id, wife_id, individuals, families)
-                    us28(children, num_chil, fam['FAM'], individuals)
-                    if Date.get_dates_difference(individuals[fam['HUSB']]['DEAT'])!='NA' and Date.get_dates_difference(individuals[fam['WIFE']]['DEAT'])!='NA':
-                        us33(children, num_chil, fam['FAM'], individuals)
-                    for i in range(num_chil):
-                        child_record = individuals[children[i]]
-                else:
-                    continue
+                    us28(children, num_chil, fam_id, individuals)
+                if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
+                    us33(children, num_chil, fam_id, individuals)
     
     return None
 
