@@ -106,4 +106,3 @@ class Date:
             return False
         except TypeError:
             return False
-

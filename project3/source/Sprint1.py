@@ -200,8 +200,8 @@ def get_spouse_block(individuals, families):
     
     errors = dict()
     us01_errors = dict()
-    us03_errors = dict()
     us02_errors = dict()
+    us03_errors = dict()
     us04_errors = dict()
     us05_errors = dict()
     us06_errors = dict()
@@ -247,5 +247,5 @@ def get_spouse_block(individuals, families):
 
         i+=1
     
-    errors = {'us02':us02_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors}
+    errors = {'us02':us02_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors, 'uso1':us01_errors, 'us03':us03_errors}
     return errors

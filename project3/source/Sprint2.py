@@ -129,7 +129,7 @@ def us18(husband_id, wife_id, individuals, families):
     
 def us28(children, num_chil, fam_id, individuals):
     """ List siblings in families by decreasing age, i.e. oldest siblings first. """
-    #Needs Revision
+    # Needs Revision
 
     order = list()
     child_ord = OrderedDict()
@@ -180,9 +180,9 @@ def us33(children, num_chil, fam_id, individuals):
 
 
 def get_child_block(individuals, families):
-   """ Get the individiual record of each child. """
-   
-   for fam in families.values():  # each fam is dict with the attributes of the family
+    """ Get the children. """
+    
+    for fam in families.values():  # each fam is dict with the attributes of the family
         if fam['CHIL'] == 'NA':
             continue
         else:
@@ -193,15 +193,22 @@ def get_child_block(individuals, families):
             if num_chil == 0:
                 continue
             else:
-                us13(children, num_chil, fam['FAM'], individuals)
-                us14(children, num_chil, fam['FAM'], individuals)
-                us15(children, num_chil, fam['FAM'])
-                us17(children, husband_id, wife_id)
-                us18(husband_id, wife_id, individuals, families)
-                us28(children, num_chil, fam['FAM'], individuals)
-                if Date.get_dates_difference(individuals[fam['HUSB']]['DEAT'])!='NA' and Date.get_dates_difference(individuals[fam['WIFE']]['DEAT'])!='NA':
-                    us33(children, num_chil, fam['FAM'], individuals)
-                for i in range(num_chil):
-                    child_record = individuals[children[i]]
+                if 'FAM' in fam.keys():
+                    us13(children, num_chil, fam['FAM'], individuals)
+                    us14(children, num_chil, fam['FAM'], individuals)
+                    us15(children, num_chil, fam['FAM'])
+                    us17(children, husband_id, wife_id)
+                    us18(husband_id, wife_id, individuals, families)
+                    us28(children, num_chil, fam['FAM'], individuals)
+                    if Date.get_dates_difference(individuals[fam['HUSB']]['DEAT'])!='NA' and Date.get_dates_difference(individuals[fam['WIFE']]['DEAT'])!='NA':
+                        us33(children, num_chil, fam['FAM'], individuals)
+                    for i in range(num_chil):
+                        child_record = individuals[children[i]]
+                else:
+                    continue
+    
+    return None
+
+
 
     
