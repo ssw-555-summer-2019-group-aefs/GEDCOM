@@ -35,9 +35,14 @@ def get_dates_diff(dt1, dt2=None):
 
     conversion = {'days':1,'months':30.4,'years':365.25}
     difference = abs((dt1 - dt2).days)
-    diff = difference/conversion[time_typ]
-                
-    return diff, time_typ
+    if difference >= 365.25:
+        time_typ = 'years'
+    if difference >= 30.4 and difference < 365.25:
+        time_typ = 'months'
+    if difference >= 1 and difference <30.4:
+        time_typ = 'days'
+
+    return difference/conversion[time_typ], time_typ
 
 
 def us13(children, num_chil, fam_id, individuals):
