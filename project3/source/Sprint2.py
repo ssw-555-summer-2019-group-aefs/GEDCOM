@@ -30,42 +30,44 @@ from prettytable import PrettyTable
 # Begin Sprint 2 Child Block
 #
 
+def get_dates_diff(dt1, dt2=None):
+    """ Gets date differences for US13 """
+
+    conversion = {'days':1,'months':30.4,'years':365.25}
+    difference = abs((dt1 - dt2).days)
+    diff = difference/conversion[time_typ]
+                
+    return diff, time_typ
+
 
 def us13(children, num_chil, fam_id, individuals):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
-    #Needs Revision:  Place all birthdays for children in a single list. Sort the list. Iterate through list calling get_dates_diff
-    
-    def get_dates_diff(dt1, dt2=None):
-        """ Gets date differences for US13 """
-        
-        conversion = {'days':1,'months':30.4,'years':365.25}
-        difference = abs((dt1 - dt2).days)
-        
-        if difference >= 365.25:
-            time_typ = 'years'
-            diff = difference/conversion[time_typ]
-        elif difference >= 30.4 and difference < 365.25:
-            time_typ = 'months'
-            diff = difference/conversion[time_typ]
-        elif difference >= 1 and difference < 30.4:
-            time_typ = 'days'
-            diff = difference/conversion[time_typ]
-        
-        return diff, time_typ
+    #Needs Revision
 
-    for i in range(num_chil-1):
-        sib1 = individuals[children[i]]['BIRT']
-        sib2 = individuals[children[i+1]]['BIRT']
-        diff, time_typ = get_dates_diff(sib1.date_time_obj, sib2.date_time_obj)
-        if time_typ == 'years':
-            continue
-        elif time_typ == 'months' and diff < 8:
-            print(f"US13: Error: Child '{children[i]}' and Child '{children[i+1]}' in family '{fam_id}' are born less than 8 months apart.")
-        elif time_typ == 'days' and diff < 2:
-            print(f"US13: Error: Child '{children[i]}' and Child '{children[i+1]}' in family '{fam_id}' are born less than 2 days apart.")
+    bd_dict = dict()
+    for i in range(num_chil):
+        bd_dict[individuals[children[i]]['BIRT']] = children[i]
+        bd_dict.sort
+
+    test_next = True
+    for bd, chil in bd_dict:
+        if test_next:
+            sib1 = bd
+            chil1 = chil
+            test_next = False
         else:
-            continue
-    
+            sib2 = bd
+            chil2 = chil
+            diff, time_typ = get_dates_diff(sib1.date_time_obj, sib2.date_time_obj)
+            if time_typ == 'years':
+                continue
+            elif time_typ == 'months' and diff < 8:
+                print(f"US13: Error: Child '{chil1}' and Child '{chil2}' in family '{fam_id}' are born less than 8 months apart.")
+            elif time_typ == 'days' and diff < 2:
+                print(f"US13: Error: Child '{chil1}' and Child '{chil2}' in family '{fam_id}' are born less than 2 days apart.")
+            else:
+                continue
+        
     return None
 
 
@@ -73,37 +75,44 @@ def us14(children, num_chil, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
     # Needs Revision
    
-    def us32(mults, num_mults, fam_id, birth_dt, individuals):
+    def us32(birth_dt, fam_id, individuals):
         """ List all multiple births in a GEDCOM file. """
 
         print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{birth_dt}'")
         pt = PrettyTable(field_names=["ID", "Name"])
-        for i in range(num_mults):
-            pt.add_row(mults[i], individuals[mults[i]]['NAME'])
+        for ind_id, ind in individuals.items:
+            if ind['BIRT'] == birth_dt:
+                pt.add_row(ind_id, ind['NAME'])
         print(pt)
             
 
         return None
 
-    mult_rec = dict()
     for i in range(num_chil):
-        mult_rec[individuals[children[i]]['BIRT']] = [children[i]]
-        #else:mult_rec[individuals[children[i]]['BIRT']].append(children[i])
-
+        if i == 0:
+            birthdates = [individuals[children[i]]['BIRT']]
+        else:
+            birthdates.append(individuals[children[i]]['BIRT'])
+    
+    birthdates_ord = birthdates.sort
     cnt = 0
-    loops = len(mult_rec)
-    while cnt <= loops:
-        mults = mult_rec[individuals[children[cnt]]['BIRT']]
-        num_mults = len(mults)
-        birth_dt = individuals[children[cnt]]['BIRT']
-        if num_mults == 1:
-            continue
-        if num_mults > 1:
-            us32(mults, num_mults, fam_id, birth_dt, individuals)    
-        if num_mults > 5:
-            print(f"US14: Error: More than five children born on date '{birth_dt}' in family '{fam_id}'")
-            us32(mult_rec, num_mults, fam_id, birth_dt, individuals) 
-        cnt+=1
+    ind = 0
+    next_test = True
+    while next_test:
+        if ind < num_chil:
+            diff = Date.get_dates_difference(birthdates_ord[ind].date_time_obj, birthdates_ord[ind+1].date_time_obj)
+            ind+=1
+            if diff == 0:
+                date_chk = birthdates_ord[ind].date_time_obj
+                while diff == 0 and ind < num_chil:
+                    diff = Date.get_dates_difference(birthdates_ord[ind].date_time_obj, date_chk)
+                    us32(date_chk, fam_id)
+                    cnt+=1
+                    ind+=1
+                if cnt > 5:
+                    print(f"US14: Error: More than five children born on date '{date_chk}' in family '{fam_id}'")
+        else:
+            next_test = False
 
     return None
 
