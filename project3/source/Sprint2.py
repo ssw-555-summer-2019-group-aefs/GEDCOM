@@ -51,11 +51,12 @@ def us13(children, num_chil, fam_id, individuals):
 
     bd_dict = dict()
     for i in range(num_chil):
-        bd_dict[individuals[children[i]]['BIRT']] = children[i]
-        bd_dict.sort
+        #dt_str = (individuals[children[i]]['BIRT'].date_time_obj).strftime('%d %b %Y')
+        bd_dict[(individuals[children[i]]['BIRT']).date_time_obj] = children[i]
+
 
     test_next = True
-    for bd, chil in bd_dict:
+    for bd, chil in sorted(bd_dict, key=lambda p: p[1], reverse=True): #How to fix?????
         if test_next:
             sib1 = bd
             chil1 = chil
@@ -83,7 +84,7 @@ def us14(children, num_chil, fam_id, individuals):
     def us32(birth_dt, fam_id, individuals):
         """ List all multiple births in a GEDCOM file. """
 
-        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{birth_dt}'")
+        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{(birth_dt.date_time_obj).strftime('%d %b %Y')}'")
         pt = PrettyTable(field_names=["ID", "Name"])
         for ind_id, ind in individuals.items:
             if ind['BIRT'] == birth_dt:
@@ -115,7 +116,7 @@ def us14(children, num_chil, fam_id, individuals):
                     cnt+=1
                     ind+=1
                 if cnt > 5:
-                    print(f"US14: Error: More than five children born on date '{date_chk}' in family '{fam_id}'")
+                    print(f"US14: Error: More than five children born on date '{(date_chk.date_time_obj).strftime('%d %b %Y')}' in family '{fam_id}'")
         else:
             next_test = False
 
