@@ -33,6 +33,7 @@ from prettytable import PrettyTable
 
 def us13(children, num_chil, fam_id, individuals):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
+    #Needs Revision:  Place all birthdays for children in a single list. Sort the list. Iterate through list calling get_dates_diff
     
     def get_dates_diff(dt1, dt2=None):
         """ Gets date differences for US13 """
@@ -72,28 +73,37 @@ def us14(children, num_chil, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
     # Needs Revision
    
-    def us32(mult_rec, fam_id, individuals):
+    def us32(mults, num_mults, fam_id, birth_dt, individuals):
         """ List all multiple births in a GEDCOM file. """
 
-        for bday, mults in mult_rec.items:
-            print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{bday}'")
-            pt = PrettyTable(field_names=["ID", "Name"])
-            for i in mults:
-                pt.add_row(mults[i], [individuals[mults[i]]['NAME']])
-            print(pt)
+        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{birth_dt}'")
+        pt = PrettyTable(field_names=["ID", "Name"])
+        for i in range(num_mults):
+            pt.add_row(mults[i], individuals[mults[i]]['NAME'])
+        print(pt)
             
 
         return None
 
     mult_rec = dict()
     for i in range(num_chil):
-        mult_rec[individuals[children[i]]['BIRT']] = children[i]
+        mult_rec[individuals[children[i]]['BIRT']] = [children[i]]
+        #else:mult_rec[individuals[children[i]]['BIRT']].append(children[i])
 
-    for birth_dt, mults in mult_rec.items: # Not an iterable object error
-        if len(mults) > 1:
-            us32(mult_rec, fam_id, individuals)    
-        if len(mults) > 5:
+    cnt = 0
+    loops = len(mult_rec)
+    while cnt <= loops:
+        mults = mult_rec[individuals[children[cnt]]['BIRT']]
+        num_mults = len(mults)
+        birth_dt = individuals[children[cnt]]['BIRT']
+        if num_mults == 1:
+            continue
+        if num_mults > 1:
+            us32(mults, num_mults, fam_id, birth_dt, individuals)    
+        if num_mults > 5:
             print(f"US14: Error: More than five children born on date '{birth_dt}' in family '{fam_id}'")
+            us32(mult_rec, num_mults, fam_id, birth_dt, individuals) 
+        cnt+=1
 
     return None
 
@@ -140,35 +150,43 @@ def us18(husband_id, wife_id, individuals, families):
     
 def us28(children, num_chil, fam_id, individuals):
     """ List siblings in families by decreasing age, i.e. oldest siblings first. """
-    # Needs Revision
+    # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
 
     order = list()
-    for i in range(num_chil + 1):
-        if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[i+1]]['BIRT'])<0:
-            if len(order) == 0:
-                order[i] = children[i+1]
-                order[i+1] = children[i]
-            else:
-                for n in range(len(order) + 1):
-                    if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])>0:
-                        order.insert(n, children[i])
-                    elif Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])<0:
-                        order.append(n, children[i])
-        elif Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[i+1]]['BIRT'])>0:
+    for i in range(num_chil):
+        if Date.get_dates_difference(individuals[children[i]]['BIRT'], individuals[children[i+1]]['BIRT'])<0:
             if len(order) == 0:
                 order[i] = children[i]
                 order[i+1] = children[i+1]
             else:
-                for n in range(len(order) + 1):
-                    if Date.get_dates_difference(individuals[children[i]]['BIRT'],individuals[children[n]]['BIRT'])>0:
+                cnt = len(order)
+                for n in range(cnt):
+                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])<0:
                         order.insert(n, children[i])
-                    else:
-                        continue
+                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'],individuals[order[n]]['BIRT'])>0:
+                        if n != (cnt-1):
+                            continue
+                        else:
+                            order.append(n, children[i])
+        elif Date.get_dates_difference(individuals[children[i]]['BIRT'], individuals[children[i+1]]['BIRT'])>0:
+            if len(order) == 0:
+                order[i] = children[i+1]
+                order[i+1] = children [i]
+            else:
+                cnt = len(order)
+                for n in range(len(order)):
+                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])<0:
+                        order.insert(n, children[i])
+                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])>0:
+                        if n != (cnt-1):
+                            continue
+                        else:
+                            order.append(n, children[i])
                         
     print(f"US33: List: Eldest to youngest children in family '{fam_id}'.")
     pt = PrettyTable(field_names=["ID", "Name"])
     for ord in range(num_chil + 1):
-        pt.add_row(individuals[order[ord]],individuals[order[ord]]['NAME'])
+        pt.add_row(individuals[order[ord]], individuals[order[ord]]['NAME'])
     print(pt)
 
     return None
@@ -176,12 +194,12 @@ def us28(children, num_chil, fam_id, individuals):
 
 def us33(children, num_chil, fam_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
-    # Needs Revision
+    # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
 
     orphan_rec = dict()
-    for i in range(num_chil + 1):
+    for i in range(num_chil):
         if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
-            orphan_rec[children[i]]= individuals[children[i]]
+            orphan_rec[children[i]] = individuals[children[i]]
     print(f"US33: List: These children in family '{fam_id}' are orphans.")
     pt = PrettyTable(field_names=["ID", "Name"])
     for orphan_id, orphans in orphan_rec.items:
