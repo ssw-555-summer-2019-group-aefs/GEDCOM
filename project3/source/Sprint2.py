@@ -56,7 +56,7 @@ def us13(children, num_chil, fam_id, individuals):
 
 
     test_next = True
-    for bd, chil in sorted(bd_dict, key=lambda p: p[1], reverse=True): #How to fix?????
+    for bd, chil in sorted(bd_dict.items(), reverse=True):
         if test_next:
             sib1 = bd
             chil1 = chil
@@ -64,7 +64,7 @@ def us13(children, num_chil, fam_id, individuals):
         else:
             sib2 = bd
             chil2 = chil
-            diff, time_typ = get_dates_diff(sib1.date_time_obj, sib2.date_time_obj)
+            diff, time_typ = get_dates_diff(sib1, sib2)
             if time_typ == 'years':
                 continue
             elif time_typ == 'months' and diff < 8:
@@ -96,21 +96,22 @@ def us14(children, num_chil, fam_id, individuals):
 
     for i in range(num_chil):
         if i == 0:
-            birthdates = [individuals[children[i]]['BIRT']]
+            birthdates = [(individuals[children[i]]['BIRT']).date_time_obj]
         else:
-            birthdates.append(individuals[children[i]]['BIRT'])
+            birthdates.append((individuals[children[i]]['BIRT']).date_time_obj)
     
-    birthdates_ord = birthdates.sort
+    birthdates_ord = sorted(birthdates, reverse=True)
+    print(len(birthdates_ord))
     cnt = 0
     ind = 0
     next_test = True
     while next_test:
-        if ind < num_chil:
-            diff = Date.get_dates_difference(birthdates_ord[ind].date_time_obj, birthdates_ord[ind+1].date_time_obj)
+        if ind < (len(birthdates_ord)-2):
+            diff = Date.get_dates_difference(birthdates_ord[ind], birthdates_ord[ind+1])
             ind+=1
             if diff == 0:
                 date_chk = birthdates_ord[ind].date_time_obj
-                while diff == 0 and ind < num_chil:
+                while diff == 0 and ind < (len(birthdates_ord)-2):
                     diff = Date.get_dates_difference(birthdates_ord[ind].date_time_obj, date_chk)
                     us32(date_chk, fam_id)
                     cnt+=1
@@ -149,16 +150,17 @@ def us18(husband_id, wife_id, individuals, families):
     # Needs revision
 
     for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-        if ind_id == wife_id:
-            family_id = ind['FAMC']
-            children = families[family_id]['CHIL']
-            if husband_id in children:
-                print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
-        elif ind_id == husband_id:
-            family_id = ind['FAMC']
-            children = families[family_id]['CHIL']
-            if wife_id in children:
-                print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
+        if ind['FAMC'] != 'NA' and families[ind['FAMC']]['CHIL']!= 'NA':
+            if ind_id == wife_id:
+                family_id = ind['FAMC']
+                children = families[family_id]['CHIL']
+                if husband_id in children:
+                    print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
+            elif ind_id == husband_id:
+                family_id = ind['FAMC']
+                children = families[family_id]['CHIL']
+                if wife_id in children:
+                    print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
     
     return None
             
