@@ -101,7 +101,6 @@ def us14(children, num_chil, fam_id, individuals):
             birthdates.append((individuals[children[i]]['BIRT']).date_time_obj)
     
     birthdates_ord = sorted(birthdates, reverse=True)
-    print(len(birthdates_ord))
     cnt = 0
     ind = 0
     next_test = True
@@ -170,41 +169,40 @@ def us28(children, num_chil, fam_id, individuals):
     # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
 
     order = list()
-    for i in range(num_chil):
-        if Date.get_dates_difference(individuals[children[i]]['BIRT'], individuals[children[i+1]]['BIRT'])<0:
+    for i in range(num_chil-1):
+        if Date.get_dates_difference(individuals[children[i]]['BIRT'].date_time_obj, individuals[children[i+1]]['BIRT'].date_time_obj)<=0:
             if len(order) == 0:
-                order[i] = children[i]
-                order[i+1] = children[i+1]
+                order.append(children[i])
+                order.append(children[i+1])
             else:
                 cnt = len(order)
                 for n in range(cnt):
-                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])<0:
-                        order.insert(n, children[i])
-                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'],individuals[order[n]]['BIRT'])>0:
+                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)<0:
+                        order.insert(n, children[i+1])
+                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)>0:
                         if n != (cnt-1):
                             continue
                         else:
-                            order.append(n, children[i])
-        elif Date.get_dates_difference(individuals[children[i]]['BIRT'], individuals[children[i+1]]['BIRT'])>0:
+                            order.append(children[i+1])
+        elif Date.get_dates_difference(individuals[children[i]]['BIRT'].date_time_obj, individuals[children[i+1]]['BIRT'].date_time_obj)>0:
             if len(order) == 0:
-                order[i] = children[i+1]
-                order[i+1] = children [i]
+                order.append(children[i+1])
+                order.append(children [i])
             else:
                 cnt = len(order)
                 for n in range(len(order)):
-                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])<0:
+                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)<0:
                         order.insert(n, children[i])
-                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'], individuals[order[n]]['BIRT'])>0:
+                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)>0:
                         if n != (cnt-1):
                             continue
                         else:
                             order.append(n, children[i])
                         
     print(f"US33: List: Eldest to youngest children in family '{fam_id}'.")
-    pt = PrettyTable(field_names=["ID", "Name"])
-    for ord in range(num_chil + 1):
-        pt.add_row(individuals[order[ord]], individuals[order[ord]]['NAME'])
-    print(pt)
+   
+    for ord in range(num_chil):
+        print(individuals[order[ord]]['NAME'], order[ord])
 
     return None
 
