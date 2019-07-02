@@ -9,7 +9,7 @@ import datetime
 class TestUserStories(unittest.TestCase):
    
     def test_user_stories(self):
-        directory_path = '/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/US07_US08_test_file.ged'
+        directory_path = r"C:\Users\Erik\Desktop\GEDCOM-master\project3\data\US07_US08_test_file.ged"
         individuals, families = gedcom_file_parser(directory_path)
         print_pretty_table(directory_path)
 

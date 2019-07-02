@@ -20,7 +20,7 @@ class TestSuite(unittest.TestCase):
     def test_ppt(self):
         """ Test for US01, US02, US03, US04, US05, US06, US10 """
 
-        directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/PPTtest2.ged"
+        directory_path = r"C:\Users\Erik\Desktop\GEDCOM-master\project3\data\PPTtest2.ged"
         error_chk = [
                     {'us02':{0:[False, False, False, True, False, True, True]},
                     'us04':{0:[False, True, False]}, 
