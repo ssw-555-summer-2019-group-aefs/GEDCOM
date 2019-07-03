@@ -10,6 +10,7 @@ import sys
 import unittest
 import datetime
 import re
+from collections import namedtuple
 
 # User Story 11
 def check_bigamy(individual_info_dict, family_info_dict):
@@ -17,32 +18,47 @@ def check_bigamy(individual_info_dict, family_info_dict):
         id = individual_id
         name_place = individual_info.get('NAME')
         name = re.sub('/', '', name_place)
-        marriage_divorce_date_dict = {}
         marriage_count = 0
+        start_dates = []
+        end_dates = []
         for family_id, family_info in family_info_dict.items():
             
             wife_id = family_info.get('WIFE')
             husband_id = family_info.get('HUSB')
             
-
             if id == wife_id or id == husband_id:
-                dates = {family_info.get('MARR'):family_info.get('DIV')}
-                marriage_divorce_date_dict.update(dates)
+                if id == wife_id:
+                    spouse_death = individual_info_dict[husband_id].get('DEAT')
+                    # print(family_info.get('MARR'))
+                    # print(spouse_death)
+                elif id == husband_id:
+                    spouse_death = individual_info_dict[wife_id].get('DEAT')
+                    # print(family_info.get('MARR'))
+                    # print(spouse_death)
+                Range = namedtuple('Range', ['start', 'end'])
+                if family_info.get('DIV') not in [None, 'NA']:
+                    length_of_marriage = Range(start=family_info.get('MARR'), end=family_info.get('DIV'))
+                elif spouse_death not in [None, 'NA']:
+                    length_of_marriage = Range(start=family_info.get('MARR'), end=spouse_death)
+                else:
+                    length_of_marriage = Range(start=family_info.get('MARR'), end=Date(datetime.datetime.today().strftime('%d %b %Y')))
+                
+                if family_info.get('MARR') not in [None, 'NA']:
+                    start_dates.append(length_of_marriage.start.date_time_obj)
+                    end_dates.append(length_of_marriage.end.date_time_obj)
                 marriage_count += 1
         more_than_one_marriage_at_given_time = False
 
+
         if marriage_count > 1:
-
-            for marriage in marriage_divorce_date_dict:
-                if len(set(list(marriage_divorce_date_dict.values()))) == 1:
-                    more_than_one_marriage_at_given_time = True
-                for divorce in list(marriage_divorce_date_dict.values()):
-                    if divorce not in [None, 'NA']:
-                        if type(marriage) is not str and marriage != None and type(marriage.date_time_obj) is not str and type(marriage.date_time_obj) is not str:
-                            if type(divorce) is not str and divorce != None and type(divorce.date_time_obj) is not str and type(divorce.date_time_obj) is not str:
-                                if Date.get_dates_difference(marriage.date_time_obj, divorce.date_time_obj) > 0:
-                                    more_than_one_marriage_at_given_time = True
-
+            latest_start = max(start_dates)
+            earliest_end = min(end_dates)
+            if type(latest_start) is not str and latest_start != None:
+                if type(earliest_end) is not str and earliest_end != None:
+                    delta = (earliest_end - latest_start).days
+                    overlap = max(0, delta)
+                    if overlap > 0:
+                        more_than_one_marriage_at_given_time = True
         
         if more_than_one_marriage_at_given_time == True:
             print('ANOMOLY: INDIVIDUAL: US11: {}: Bigamy detected: {} married to multiple spouses at the same time'.format(id, name))

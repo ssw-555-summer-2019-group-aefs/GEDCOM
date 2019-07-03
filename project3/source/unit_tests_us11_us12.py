@@ -17,7 +17,7 @@ class TestUserStories(unittest.TestCase):
         sys.stdout = capturedOutput
         check_bigamy(individuals, families)
         sys.stdout = sys.__stdout__
-        self.assertEqual(capturedOutput.getvalue(), 'ANOMOLY: INDIVIDUAL: US11: @I4@: Bigamy detected: Robert Evans married to multiple spouses at the same time\nANOMOLY: INDIVIDUAL: US11: @I5@: Bigamy detected: Angelo Rose married to multiple spouses at the same time\nANOMOLY: INDIVIDUAL: US11: @I8@: Bigamy detected: Celes Keeton married to multiple spouses at the same time\n')
+        self.assertEqual(capturedOutput.getvalue(), 'ANOMOLY: INDIVIDUAL: US11: @I4@: Bigamy detected: Robert Evans married to multiple spouses at the same time\nANOMOLY: INDIVIDUAL: US11: @I5@: Bigamy detected: Angelo Rose married to multiple spouses at the same time\n')
        
         #US12 Test
         capturedOutput2 = io.StringIO()

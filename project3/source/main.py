@@ -7,7 +7,7 @@ import unit_tests_us11_us12
 
 if __name__ == '__main__':
     
-    print_pretty_table(r"C:\Users\Erik\Desktop\GEDCOM-master\project3\data\Sprint2test.ged")
+    print_pretty_table(r"C:\Users\Erik\Desktop\GEDCOM-master\Family-2-3-Jul-2019-927.ged")
     suit1 = unittest.TestLoader().loadTestsFromModule(util_date)
     suit2 = unittest.TestLoader().loadTestsFromModule(unit_test_us1_us2_us3_us4_us5_us6_us10)
     suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
