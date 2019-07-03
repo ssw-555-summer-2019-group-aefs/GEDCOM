@@ -140,44 +140,29 @@ def us28(children, num_chil, fam_id, individuals):
     """ List siblings in families by decreasing age, i.e. oldest siblings first. """
     # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
 
-    order = list()
-    for i in range(num_chil-1):
-        if Date.get_dates_difference(individuals[children[i]]['BIRT'].date_time_obj, individuals[children[i+1]]['BIRT'].date_time_obj)<=0:
-            if len(order) == 0:
-                order.append(children[i])
-                order.append(children[i+1])
+    birth_order = defaultdict(list)
+    for i in range (num_chil):
+        bd_key = individuals[children[i]]['BIRT'].date_time_obj
+        if Date.is_valid_date(bd_key):
+            if bd_key not in birth_order:
+                birth_order[bd_key] = [children[i]]
             else:
-                cnt = len(order)
-                for n in range(cnt):
-                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)<0:
-                        order.insert(n, children[i+1])
-                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)>0:
-                        if n != (cnt-1):
-                            continue
-                        else:
-                            order.append(children[i+1])
-        elif Date.get_dates_difference(individuals[children[i]]['BIRT'].date_time_obj, individuals[children[i+1]]['BIRT'].date_time_obj)>0:
-            if len(order) == 0:
-                order.append(children[i+1])
-                order.append(children [i])
-            else:
-                cnt = len(order)
-                for n in range(len(order)):
-                    if Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)<0:
-                        order.insert(n, children[i])
-                    elif Date.get_dates_difference(individuals[children[i+1]]['BIRT'].date_time_obj, individuals[order[n]]['BIRT'].date_time_obj)>0:
-                        if n != (cnt-1):
-                            continue
-                        else:
-                            order.append(n, children[i])
-                
+                birth_order[bd_key].append(children[i])
+    
     print(f"US28: List: Eldest to youngest children in family '{fam_id}'.")
-   
-    for ord in range(num_chil):
-        print(individuals[order[ord]]['NAME'], order[ord])
+    pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+    for birthdate, child_list in sorted(birth_order.items(), reverse=False):
+        child_list_len = len(child_list)
+        if child_list_len == 1:
+            child_info = [child_list[0], individuals[child_list[0]]['NAME'], birthdate.strftime('%d %b %Y')]
+            pt.add_row(child_info)
+        elif child_list_len > 1:
+            for i in range(child_list_len):
+                child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
+                pt.add_row(child_info)
 
-    return None
-
+    return None              
+    
 
 def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
