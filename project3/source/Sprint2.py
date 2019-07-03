@@ -118,16 +118,13 @@ def us15(children, num_chil, fam_id):
     return None
 
 
-def us17(fam_id, husb_id, wife_id, individuals, families):
+def us17(fam_id, husb_id, wife_id, individuals):
     """ Parents should not marry any of their children. """
     
-    for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-        if ind['FAMC'] != 'NA' and ind['FAMS'] != 'NA':
-            if ind['FAMC'] == ind['FAMS']:
-                if ind_id == families['HUSB']:
-                    print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-                elif ind_id == families['WIFE']:
-                    print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
+    if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
+        print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+    elif individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
+        print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
     
     return None
 
@@ -184,19 +181,21 @@ def us28(children, num_chil, fam_id, individuals):
     return None
 
 
-def us33(children, num_chil, fam_id, individuals):
+def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
 
 
-    orphan_rec = dict()
+    orphan_info = defaultdict(list)
+   
     for i in range(num_chil):
         if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
-            orphan_rec[children[i]] = individuals[children[i]]
+            orphan_info[i] = [children[i], individuals[children[i]]['NAME']]
+        
     print(f"US33: List: These children in family '{fam_id}' are orphans.")
     pt = PrettyTable(field_names=["ID", "Name"])
-    for orphan_id, orphans in orphan_rec.items:
-        orphan_info_list = [orphan_id, orphans[orphan_id]['NAME']]
-        pt.add_row(orphan_info_list)
+    num_orphans = len(orphan_info)
+    for i in range(num_orphans):
+        pt.add_row(orphan_info[i])
     print(pt)
 
 
@@ -211,7 +210,7 @@ def get_child_block(individuals, families):
             continue
         else:
             children = fam['CHIL']
-            husband_id = fam['HUSB']
+            husb_id = fam['HUSB']
             wife_id = fam['WIFE']
             num_chil = len(children)
             if num_chil == 0:
@@ -220,11 +219,11 @@ def get_child_block(individuals, families):
                 if num_chil > 1:              
                     us13(children, num_chil, fam_id, individuals) #Calls US14 and US32
                     us15(children, num_chil, fam_id)
-                    us17(fam_id, husband_id, wife_id, individuals, families)
-                    us18(husband_id, wife_id, fam_id, individuals)
+                    us17(fam_id, husb_id, wife_id, individuals)
+                    us18(husb_id, wife_id, fam_id, individuals)
                     us28(children, num_chil, fam_id, individuals)
                 if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
-                    us33(children, num_chil, fam_id, individuals)
+                    us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
     
     return None
 
