@@ -52,11 +52,13 @@ def us13(children, num_chil, fam_id, individuals):
     bd_dict = defaultdict(list)
     for i in range(num_chil):
         #dt_str = (individuals[children[i]]['BIRT'].date_time_obj).strftime('%d %b %Y')
+
         bd_key = individuals[children[i]]['BIRT'].date_time_obj
-        if bd_key not in bd_dict:
-            bd_dict[bd_key] = [children[i]]
-        else:
-            bd_dict[bd_key].append(children[i])
+        if Date.is_valid_date(bd_key):
+            if bd_key not in bd_dict:
+                bd_dict[bd_key] = [children[i]]
+            else:
+                bd_dict[bd_key].append(children[i])
     
     test_next = True
     for bd_child, child in sorted(bd_dict.items(), reverse=True):
@@ -93,9 +95,9 @@ def us14(num_chil, birthdate, children, fam_id, individuals):
 
         print(f"US32: List: The following '{num_chil}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
         pt = PrettyTable(field_names=["ID", "Name"])
-        for ind_id, ind in individuals.items:
-            if ind_id in children:
-                pt.add_row(ind_id, ind['NAME'])
+        for ind_id, ind in individuals.items():
+            if [ind_id] in children:
+                pt.add_row([ind_id], ind['NAME'])
         print(pt)
 
         return 
