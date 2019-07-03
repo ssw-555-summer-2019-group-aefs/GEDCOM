@@ -2,7 +2,7 @@ Microsoft Windows [Version 10.0.17134.829]
 (c) 2018 Microsoft Corporation. All rights reserved.
 
 C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2" && cmd /C "set "PYTHONIOENCODING=UTF-8" && set
-"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63741 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
+"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63907 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
 +-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
 |   ID  |         Name        | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
 +-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
@@ -110,7 +110,7 @@ US33: List: These children in family '@F6@' are orphans.
 +-------+------+
 | @I23@ | US33 |
 +-------+------+
-ERROR: Husband died before the birth of his child - @F6@
-ERROR: Wife died before the birth of his child - @F6@
+US09:  ERROR: Husband died before the birth of his child - @F6@
+US09:  ERROR: Wife died before the birth of his child - @F6@
 
 C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>
