@@ -91,7 +91,7 @@ def us14(num_chil, birthdate, children, fam_id, individuals):
     def us32(birthdate, fam_id, children, individuals):
         """ List all multiple births in a GEDCOM file. """
 
-        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
+        print(f"US32: List: The following '{num_chil}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
         pt = PrettyTable(field_names=["ID", "Name"])
         for ind_id, ind in individuals.items:
             if ind_id in children:
