@@ -1,0 +1,116 @@
+Microsoft Windows [Version 10.0.17134.829]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2" && cmd /C "set "PYTHONIOENCODING=UTF-8" && set
+"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63741 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
++-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|   ID  |         Name        | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
++-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|  @I1@ |    Mathew /Smith/   |   M    |     0005    |  NA |  True |      NA     |  @F2@ |  @F1@  |
+|  @I2@ |     Sana /Singh/    |   F    | 02 Nov 1996 |  22 |  True |      NA     |   NA  |  @F1@  |
+|  @I3@ |    James /Smith/    |   M    |     0027    |  NA |  True |      NA     |   NA  |  @F2@  |
+|  @I4@ | Elizabeth /Denfeld/ |   F    |   AUG 1968  |  NA |  True |      NA     |   NA  |  @F2@  |
+|  @I5@ |    Jacob /Smith/    |   M    |     1991    |  NA |  True |      NA     |  @F2@ |  @F3@  |
+|  @I6@ |    Rusty /Smith/    |   M    | 01 Jul 2014 |  5  |  True |      NA     |  @F1@ |   NA   |
+|  @I7@ |   Angelica /Smith/  |   F    | 26 Nov 1994 |  24 |  True |      NA     |  @F2@ |  @F5@  |
+|  @I8@ |    Aron /Marino/    |   M    | 06 Apr 1991 |  28 |  True |      NA     |   NA  |  @F4@  |
+|  @I9@ |  Ralph /Carpenter/  |   M    | 16 Mar 1994 |  NA | False |     0010    |   NA  |  @F5@  |
+| @I10@ |    Rachel /Smith/   |   F    | 03 Nov 1996 |  22 | False | 04 Jan 2019 |  @F2@ |  @F6@  |
+| @I11@ |      John /Doe/     |   M    | 02 Apr 1992 |  25 | False | 24 Apr 2018 |   NA  |  @F6@  |
+| @I12@ |  Victoria /Orbach/  |   F    | 25 Jun 1992 |  27 |  True |      NA     |   NA  |  @F3@  |
+| @I13@ |    Erika /Smith/    |   F    | 08 Dec 2018 |  0  |  True |      NA     |  @F1@ |   NA   |
+| @I14@ |   Jack /Carpenter/  |   M    | 21 Jun 2016 |  3  |  True |      NA     |  @F5@ |   NA   |
+| @I15@ |    Angel /Marino/   |   F    | 02 Jan 2019 |  0  |  True |      NA     |  @F4@ |   NA   |
+| @I16@ |    Mult1 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I17@ |    Mult2 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I18@ |    Mult3 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I19@ |    Mult4 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I20@ |    Mult5 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I21@ |    Mult6 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
+| @I22@ |    US13 /Marino/    |   M    | 01 Mar 2019 |  0  |  True |      NA     |  @F4@ |   NA   |
+| @I23@ |         US33        |   M    | 01 Jan 2018 |  1  |  True |      NA     |  @F6@ |   NA   |
++-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
++------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
+|  ID  | Married  |   Divorced  | Husband ID |    Husband Name   | Wife ID |      Wife Name      |                                 Children                                |
++------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
+| @F1@ |    NA    |      NA     |    @I1@    |   Mathew /Smith/  |   @I2@  |     Sana /Singh/    | ['@I6@', '@I13@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@'] |
+| @F2@ |   0011   |      NA     |    @I3@    |   James /Smith/   |   @I4@  | Elizabeth /Denfeld/ |                    ['@I1@', '@I5@', '@I7@', '@I10@']                    |
+| @F3@ | MAY 2017 | 05 Nov 2018 |    @I5@    |   Jacob /Smith/   |  @I12@  |  Victoria /Orbach/  |                                    NA                                   |
+| @F4@ |   0005   |      NA     |    @I8@    |   Aron /Marino/   |   @I7@  |   Angelica /Smith/  |                            ['@I15@', '@I22@']                           |
+| @F5@ |    NA    |      NA     |    @I9@    | Ralph /Carpenter/ |   @I7@  |   Angelica /Smith/  |                                ['@I14@']                                |
+| @F6@ |    NA    |      NA     |   @I11@    |     John /Doe/    |  @I10@  |    Rachel /Smith/   |                                ['@I23@']                                |
++------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
+US02: Error: Husband '@I1@' and Wife '@I2@' in family '@F1@' do not have a date of marriage.
+US04: Error: Husband '@I1@' and Wife '@I2@' in family '@F1@' do not have a date of marriage.
+US05: Error: Husband '@I1@' in family '@F1@' does not have a date of marriage.
+Data Error 0027 0011
+Data Error AUG 1968 0011
+Data Error: 0027 0011
+Data Error: AUG 1968 0011
+US04: Error: Husband '@I3@' and Wife '@I4@' in family '@F2@' do not have a date of divorce.
+Data Error 1991 MAY 2017
+Data Error 25 Jun 1992 MAY 2017
+Data Error: 1991 MAY 2017
+Data Error: 25 Jun 1992 MAY 2017
+Data Error MAY 2017 05 Nov 2018
+Data Error 06 Apr 1991 0005
+Data Error 26 Nov 1994 0005
+Data Error: 06 Apr 1991 0005
+Data Error: 26 Nov 1994 0005
+US04: Error: Husband '@I8@' and Wife '@I7@' in family '@F5@' do not have a date of divorce.
+US02: Error: Husband '@I9@' and Wife '@I7@' in family '@F5@' do not have a date of marriage.
+US04: Error: Husband '@I9@' and Wife '@I7@' in family '@F5@' do not have a date of marriage.
+US05: Error: Husband '@I9@' in family '@F5@' does not have a date of marriage.
+US02: Error: Husband '@I11@' and Wife '@I10@' in family '@F6@' do not have a date of marriage.
+US04: Error: Husband '@I11@' and Wife '@I10@' in family '@F6@' do not have a date of marriage.
+US05: Error: Husband '@I11@' in family '@F6@' does not have a date of marriage.
+US14: Error: More than five children born on date '01 Jan 1990' in family '@F1@'
+US32: List: The following '6' births occured in family '@F1@' on date '01 Jan 1990'
++-------+---------------+
+|   ID  |      Name     |
++-------+---------------+
+| @I16@ | Mult1 /Smith/ |
+| @I17@ | Mult2 /Smith/ |
+| @I18@ | Mult3 /Smith/ |
+| @I19@ | Mult4 /Smith/ |
+| @I20@ | Mult5 /Smith/ |
+| @I21@ | Mult6 /Smith/ |
++-------+---------------+
+US28: List: Eldest to youngest children in family '@F1@'.
++-------+---------------+---------------+
+|   ID  |      Name     | Date of Birth |
++-------+---------------+---------------+
+| @I16@ | Mult1 /Smith/ |  01 Jan 1990  |
+| @I17@ | Mult2 /Smith/ |  01 Jan 1990  |
+| @I18@ | Mult3 /Smith/ |  01 Jan 1990  |
+| @I19@ | Mult4 /Smith/ |  01 Jan 1990  |
+| @I20@ | Mult5 /Smith/ |  01 Jan 1990  |
+| @I21@ | Mult6 /Smith/ |  01 Jan 1990  |
+|  @I6@ | Rusty /Smith/ |  01 Jul 2014  |
+| @I13@ | Erika /Smith/ |  08 Dec 2018  |
++-------+---------------+---------------+
+US28: List: Eldest to youngest children in family '@F2@'.
++-------+------------------+---------------+
+|   ID  |       Name       | Date of Birth |
++-------+------------------+---------------+
+|  @I7@ | Angelica /Smith/ |  26 Nov 1994  |
+| @I10@ |  Rachel /Smith/  |  03 Nov 1996  |
++-------+------------------+---------------+
+US13: Error: Child '['@I22@']' and Child '['@I15@']' in family '@F4@' are born less than 8 months apart.
+US28: List: Eldest to youngest children in family '@F4@'.
++-------+----------------+---------------+
+|   ID  |      Name      | Date of Birth |
++-------+----------------+---------------+
+| @I15@ | Angel /Marino/ |  02 Jan 2019  |
+| @I22@ | US13 /Marino/  |  01 Mar 2019  |
++-------+----------------+---------------+
+US33: List: These children in family '@F6@' are orphans.
++-------+------+
+|   ID  | Name |
++-------+------+
+| @I23@ | US33 |
++-------+------+
+ERROR: Husband died before the birth of his child - @F6@
+ERROR: Wife died before the birth of his child - @F6@
+
+C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>
