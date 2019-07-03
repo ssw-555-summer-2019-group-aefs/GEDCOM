@@ -160,6 +160,7 @@ def us28(children, num_chil, fam_id, individuals):
             for i in range(child_list_len):
                 child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
                 pt.add_row(child_info)
+    print(pt)    
 
     return None              
     
