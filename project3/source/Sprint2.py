@@ -86,25 +86,25 @@ def us13(children, num_chil, fam_id, individuals):
     return None
 
 
-def us14(num_chil, birthdate, children, fam_id, individuals):
+def us14(num_mults, birthdate, mults, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
     # Needs Revision
    
-    def us32(birthdate, fam_id, children, individuals):
+    def us32(birthdate, fam_id, mults, num_mults, individuals):
         """ List all multiple births in a GEDCOM file. """
 
-        print(f"US32: List: The following '{num_chil}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
+        print(f"US32: List: The following '{num_mults}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
         pt = PrettyTable(field_names=["ID", "Name"])
-        for ind_id, ind in individuals.items():
-            if [ind_id] in children:
-                pt.add_row([ind_id], ind['NAME'])
+        for i in range(num_mults):
+            mults_info_list = [mults[i], individuals[mults[i]]['NAME']]
+            pt.add_row(mults_info_list)
         print(pt)
 
         return 
     
-    if num_chil > 5:
+    if num_mults > 5:
         print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-    us32(birthdate, fam_id, children, individuals)
+    us32(birthdate, fam_id, mults, num_mults, individuals)
 
     return None
 
@@ -184,8 +184,8 @@ def us28(children, num_chil, fam_id, individuals):
                             continue
                         else:
                             order.append(n, children[i])
-                        
-    print(f"US33: List: Eldest to youngest children in family '{fam_id}'.")
+                
+    print(f"US28: List: Eldest to youngest children in family '{fam_id}'.")
    
     for ord in range(num_chil):
         print(individuals[order[ord]]['NAME'], order[ord])
