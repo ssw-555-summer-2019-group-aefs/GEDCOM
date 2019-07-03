@@ -1,6 +1,6 @@
 #Project           : GEDCOM SSW 555 Summer 2019
 #Program name      : Proj04_AWingate_03
-#Author            : Anthem Rukiya J. Wingate
+#Author            : Anthem Rukiya J. Wingate, Fran Sabetour
 #Date created      : 06.23.2019
 #Purpose           : User story Implementation of US02, US04, US05, US06, US10
 #Revision History  : Version 1.0
