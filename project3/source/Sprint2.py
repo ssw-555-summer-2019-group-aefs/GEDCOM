@@ -204,7 +204,8 @@ def us33(children, num_chil, fam_id, individuals):
     print(f"US33: List: These children in family '{fam_id}' are orphans.")
     pt = PrettyTable(field_names=["ID", "Name"])
     for orphan_id, orphans in orphan_rec.items:
-        pt.add_row(orphan_id, orphans[orphan_id]['NAME'])
+        orphan_info_list = [orphan_id, orphans[orphan_id]['NAME']]
+        pt.add_row(orphan_info_list)
     print(pt)
 
 
