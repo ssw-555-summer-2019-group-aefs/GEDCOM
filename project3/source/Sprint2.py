@@ -48,7 +48,6 @@ def get_dates_diff(dt1, dt2=None):
 def us13(children, num_chil, fam_id, individuals):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
 
-
     bd_dict = defaultdict(list)
     for i in range(num_chil):
         #dt_str = (individuals[children[i]]['BIRT'].date_time_obj).strftime('%d %b %Y')
@@ -89,7 +88,6 @@ def us13(children, num_chil, fam_id, individuals):
 def us14(num_mults, birthdate, mults, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
 
-   
     def us32(birthdate, fam_id, mults, num_mults, individuals):
         """ List all multiple births in a GEDCOM file. """
 
@@ -184,20 +182,18 @@ def us28(children, num_chil, fam_id, individuals):
 def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
 
-
     orphan_info = defaultdict(list)
    
     for i in range(num_chil):
         if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
             orphan_info[i] = [children[i], individuals[children[i]]['NAME']]
-        
+
+    num_orphans = len(orphan_info)  
     print(f"US33: List: These children in family '{fam_id}' are orphans.")
     pt = PrettyTable(field_names=["ID", "Name"])
-    num_orphans = len(orphan_info)
     for i in range(num_orphans):
         pt.add_row(orphan_info[i])
     print(pt)
-
 
     return None
 
@@ -220,7 +216,8 @@ def get_child_block(individuals, families):
                     us13(children, num_chil, fam_id, individuals) #Calls US14 and US32
                     us15(children, num_chil, fam_id)
                     us17(fam_id, husb_id, wife_id, individuals)
-                    us18(husb_id, wife_id, fam_id, individuals)
+                    if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
+                        us18(husb_id, wife_id, fam_id, individuals)
                     us28(children, num_chil, fam_id, individuals)
                 if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
                     us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
