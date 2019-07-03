@@ -47,7 +47,7 @@ def get_dates_diff(dt1, dt2=None):
 
 def us13(children, num_chil, fam_id, individuals):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
-    #Needs Revision
+
 
     bd_dict = defaultdict(list)
     for i in range(num_chil):
@@ -88,7 +88,7 @@ def us13(children, num_chil, fam_id, individuals):
 
 def us14(num_mults, birthdate, mults, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
-    # Needs Revision
+
    
     def us32(birthdate, fam_id, mults, num_mults, individuals):
         """ List all multiple births in a GEDCOM file. """
@@ -118,35 +118,26 @@ def us15(children, num_chil, fam_id):
     return None
 
 
-def us17(children, husband_id, wife_id):
+def us17(fam_id, husb_id, wife_id, individuals, families):
     """ Parents should not marry any of their children. """
-    # Needs revision
-
-    if wife_id in children:
-        print(f"US17: Error: Ew! Parents should not marry children. 100% Judgement. Seek help.")
-    if husband_id in children:
-        print(f"US17: Error: Ew! Parents should not marry children. 1005 Judgement. Seek help.")
+    
+    for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
+        if ind['FAMC'] != 'NA' and ind['FAMS'] != 'NA':
+            if ind['FAMC'] == ind['FAMS']:
+                if ind_id == families['HUSB']:
+                    print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+                elif ind_id == families['WIFE']:
+                    print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
     
     return None
 
 
-def us18(husband_id, wife_id, individuals, families):
+def us18(husb_id, wife_id, fam_id, individuals):
     """ Siblings should not marry one another. """
-    # Needs revision
-
-    for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-        if ind['FAMC'] != 'NA' and families[ind['FAMC']]['CHIL']!= 'NA':
-            if ind_id == wife_id:
-                family_id = ind['FAMC']
-                children = families[family_id]['CHIL']
-                if husband_id in children:
-                    print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
-            elif ind_id == husband_id:
-                family_id = ind['FAMC']
-                children = families[family_id]['CHIL']
-                if wife_id in children:
-                    print(f"US18: Error: Ew! Siblings should not marry. 100% Judgement. Seek help.")
     
+    if individuals[husb_id]['FAMC'] == individuals[wife_id['FAMC']]:
+        print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+           
     return None
             
     
@@ -195,7 +186,7 @@ def us28(children, num_chil, fam_id, individuals):
 
 def us33(children, num_chil, fam_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
-    # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
+
 
     orphan_rec = dict()
     for i in range(num_chil):
@@ -229,8 +220,8 @@ def get_child_block(individuals, families):
                 if num_chil > 1:              
                     us13(children, num_chil, fam_id, individuals) #Calls US14 and US32
                     us15(children, num_chil, fam_id)
-                    us17(children, husband_id, wife_id)
-                    us18(husband_id, wife_id, individuals, families)
+                    us17(fam_id, husband_id, wife_id, individuals, families)
+                    us18(husband_id, wife_id, fam_id, individuals)
                     us28(children, num_chil, fam_id, individuals)
                 if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
                     us33(children, num_chil, fam_id, individuals)
