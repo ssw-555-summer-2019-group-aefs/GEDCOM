@@ -50,8 +50,6 @@ def us13(children, num_chil, fam_id, individuals):
 
     bd_dict = defaultdict(list)
     for i in range(num_chil):
-        #dt_str = (individuals[children[i]]['BIRT'].date_time_obj).strftime('%d %b %Y')
-
         bd_key = individuals[children[i]]['BIRT'].date_time_obj
         if Date.is_valid_date(bd_key):
             if bd_key not in bd_dict:
@@ -61,7 +59,7 @@ def us13(children, num_chil, fam_id, individuals):
     
     test_next = True
     for bd_child, child in sorted(bd_dict.items(), reverse=True):
-        if len(bd_dict[bd_child])==1:
+        if len(bd_dict[bd_child]) == 1:
             if test_next:
                 bd_sib1 = bd_child
                 child1 = child
@@ -74,11 +72,11 @@ def us13(children, num_chil, fam_id, individuals):
                     continue
                 elif time_typ == 'months' and diff < 8:
                     print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 8 months apart.")
-                elif time_typ == 'days' and diff < 2:
-                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 2 days apart.")
+                elif time_typ == 'days' and diff > 2:
+                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days apart.")
                 test_next = True
 
-        elif len(bd_dict[bd_child]) >1:
+        elif len(bd_dict[bd_child]) > 1:
             us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
             test_next = True
         
