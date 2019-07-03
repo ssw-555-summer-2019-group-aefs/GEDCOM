@@ -20,7 +20,7 @@
 
 import datetime
 from util_date import Date
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
 
 #from gedcom_file_parser import print_individuals_pretty_table
@@ -37,9 +37,9 @@ def get_dates_diff(dt1, dt2=None):
     difference = abs((dt1 - dt2).days)
     if difference >= 365.25:
         time_typ = 'years'
-    if difference >= 30.4 and difference < 365.25:
+    elif difference >= 30.4 and difference < 365.25:
         time_typ = 'months'
-    if difference >= 1 and difference <30.4:
+    elif difference >= 0 and difference <30.4:
         time_typ = 'days'
 
     return difference/conversion[time_typ], time_typ
@@ -49,76 +49,60 @@ def us13(children, num_chil, fam_id, individuals):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
     #Needs Revision
 
-    bd_dict = dict()
+    bd_dict = defaultdict(list)
     for i in range(num_chil):
         #dt_str = (individuals[children[i]]['BIRT'].date_time_obj).strftime('%d %b %Y')
-        bd_dict[(individuals[children[i]]['BIRT']).date_time_obj] = children[i]
-
-
-    test_next = True
-    for bd, chil in sorted(bd_dict.items(), reverse=True):
-        if test_next:
-            sib1 = bd
-            chil1 = chil
-            test_next = False
+        bd_key = individuals[children[i]]['BIRT'].date_time_obj
+        if bd_key not in bd_dict:
+            bd_dict[bd_key] = [children[i]]
         else:
-            sib2 = bd
-            chil2 = chil
-            diff, time_typ = get_dates_diff(sib1, sib2)
-            if time_typ == 'years':
-                continue
-            elif time_typ == 'months' and diff < 8:
-                print(f"US13: Error: Child '{chil1}' and Child '{chil2}' in family '{fam_id}' are born less than 8 months apart.")
-            elif time_typ == 'days' and diff < 2:
-                print(f"US13: Error: Child '{chil1}' and Child '{chil2}' in family '{fam_id}' are born less than 2 days apart.")
+            bd_dict[bd_key].append(children[i])
+    
+    test_next = True
+    for bd_child, child in sorted(bd_dict.items(), reverse=True):
+        if len(bd_dict[bd_child])==1:
+            if test_next:
+                bd_sib1 = bd_child
+                child1 = child
+                test_next = False
             else:
-                continue
+                bd_sib2 = bd_child
+                child2 = child
+                diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
+                if time_typ == 'years':
+                    continue
+                elif time_typ == 'months' and diff < 8:
+                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 8 months apart.")
+                elif time_typ == 'days' and diff < 2:
+                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 2 days apart.")
+                test_next = True
+
+        elif len(bd_dict[bd_child]) >1:
+            us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
+            test_next = True
         
     return None
 
 
-def us14(children, num_chil, fam_id, individuals):
+def us14(num_chil, birthdate, children, fam_id, individuals):
     """ No more than five siblings should be born at the same time. """
     # Needs Revision
    
-    def us32(birth_dt, fam_id, individuals):
+    def us32(birthdate, fam_id, children, individuals):
         """ List all multiple births in a GEDCOM file. """
 
-        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{(birth_dt.date_time_obj).strftime('%d %b %Y')}'")
+        print(f"US32: List: The following multiple births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
         pt = PrettyTable(field_names=["ID", "Name"])
         for ind_id, ind in individuals.items:
-            if ind['BIRT'] == birth_dt:
+            if ind_id in children:
                 pt.add_row(ind_id, ind['NAME'])
         print(pt)
-            
 
-        return None
-
-    for i in range(num_chil):
-        if i == 0:
-            birthdates = [(individuals[children[i]]['BIRT']).date_time_obj]
-        else:
-            birthdates.append((individuals[children[i]]['BIRT']).date_time_obj)
+        return 
     
-    birthdates_ord = sorted(birthdates, reverse=True)
-    cnt = 0
-    ind = 0
-    next_test = True
-    while next_test:
-        if ind < (len(birthdates_ord)-2):
-            diff = Date.get_dates_difference(birthdates_ord[ind], birthdates_ord[ind+1])
-            ind+=1
-            if diff == 0:
-                date_chk = birthdates_ord[ind].date_time_obj
-                while diff == 0 and ind < (len(birthdates_ord)-2):
-                    diff = Date.get_dates_difference(birthdates_ord[ind].date_time_obj, date_chk)
-                    us32(date_chk, fam_id)
-                    cnt+=1
-                    ind+=1
-                if cnt > 5:
-                    print(f"US14: Error: More than five children born on date '{(date_chk.date_time_obj).strftime('%d %b %Y')}' in family '{fam_id}'")
-        else:
-            next_test = False
+    if num_chil > 5:
+        print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
+    us32(birthdate, fam_id, children, individuals)
 
     return None
 
@@ -240,8 +224,7 @@ def get_child_block(individuals, families):
                 continue
             else:  
                 if num_chil > 1:              
-                    us13(children, num_chil, fam_id, individuals)
-                    us14(children, num_chil, fam_id, individuals)
+                    us13(children, num_chil, fam_id, individuals) #Calls US14 and US32
                     us15(children, num_chil, fam_id)
                     us17(children, husband_id, wife_id)
                     us18(husband_id, wife_id, individuals, families)
