@@ -13,7 +13,7 @@ from Sprint2 import get_child_block
 #from Sprint3 import get_recent_block
 
 """
-Unit tests for User Stories US01, US02, US03, US04, US05, US06, US10, US13, US14, US15, US17, US18, US28, US32, US33, US35, US36
+Unit tests for User Stories US01, US02, US03, US04, US05, US06, US10, US13, US14, US15, US17, US18, US28, US32, US33, US34, US35, US36, US37
 """
 
 class TestSuite(unittest.TestCase):

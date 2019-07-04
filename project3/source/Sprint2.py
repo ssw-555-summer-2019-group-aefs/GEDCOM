@@ -90,7 +90,8 @@ def us13(children, num_chil, fam_id, individuals):
         errors[err_cnt] = [error1, error2]
         err_cnt += 1
     
-    return errors, us14_error, us32_error
+    #return errors, us14_error, us32_error
+    return None
 
 
 def us14(num_mults, birthdate, mults, fam_id, individuals):
@@ -232,7 +233,8 @@ def get_child_block(individuals, families):
                 continue
             else:  
                 if num_chil > 1:              
-                    us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
+                    # us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
+                    us13(children, num_chil, fam_id, individuals)
                     us15_errors[i] = us15(children, num_chil, fam_id)
                     us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
                     if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
