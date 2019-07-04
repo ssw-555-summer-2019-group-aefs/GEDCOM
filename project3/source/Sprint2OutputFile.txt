@@ -1,8 +1,7 @@
 Microsoft Windows [Version 10.0.17134.829]
 (c) 2018 Microsoft Corporation. All rights reserved.
 
-C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2" && cmd /C "set "PYTHONIOENCODING=UTF-8" && set
-"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 50404 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
+C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2" && cmd /C "set "PYTHONIOENCODING=UTF-8" && set "PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 50629 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
 +-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
 |   ID  |        Name       | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
 +-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
@@ -42,27 +41,27 @@ C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:
 +-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
 +-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
 |   ID  |   Married   |   Divorced  | Husband ID |   Husband Name   | Wife ID |     Wife Name     |                                                                         Children
-                                                     |
+          |
 +-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
 |  @F1@ | 30 Jul 2017 |      NA     |    @I5@    |  Angelo /Rose/   |   @I1@  |  Tristin /Evans/  | ['@I6@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@', '@I23@', '@I24@', '@I25@', '@I26@', '@I27@', '@I28@', '@I29@', '@I30@', '@I31@', '@I32@', '@I33@'] |
 |  @F2@ | 18 Jul 1979 |      NA     |    @I2@    |   Phil /Evans/   |   @I3@  |   Sheila /Lynn/   |                                                                ['@I1@', '@I4@', '@I17@']
-                                                     |
+          |
 |  @F3@ | 14 Sep 1955 |      NA     |    @I7@    |  Peter /Evans/   |   @I8@  |   Celes /Keeton/  |                                                                     ['@I2@', '@I9@']
-                                                     |
+          |
 |  @F4@ | 18 Sep 1955 |      NA     |   @I11@    |   David /Lynn/   |  @I12@  | Victoria /Taylor/ |                                                                         ['@I3@']
-                                                     |
+          |
 |  @F5@ | 14 Jul 2005 |      NA     |    @I4@    |  Robert /Evans/  |  @I16@  |   Helena /Smith/  |                                                                            NA
-                                                     |
+          |
 |  @F6@ | 14 Jul 2005 |      NA     |    @I4@    |  Robert /Evans/  |  @I15@  |  Ellen /Terrence/ |                                                                            NA
-                                                     |
+          |
 |  @F7@ | 30 Jul 1950 |      NA     |   @I10@    | Darren /Johnson/ |   @I8@  |   Celes /Keeton/  |                                                                        ['@I13@']
-                                                     |
+          |
 |  @F8@ | 17 Sep 1979 | 29 Dec 1980 |    @I9@    |   Carl /Evans/   |  @I14@  |  Selene /Crystal/ |                                                                            NA
-                                                     |
+          |
 |  @F9@ | 28 May 2018 |      NA     |   @I32@    |  Cynthia /Rose/  |  @I20@  |   Angela /Rose/   |                                                                            NA
-                                                     |
+          |
 | @F10@ | 10 May 2019 |      NA     |    @I5@    |  Angelo /Rose/   |  @I19@  |    Trish /Rose/   |                                                                            NA
-                                                     |
+          |
 +-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
 US04: Error: Husband '@I5@' and Wife '@I1@' in family '@F1@' do not have a date of divorce.
 US04: Error: Husband '@I2@' and Wife '@I3@' in family '@F2@' do not have a date of divorce.
@@ -173,26 +172,26 @@ US08:  Error: @F2@: Child @I1@ born 12 Apr 1987 before marriage on 18 Jul 1979
 US08:  Error: @F2@: Child @I4@ born 17 Apr 1980 before marriage on 18 Jul 1979
 US08:  Error: @F2@: Child @I17@ born 30 Apr 1987 before marriage on 18 Jul 1979
 US08:  Error: @F7@: Child @I13@ born 08 Aug 1951 before marriage on 30 Jul 1950
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Wife died before the birth of his child - @F1@
-US09:  ERROR: Husband died before the birth of his child - @F3@
-US09:  ERROR: Husband died before the birth of his child - @F3@
-US09:  ERROR: Husband died before the birth of his child - @F7@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Wife died before the birth of her child - @F1@
+US09:  Error: Husband died before the birth of his child - @F3@
+US09:  Error: Husband died before the birth of his child - @F3@
+US09:  Error: Husband died before the birth of his child - @F7@
 US11: Error: @I4@: Bigamy detected: Robert Evans married to multiple spouses at the same time
 US11: Error: @I5@: Bigamy detected: Angelo Rose married to multiple spouses at the same time
 US12:  Error: @F2@: Parents are too old: Parent(s) were greater than 65 years old when child was born
