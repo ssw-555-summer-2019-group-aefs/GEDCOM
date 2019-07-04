@@ -1,4 +1,6 @@
 import unittest
+import os 
+
 from gedcom_file_parser import print_pretty_table
 import util_date
 import US07_US08_Test_Suite
@@ -6,7 +8,9 @@ import unit_test_us1_us2_us3_us4_us5_us6_us10
 
 if __name__ == '__main__':
     
-    print_pretty_table("/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/test.ged")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    print_pretty_table(f"{dir_path}/project3/data/test.ged")
     suit1 = unittest.TestLoader().loadTestsFromModule(util_date)
     suit2 = unittest.TestLoader().loadTestsFromModule(unit_test_us1_us2_us3_us4_us5_us6_us10)
     suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
