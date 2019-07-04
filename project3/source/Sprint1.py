@@ -1,6 +1,6 @@
 #Project           : GEDCOM SSW 555 Summer 2019
 #Program name      : Proj04_AWingate_03
-#Author            : Anthem Rukiya J. Wingate, Fran Sabetour
+#Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 06.23.2019
 #Purpose           : User story Implementation of US02, US04, US05, US06, US10
 #Revision History  : Version 1.0
@@ -73,7 +73,7 @@ def us01(individuals, families):
 def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
     """ Check US02 Birth before Marriage for both husband and wife.  Calls US10. """
     
-    def us10(dt1, dt2):
+    def us10(dt1, dt2, spouse, fam_id):
         """ Check US10 Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old) """
         try:
             date_diff = Date.get_dates_difference(dt1.date_time_obj, dt2.date_time_obj)
@@ -84,7 +84,7 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
             if date_diff < 14:
                 return True
         except:
-            print("Data Error:", dt1, dt2) 
+            print(f"Data Error: Birth date '{dt1}' and marriage date '{dt2}' for '{spouse}' in family '{fam_id}' are not in a compatible format.")
     
     error1, error2, error3, error4, error5, error6, error7 = False, False, False, False, False, False, False
     if husb_birth_dt == None:
@@ -103,11 +103,12 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
         if date_before(wife_birth_dt, marriage_dt):
             print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
             error5 = True
-        if us10(husb_birth_dt, marriage_dt):
+        if us10(husb_birth_dt, marriage_dt, 'Husband', fam_id):
             print(f"US10: Error: Husband '{husb_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
             error6 = True
-        if us10(wife_birth_dt, marriage_dt):
+        if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
             print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
+
             error7 = True
         
     errors = [error1, error2, error3, error4, error5, error6, error7]  
