@@ -2,115 +2,199 @@ Microsoft Windows [Version 10.0.17134.829]
 (c) 2018 Microsoft Corporation. All rights reserved.
 
 C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>cd "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2" && cmd /C "set "PYTHONIOENCODING=UTF-8" && set
-"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63907 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
-+-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
-|   ID  |         Name        | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
-+-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
-|  @I1@ |    Mathew /Smith/   |   M    |     0005    |  NA |  True |      NA     |  @F2@ |  @F1@  |
-|  @I2@ |     Sana /Singh/    |   F    | 02 Nov 1996 |  22 |  True |      NA     |   NA  |  @F1@  |
-|  @I3@ |    James /Smith/    |   M    |     0027    |  NA |  True |      NA     |   NA  |  @F2@  |
-|  @I4@ | Elizabeth /Denfeld/ |   F    |   AUG 1968  |  NA |  True |      NA     |   NA  |  @F2@  |
-|  @I5@ |    Jacob /Smith/    |   M    |     1991    |  NA |  True |      NA     |  @F2@ |  @F3@  |
-|  @I6@ |    Rusty /Smith/    |   M    | 01 Jul 2014 |  5  |  True |      NA     |  @F1@ |   NA   |
-|  @I7@ |   Angelica /Smith/  |   F    | 26 Nov 1994 |  24 |  True |      NA     |  @F2@ |  @F5@  |
-|  @I8@ |    Aron /Marino/    |   M    | 06 Apr 1991 |  28 |  True |      NA     |   NA  |  @F4@  |
-|  @I9@ |  Ralph /Carpenter/  |   M    | 16 Mar 1994 |  NA | False |     0010    |   NA  |  @F5@  |
-| @I10@ |    Rachel /Smith/   |   F    | 03 Nov 1996 |  22 | False | 04 Jan 2019 |  @F2@ |  @F6@  |
-| @I11@ |      John /Doe/     |   M    | 02 Apr 1992 |  25 | False | 24 Apr 2018 |   NA  |  @F6@  |
-| @I12@ |  Victoria /Orbach/  |   F    | 25 Jun 1992 |  27 |  True |      NA     |   NA  |  @F3@  |
-| @I13@ |    Erika /Smith/    |   F    | 08 Dec 2018 |  0  |  True |      NA     |  @F1@ |   NA   |
-| @I14@ |   Jack /Carpenter/  |   M    | 21 Jun 2016 |  3  |  True |      NA     |  @F5@ |   NA   |
-| @I15@ |    Angel /Marino/   |   F    | 02 Jan 2019 |  0  |  True |      NA     |  @F4@ |   NA   |
-| @I16@ |    Mult1 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I17@ |    Mult2 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I18@ |    Mult3 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I19@ |    Mult4 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I20@ |    Mult5 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I21@ |    Mult6 /Smith/    |   F    | 01 Jan 1990 |  29 |  True |      NA     |  @F1@ |   NA   |
-| @I22@ |    US13 /Marino/    |   M    | 01 Mar 2019 |  0  |  True |      NA     |  @F4@ |   NA   |
-| @I23@ |         US33        |   M    | 01 Jan 2018 |  1  |  True |      NA     |  @F6@ |   NA   |
-+-------+---------------------+--------+-------------+-----+-------+-------------+-------+--------+
-+------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
-|  ID  | Married  |   Divorced  | Husband ID |    Husband Name   | Wife ID |      Wife Name      |                                 Children                                |
-+------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
-| @F1@ |    NA    |      NA     |    @I1@    |   Mathew /Smith/  |   @I2@  |     Sana /Singh/    | ['@I6@', '@I13@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@'] |
-| @F2@ |   0011   |      NA     |    @I3@    |   James /Smith/   |   @I4@  | Elizabeth /Denfeld/ |                    ['@I1@', '@I5@', '@I7@', '@I10@']                    |
-| @F3@ | MAY 2017 | 05 Nov 2018 |    @I5@    |   Jacob /Smith/   |  @I12@  |  Victoria /Orbach/  |                                    NA                                   |
-| @F4@ |   0005   |      NA     |    @I8@    |   Aron /Marino/   |   @I7@  |   Angelica /Smith/  |                            ['@I15@', '@I22@']                           |
-| @F5@ |    NA    |      NA     |    @I9@    | Ralph /Carpenter/ |   @I7@  |   Angelica /Smith/  |                                ['@I14@']                                |
-| @F6@ |    NA    |      NA     |   @I11@    |     John /Doe/    |  @I10@  |    Rachel /Smith/   |                                ['@I23@']                                |
-+------+----------+-------------+------------+-------------------+---------+---------------------+-------------------------------------------------------------------------+
-US02: Error: Husband '@I1@' and Wife '@I2@' in family '@F1@' do not have a date of marriage.
-US04: Error: Husband '@I1@' and Wife '@I2@' in family '@F1@' do not have a date of marriage.
-US05: Error: Husband '@I1@' in family '@F1@' does not have a date of marriage.
-Data Error 0027 0011
-Data Error AUG 1968 0011
-Data Error: 0027 0011
-Data Error: AUG 1968 0011
-US04: Error: Husband '@I3@' and Wife '@I4@' in family '@F2@' do not have a date of divorce.
-Data Error 1991 MAY 2017
-Data Error 25 Jun 1992 MAY 2017
-Data Error: 1991 MAY 2017
-Data Error: 25 Jun 1992 MAY 2017
-Data Error MAY 2017 05 Nov 2018
-Data Error 06 Apr 1991 0005
-Data Error 26 Nov 1994 0005
-Data Error: 06 Apr 1991 0005
-Data Error: 26 Nov 1994 0005
-US04: Error: Husband '@I8@' and Wife '@I7@' in family '@F5@' do not have a date of divorce.
-US02: Error: Husband '@I9@' and Wife '@I7@' in family '@F5@' do not have a date of marriage.
-US04: Error: Husband '@I9@' and Wife '@I7@' in family '@F5@' do not have a date of marriage.
-US05: Error: Husband '@I9@' in family '@F5@' does not have a date of marriage.
-US02: Error: Husband '@I11@' and Wife '@I10@' in family '@F6@' do not have a date of marriage.
-US04: Error: Husband '@I11@' and Wife '@I10@' in family '@F6@' do not have a date of marriage.
-US05: Error: Husband '@I11@' in family '@F6@' does not have a date of marriage.
-US14: Error: More than five children born on date '01 Jan 1990' in family '@F1@'
-US32: List: The following '6' births occured in family '@F1@' on date '01 Jan 1990'
-+-------+---------------+
-|   ID  |      Name     |
-+-------+---------------+
-| @I16@ | Mult1 /Smith/ |
-| @I17@ | Mult2 /Smith/ |
-| @I18@ | Mult3 /Smith/ |
-| @I19@ | Mult4 /Smith/ |
-| @I20@ | Mult5 /Smith/ |
-| @I21@ | Mult6 /Smith/ |
-+-------+---------------+
+"PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.22090\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 50404 "c:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2\gedcom_file_parser.py" "
++-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|   ID  |        Name       | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
++-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|  @I1@ |  Tristin /Evans/  |   F    | 12 Apr 1987 |  31 | False | 10 Jun 2019 |  @F2@ |  @F1@  |
+|  @I2@ |    Phil /Evans/   |   M    | 02 Dec 1856 | 162 |  True |      NA     |  @F3@ |  @F2@  |
+|  @I3@ |   Sheila /Lynn/   |   F    | 20 Feb 1857 | 162 |  True |      NA     |  @F4@ |  @F2@  |
+|  @I4@ |   Robert /Evans/  |   M    | 17 Apr 1980 |  39 |  True |      NA     |  @F2@ |  @F6@  |
+|  @I5@ |   Angelo /Rose/   |   M    | 09 Jun 1986 |  33 |  True |      NA     |   NA  | @F10@  |
+|  @I6@ |    Emma /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+|  @I7@ |   Peter /Evans/   |   M    | 16 Jul 1924 |  94 | False | 05 Jan 2019 |   NA  |  @F3@  |
+|  @I8@ |   Celes /Keeton/  |   F    | 07 Oct 1929 |  89 |  True |      NA     |   NA  |  @F7@  |
+|  @I9@ |    Carl /Evans/   |   M    | 08 Aug 1954 |  64 |  True |      NA     |  @F3@ |  @F8@  |
+| @I10@ |  Darren /Johnson/ |   M    | 17 Mar 1920 |  30 | False | 08 Sep 1951 |   NA  |  @F7@  |
+| @I11@ |    David /Lynn/   |   M    | 10 Oct 1928 |  90 |  True |      NA     |   NA  |  @F4@  |
+| @I12@ | Victoria /Taylor/ |   F    | 11 Nov 1929 |  89 |  True |      NA     |   NA  |  @F4@  |
+| @I13@ |  Ethan /Johnson/  |   M    | 08 Aug 1951 |  67 |  True |      NA     |  @F7@ |   NA   |
+| @I14@ |  Selene /Crystal/ |   F    | 17 Apr 1954 |  65 |  True |      NA     |   NA  |  @F8@  |
+| @I15@ |  Ellen /Terrence/ |   F    | 04 Apr 1983 |  36 |  True |      NA     |   NA  |  @F6@  |
+| @I16@ |   Helena /Smith/  |   F    | 30 Sep 1985 |  33 |  True |      NA     |   NA  |  @F5@  |
+| @I17@ |   Aeryn /Evans/   |   F    | 30 Apr 1987 |  32 |  True |      NA     |  @F2@ |   NA   |
+| @I18@ |   Isabel /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I19@ |    Trish /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ | @F10@  |
+| @I20@ |   Angela /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |  @F9@  |
+| @I21@ |    Ethan /Rose/   |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I22@ |     Ian /Rose/    |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I23@ |   Michael /Rose/  |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I24@ |  Richelle /Rose/  |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I25@ |   Matthew /Rose/  |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I26@ |    Luke /Rose/    |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I27@ |  Frederick /Rose/ |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I28@ |    Tina /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I29@ |    Tanya /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I30@ |    Emmy /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I31@ |   Thomas /Rose/   |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I32@ |   Cynthia /Rose/  |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |  @F9@  |
+| @I33@ |  Richelle /Rose/  |   F    | 02 May 2019 |  0  |  True |      NA     |  @F1@ |   NA   |
++-------+-------------------+--------+-------------+-----+-------+-------------+-------+--------+
++-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   ID  |   Married   |   Divorced  | Husband ID |   Husband Name   | Wife ID |     Wife Name     |                                                                         Children
+                                                     |
++-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|  @F1@ | 30 Jul 2017 |      NA     |    @I5@    |  Angelo /Rose/   |   @I1@  |  Tristin /Evans/  | ['@I6@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@', '@I23@', '@I24@', '@I25@', '@I26@', '@I27@', '@I28@', '@I29@', '@I30@', '@I31@', '@I32@', '@I33@'] |
+|  @F2@ | 18 Jul 1979 |      NA     |    @I2@    |   Phil /Evans/   |   @I3@  |   Sheila /Lynn/   |                                                                ['@I1@', '@I4@', '@I17@']
+                                                     |
+|  @F3@ | 14 Sep 1955 |      NA     |    @I7@    |  Peter /Evans/   |   @I8@  |   Celes /Keeton/  |                                                                     ['@I2@', '@I9@']
+                                                     |
+|  @F4@ | 18 Sep 1955 |      NA     |   @I11@    |   David /Lynn/   |  @I12@  | Victoria /Taylor/ |                                                                         ['@I3@']
+                                                     |
+|  @F5@ | 14 Jul 2005 |      NA     |    @I4@    |  Robert /Evans/  |  @I16@  |   Helena /Smith/  |                                                                            NA
+                                                     |
+|  @F6@ | 14 Jul 2005 |      NA     |    @I4@    |  Robert /Evans/  |  @I15@  |  Ellen /Terrence/ |                                                                            NA
+                                                     |
+|  @F7@ | 30 Jul 1950 |      NA     |   @I10@    | Darren /Johnson/ |   @I8@  |   Celes /Keeton/  |                                                                        ['@I13@']
+                                                     |
+|  @F8@ | 17 Sep 1979 | 29 Dec 1980 |    @I9@    |   Carl /Evans/   |  @I14@  |  Selene /Crystal/ |                                                                            NA
+                                                     |
+|  @F9@ | 28 May 2018 |      NA     |   @I32@    |  Cynthia /Rose/  |  @I20@  |   Angela /Rose/   |                                                                            NA
+                                                     |
+| @F10@ | 10 May 2019 |      NA     |    @I5@    |  Angelo /Rose/   |  @I19@  |    Trish /Rose/   |                                                                            NA
+                                                     |
++-------+-------------+-------------+------------+------------------+---------+-------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+US04: Error: Husband '@I5@' and Wife '@I1@' in family '@F1@' do not have a date of divorce.
+US04: Error: Husband '@I2@' and Wife '@I3@' in family '@F2@' do not have a date of divorce.
+US04: Error: Husband '@I7@' and Wife '@I8@' in family '@F7@' do not have a date of divorce.
+US04: Error: Husband '@I11@' and Wife '@I12@' in family '@F4@' do not have a date of divorce.
+US04: Error: Husband '@I4@' and Wife '@I16@' in family '@F5@' do not have a date of divorce.
+US04: Error: Husband '@I4@' and Wife '@I15@' in family '@F6@' do not have a date of divorce.
+US04: Error: Husband '@I10@' and Wife '@I8@' in family '@F7@' do not have a date of divorce.
+US02: Error: Husband '@I32@' in family '@F9@' born after wedding on 28 May 2018
+US02: Error: Wife '@I20@' in family '@F9@' born after wedding on 28 May 2018
+US10: Error: Husband '@I32@' in family '@F9@' married on '28 May 2018' before legal age.
+US10: Error: Wife '@I20@' in family '@F9@' married on '28 May 2018' before legal age.
+US04: Error: Husband '@I32@' and Wife '@I20@' in family '@F9@' do not have a date of divorce.
+US10: Error: Wife '@I19@' in family '@F10@' married on '10 May 2019' before legal age.
+US04: Error: Husband '@I5@' and Wife '@I19@' in family '@F10@' do not have a date of divorce.
+US14: Error: More than five children born on date '27 May 2018' in family '@F1@'
+US32: List: The following '16' births occured in family '@F1@' on date '27 May 2018'
++-------+------------------+
+|   ID  |       Name       |
++-------+------------------+
+|  @I6@ |   Emma /Rose/    |
+| @I18@ |  Isabel /Rose/   |
+| @I19@ |   Trish /Rose/   |
+| @I20@ |  Angela /Rose/   |
+| @I21@ |   Ethan /Rose/   |
+| @I22@ |    Ian /Rose/    |
+| @I23@ |  Michael /Rose/  |
+| @I24@ | Richelle /Rose/  |
+| @I25@ |  Matthew /Rose/  |
+| @I26@ |   Luke /Rose/    |
+| @I27@ | Frederick /Rose/ |
+| @I28@ |   Tina /Rose/    |
+| @I29@ |   Tanya /Rose/   |
+| @I30@ |   Emmy /Rose/    |
+| @I31@ |  Thomas /Rose/   |
+| @I32@ |  Cynthia /Rose/  |
++-------+------------------+
+US15: Error: No more than fourteen children should be born in each family.  '17' children born in family '@F1@'
 US28: List: Eldest to youngest children in family '@F1@'.
-+-------+---------------+---------------+
-|   ID  |      Name     | Date of Birth |
-+-------+---------------+---------------+
-| @I16@ | Mult1 /Smith/ |  01 Jan 1990  |
-| @I17@ | Mult2 /Smith/ |  01 Jan 1990  |
-| @I18@ | Mult3 /Smith/ |  01 Jan 1990  |
-| @I19@ | Mult4 /Smith/ |  01 Jan 1990  |
-| @I20@ | Mult5 /Smith/ |  01 Jan 1990  |
-| @I21@ | Mult6 /Smith/ |  01 Jan 1990  |
-|  @I6@ | Rusty /Smith/ |  01 Jul 2014  |
-| @I13@ | Erika /Smith/ |  08 Dec 2018  |
-+-------+---------------+---------------+
-US28: List: Eldest to youngest children in family '@F2@'.
 +-------+------------------+---------------+
 |   ID  |       Name       | Date of Birth |
 +-------+------------------+---------------+
-|  @I7@ | Angelica /Smith/ |  26 Nov 1994  |
-| @I10@ |  Rachel /Smith/  |  03 Nov 1996  |
+|  @I6@ |   Emma /Rose/    |  27 May 2018  |
+| @I18@ |  Isabel /Rose/   |  27 May 2018  |
+| @I19@ |   Trish /Rose/   |  27 May 2018  |
+| @I20@ |  Angela /Rose/   |  27 May 2018  |
+| @I21@ |   Ethan /Rose/   |  27 May 2018  |
+| @I22@ |    Ian /Rose/    |  27 May 2018  |
+| @I23@ |  Michael /Rose/  |  27 May 2018  |
+| @I24@ | Richelle /Rose/  |  27 May 2018  |
+| @I25@ |  Matthew /Rose/  |  27 May 2018  |
+| @I26@ |   Luke /Rose/    |  27 May 2018  |
+| @I27@ | Frederick /Rose/ |  27 May 2018  |
+| @I28@ |   Tina /Rose/    |  27 May 2018  |
+| @I29@ |   Tanya /Rose/   |  27 May 2018  |
+| @I30@ |   Emmy /Rose/    |  27 May 2018  |
+| @I31@ |  Thomas /Rose/   |  27 May 2018  |
+| @I32@ |  Cynthia /Rose/  |  27 May 2018  |
+| @I33@ | Richelle /Rose/  |  02 May 2019  |
 +-------+------------------+---------------+
-US13: Error: Child '['@I22@']' and Child '['@I15@']' in family '@F4@' are born less than 8 months apart.
-US28: List: Eldest to youngest children in family '@F4@'.
-+-------+----------------+---------------+
-|   ID  |      Name      | Date of Birth |
-+-------+----------------+---------------+
-| @I15@ | Angel /Marino/ |  02 Jan 2019  |
-| @I22@ | US13 /Marino/  |  01 Mar 2019  |
-+-------+----------------+---------------+
-US33: List: These children in family '@F6@' are orphans.
-+-------+------+
-|   ID  | Name |
-+-------+------+
-| @I23@ | US33 |
-+-------+------+
-US09:  ERROR: Husband died before the birth of his child - @F6@
-US09:  ERROR: Wife died before the birth of his child - @F6@
+US13: Error: Child '['@I17@']' and Child '['@I1@']' in family '@F2@' are born more than 2 days apart.
+US28: List: Eldest to youngest children in family '@F2@'.
++-------+-----------------+---------------+
+|   ID  |       Name      | Date of Birth |
++-------+-----------------+---------------+
+|  @I4@ |  Robert /Evans/ |  17 Apr 1980  |
+|  @I1@ | Tristin /Evans/ |  12 Apr 1987  |
+| @I17@ |  Aeryn /Evans/  |  30 Apr 1987  |
++-------+-----------------+---------------+
+US28: List: Eldest to youngest children in family '@F3@'.
++------+--------------+---------------+
+|  ID  |     Name     | Date of Birth |
++------+--------------+---------------+
+| @I2@ | Phil /Evans/ |  02 Dec 1856  |
+| @I9@ | Carl /Evans/ |  08 Aug 1954  |
++------+--------------+---------------+
+US35: List:  The following people were born within the last 30 days
++----+------+---------------+
+| ID | Name | Date of Birth |
++----+------+---------------+
++----+------+---------------+
+US36: List:  The following people died within the last 30 days
++------+-----------------+---------------+
+|  ID  |       Name      | Date of Birth |
++------+-----------------+---------------+
+| @I1@ | Tristin /Evans/ |  10 Jun 2019  |
++------+-----------------+---------------+
+US07:  Error: @I2@: More than 150 years old - Birth date 02 Dec 1856
+US07:  Error: @I3@: More than 150 years old - Birth date 20 Feb 1857
+US08:  Error: @F1@: Child @I6@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I18@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I19@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I20@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I21@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I22@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I23@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I24@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I25@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I26@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I27@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I28@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I29@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I30@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I31@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I32@ born 27 May 2018 before marriage on 30 Jul 2017
+US08:  Error: @F1@: Child @I33@ born 02 May 2019 before marriage on 30 Jul 2017
+US08:  Error: @F2@: Child @I1@ born 12 Apr 1987 before marriage on 18 Jul 1979
+US08:  Error: @F2@: Child @I4@ born 17 Apr 1980 before marriage on 18 Jul 1979
+US08:  Error: @F2@: Child @I17@ born 30 Apr 1987 before marriage on 18 Jul 1979
+US08:  Error: @F7@: Child @I13@ born 08 Aug 1951 before marriage on 30 Jul 1950
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Wife died before the birth of his child - @F1@
+US09:  ERROR: Husband died before the birth of his child - @F3@
+US09:  ERROR: Husband died before the birth of his child - @F3@
+US09:  ERROR: Husband died before the birth of his child - @F7@
+US11: Error: @I4@: Bigamy detected: Robert Evans married to multiple spouses at the same time
+US11: Error: @I5@: Bigamy detected: Angelo Rose married to multiple spouses at the same time
+US12:  Error: @F2@: Parents are too old: Parent(s) were greater than 65 years old when child was born
 
 C:\Users\Anthe\OneDrive\Documents\Stevens\SSW 555\GEDCOM\Projects\Sprint2>
