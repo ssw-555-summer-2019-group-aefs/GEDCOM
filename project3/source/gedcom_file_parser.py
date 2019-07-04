@@ -130,15 +130,15 @@ def print_pretty_table(directory_path):
     print_families_pretty_table(families, individuals)
     e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
     e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
-    e3 = get_recent_block(individuals) #us35, us36
-    errors = [e1, e2, e3]
+    #e3 = get_recent_block(individuals) #us35, us36
+    errors = [e1, e2]
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
     check_bigamy(individuals, families)
     check_parents_not_too_old(individuals, families)
 
-    return errors    
+    return errors
 
 
 def print_individuals_pretty_table(individuals_dict):

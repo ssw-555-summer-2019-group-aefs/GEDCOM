@@ -1,6 +1,6 @@
 #Project           : GEDCOM SSW 555 Summer 2019
 #Program name      : Sprint 2
-#Author            : Anthem Rukiya J. Wingate, Fran Sabetour
+#Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 07.07.2019
 #Purpose           : User story Implementation of US13, US14, US15, US17, US18, US28, US32, US33
 #Revision History  : Version 1.0
@@ -34,6 +34,8 @@ def get_dates_diff(dt1, dt2=None):
     """ Gets date differences for US13 """
 
     conversion = {'days':1,'months':30.4,'years':365.25}
+    if dt2 == None:
+        dt2 = today = datetime.datetime.today()
     difference = abs((dt1 - dt2).days)
     if difference >= 365.25:
         time_typ = 'years'
@@ -58,7 +60,11 @@ def us13(children, num_chil, fam_id, individuals):
                 bd_dict[bd_key].append(children[i])
     
     test_next = True
+    err_cnt = 0
+    errors = dict()
     for bd_child, child in sorted(bd_dict.items(), reverse=True):
+        error1 = False
+        error2 = False
         if len(bd_dict[bd_child]) == 1:
             if test_next:
                 bd_sib1 = bd_child
@@ -72,15 +78,19 @@ def us13(children, num_chil, fam_id, individuals):
                     continue
                 elif time_typ == 'months' and diff < 8:
                     print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 8 months apart.")
+                    error1 = True
                 elif time_typ == 'days' and diff > 2:
                     print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days apart.")
+                    error2 = True
                 test_next = True
 
         elif len(bd_dict[bd_child]) > 1:
-            us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
+            us14_error, us32_error = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
             test_next = True
-        
-    return None
+        errors[err_cnt] = [error1, error2]
+        err_cnt += 1
+    
+    return errors, us14_error, us32_error
 
 
 def us14(num_mults, birthdate, mults, fam_id, individuals):
@@ -96,42 +106,56 @@ def us14(num_mults, birthdate, mults, fam_id, individuals):
             pt.add_row(mults_info_list)
         print(pt)
 
-        return 
+        return str(pt)
     
+    error = False
     if num_mults > 5:
         print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-    us32(birthdate, fam_id, mults, num_mults, individuals)
+        error = True
+    us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
 
-    return None
+    return error, us32_error
 
 
 def us15(children, num_chil, fam_id):
     """ There should be fewer than 15 siblings in a family. """
 
+    error = True
     if num_chil >= 15:
         print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
+        error = False
     
-    return None
+    return error
 
 
 def us17(fam_id, husb_id, wife_id, individuals):
     """ Parents should not marry any of their children. """
-    
-    if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
-        print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-    elif individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
-        print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
-    
-    return None
+
+    error1 = False
+    error2 = False
+    if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
+        if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
+            print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+            error1 = True
+    elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
+        if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
+            print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
+            error2 = False
+    errors = [error1, error2]
+
+    return errors
 
 
 def us18(husb_id, wife_id, fam_id, individuals):
     """ Siblings should not marry one another. """
-    
-    if individuals[husb_id]['FAMC'] == individuals[wife_id['FAMC']]:
-        print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
-           
-    return None
+
+    error = False
+    if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
+        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
+            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+            error = True
+            
+    return error
             
     
 def us28(children, num_chil, fam_id, individuals):
@@ -148,19 +172,19 @@ def us28(children, num_chil, fam_id, individuals):
                 birth_order[bd_key].append(children[i])
     
     print(f"US28: List: Eldest to youngest children in family '{fam_id}'.")
-    pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+    us28_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
     for birthdate, child_list in sorted(birth_order.items(), reverse=False):
         child_list_len = len(child_list)
         if child_list_len == 1:
             child_info = [child_list[0], individuals[child_list[0]]['NAME'], birthdate.strftime('%d %b %Y')]
-            pt.add_row(child_info)
+            us28_pt.add_row(child_info)
         elif child_list_len > 1:
             for i in range(child_list_len):
                 child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
-                pt.add_row(child_info)
-    print(pt)    
+                us28_pt.add_row(child_info)
+    print(us28_pt)    
 
-    return None              
+    return us28_pt              
     
 
 def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
@@ -179,12 +203,23 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
         pt.add_row(orphan_info[i])
     print(pt)
 
-    return None
+    return str(pt)
 
 
 def get_child_block(individuals, families):
     """ Get the children. """
-    
+    # Notes: us28, us32, us33 return prettytable for testing
+
+    errors = dict()
+    us13_errors = dict()
+    us14_errors = dict()
+    us15_errors = dict()
+    us17_errors = dict()
+    us18_errors = dict()
+    us28_errors = dict()
+    us32_errors = dict()
+    us33_errors = dict()
+    i = 0
     for fam_id, fam in families.items():  # each fam is dict with the attributes of the family
         if fam['CHIL'] == 'NA':
             continue
@@ -197,16 +232,18 @@ def get_child_block(individuals, families):
                 continue
             else:  
                 if num_chil > 1:              
-                    us13(children, num_chil, fam_id, individuals) #Calls US14 and US32
-                    us15(children, num_chil, fam_id)
-                    us17(fam_id, husb_id, wife_id, individuals)
+                    us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
+                    us15_errors[i] = us15(children, num_chil, fam_id)
+                    us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
                     if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
-                        us18(husb_id, wife_id, fam_id, individuals)
-                    us28(children, num_chil, fam_id, individuals)
+                        us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)
+                    us28_errors[i] = us28(children, num_chil, fam_id, individuals)
                 if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
-                    us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
+                    us33_errors[i] = us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
+        i+=1
     
-    return None
+    errors = {'us13':us13_errors, 'us14':errors, 'us_15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
+    return errors
 
 
 
