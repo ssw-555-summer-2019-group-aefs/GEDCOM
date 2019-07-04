@@ -3,6 +3,7 @@ from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_t
 from util_date import Date
 from Sprint1 import get_spouse_block
 from Sprint2 import get_child_block
+from Sprint3 import get_recent_block
 from US07_US08 import check_150_years_age, check_birth_before_marriage_of_parents
 from US09 import birth_before_parents_death
 
@@ -128,7 +129,8 @@ def print_pretty_table(directory_path):
     print_families_pretty_table(families, individuals)
     e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
     e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
-    errors = [e1, e2]
+    e3 = get_recent_block(individuals) #us35, us36
+    errors = [e1, e2, e3]
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
@@ -182,7 +184,7 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 
 def main():
-    directory_path = "C:/Users/Anthe/OneDrive/Documents/Github/GEDCOM/project3/data/Sprint2.ged"
+    directory_path = "C:/Users/Anthe/OneDrive/Documents/Stevens/SSW 555/GEDCOM/Projects/Sprint2/Sprint2.ged"
     print_pretty_table(directory_path)
 
 

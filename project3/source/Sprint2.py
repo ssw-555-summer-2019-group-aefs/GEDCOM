@@ -1,6 +1,6 @@
 #Project           : GEDCOM SSW 555 Summer 2019
 #Program name      : Sprint 2
-#Author            : Anthem Rukiya J. Wingate, Fran Sabetour
+#Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 07.07.2019
 #Purpose           : User story Implementation of US13, US14, US15, US17, US18, US28, US32, US33
 #Revision History  : Version 1.0
@@ -34,6 +34,8 @@ def get_dates_diff(dt1, dt2=None):
     """ Gets date differences for US13 """
 
     conversion = {'days':1,'months':30.4,'years':365.25}
+    if dt2 == None:
+        dt2 = today = datetime.datetime.today()
     difference = abs((dt1 - dt2).days)
     if difference >= 365.25:
         time_typ = 'years'
