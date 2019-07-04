@@ -75,6 +75,7 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
     
     def us10(dt1, dt2, spouse, fam_id):
         """ Check US10 Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old) """
+        
         try:
             date_diff = Date.get_dates_difference(dt1.date_time_obj, dt2.date_time_obj)
             if type(date_diff) is str:
@@ -108,7 +109,6 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
             error6 = True
         if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
             print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-
             error7 = True
         
     errors = [error1, error2, error3, error4, error5, error6, error7]  
