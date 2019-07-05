@@ -64,6 +64,6 @@ def check_birth_before_marriage_of_parents(family_info_dict, individual_info_dic
                     if marriage_date not in [None, 'NA'] and marriage_date.date_time_obj > birth_date.date_time_obj:
                         print('US08:  Error: {}: Child {} born {} before marriage on {}'.format(family_id, child, birth_date, marriage_date))
                 if type(divorce_date) is not str and divorce_date != None and type(divorce_date.date_time_obj) is not str and type(birth_date.date_time_obj) is not str:
-                    if divorce_date not in [None, 'NA'] and birth_date.date_time_obj > divorce_date.date_time_obj:
+                    if divorce_date not in [None, 'NA'] and divorce_date.date_time_obj > birth_date.date_time_obj:
                         print('US08:  Error: {}: Child {} born {} after divorce on {}'.format(family_id, child, birth_date, divorce_date))
 # End of User Story 08
