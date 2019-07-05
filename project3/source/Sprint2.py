@@ -60,11 +60,12 @@ def us13(children, num_chil, fam_id, individuals):
                 bd_dict[bd_key].append(children[i])
     
     test_next = True
-    err_cnt = 0
-    errors = dict()
+    errors = list()
+    us14_error = False
+    us32_error = ""
+
     for bd_child, child in sorted(bd_dict.items(), reverse=True):
-        error1 = False
-        error2 = False
+        error = False
         if len(bd_dict[bd_child]) == 1:
             if test_next:
                 bd_sib1 = bd_child
@@ -78,20 +79,23 @@ def us13(children, num_chil, fam_id, individuals):
                     continue
                 elif time_typ == 'months' and diff < 8:
                     print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 8 months apart.")
-                    error1 = True
+                    error = True
                 elif time_typ == 'days' and diff > 2:
                     print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days apart.")
-                    error2 = True
+                    error = True
                 test_next = True
 
         elif len(bd_dict[bd_child]) > 1:
             us14_error, us32_error = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
             test_next = True
-        errors[err_cnt] = [error1, error2]
-        err_cnt += 1
-    
-    #return errors, us14_error, us32_error
-    return None
+        errors.append(error)
+
+    us13_error = False
+    if True in errors:
+        us13_error = True
+
+    return us13_error, us14_error, us32_error
+
 
 
 def us14(num_mults, birthdate, mults, fam_id, individuals):
@@ -121,10 +125,10 @@ def us14(num_mults, birthdate, mults, fam_id, individuals):
 def us15(children, num_chil, fam_id):
     """ There should be fewer than 15 siblings in a family. """
 
-    error = True
+    error = False
     if num_chil >= 15:
         print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
-        error = False
+        error = True
     
     return error
 
@@ -170,19 +174,19 @@ def us28(children, num_chil, fam_id, individuals):
                 birth_order[bd_key].append(children[i])
     
     print(f"US28: List: Eldest to youngest children in family '{fam_id}'.")
-    us28_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+    pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
     for birthdate, child_list in sorted(birth_order.items(), reverse=False):
         child_list_len = len(child_list)
         if child_list_len == 1:
             child_info = [child_list[0], individuals[child_list[0]]['NAME'], birthdate.strftime('%d %b %Y')]
-            us28_pt.add_row(child_info)
+            pt.add_row(child_info)
         elif child_list_len > 1:
             for i in range(child_list_len):
                 child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
-                us28_pt.add_row(child_info)
-    print(us28_pt)    
+                pt.add_row(child_info)
+    print(pt)    
 
-    return us28_pt              
+    return str(pt)              
     
 
 def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
@@ -232,8 +236,7 @@ def get_child_block(individuals, families):
             wife_id = fam['WIFE']
             if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
                 us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)           
-            # us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
-            us13(children, num_chil, fam_id, individuals)
+            us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
             us15_errors[i] = us15(children, num_chil, fam_id)
             us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
             us28_errors[i] = us28(children, num_chil, fam_id, individuals)
