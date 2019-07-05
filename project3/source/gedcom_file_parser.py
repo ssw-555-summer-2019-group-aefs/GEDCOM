@@ -187,7 +187,7 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 
 def main():
-    directory_path = "C:/Users/Anthe/OneDrive/Documents/Stevens/SSW 555/GEDCOM/Projects/Sprint2/Sprint2test.ged"
+    directory_path = "C:/Users/Anthe/OneDrive/Documents/GitHub/GEDCOM/project3/source/US17_US18_Test.ged"
     print_pretty_table(directory_path)
 
 
