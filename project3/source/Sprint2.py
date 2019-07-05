@@ -151,10 +151,10 @@ def us18(husb_id, wife_id, fam_id, individuals):
     """ Siblings should not marry one another. """
 
     error = False
-    if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
-        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
-            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
-            error = True
+    print(individuals[husb_id]['FAMC'], individuals[wife_id]['FAMC'])
+    if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
+        print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+        error = True
             
     return error
             
@@ -223,25 +223,25 @@ def get_child_block(individuals, families):
     i = 0
     for fam_id, fam in families.items():  # each fam is dict with the attributes of the family
         if fam['CHIL'] == 'NA':
+            husb_id = fam['HUSB']
+            wife_id = fam['WIFE']
+            if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
+                us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)
             continue
         else:
             children = fam['CHIL']
+            num_chil = len(children)
             husb_id = fam['HUSB']
             wife_id = fam['WIFE']
-            num_chil = len(children)
-            if num_chil == 0:
-                continue
-            else:  
-                if num_chil > 1:              
-                    # us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
-                    us13(children, num_chil, fam_id, individuals)
-                    us15_errors[i] = us15(children, num_chil, fam_id)
-                    us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
-                    if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
-                        us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)
-                    us28_errors[i] = us28(children, num_chil, fam_id, individuals)
-                if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
-                    us33_errors[i] = us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
+            if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
+                us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)           
+            # us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
+            us13(children, num_chil, fam_id, individuals)
+            us15_errors[i] = us15(children, num_chil, fam_id)
+            us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
+            us28_errors[i] = us28(children, num_chil, fam_id, individuals)
+            if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
+                us33_errors[i] = us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
         i+=1
     
     errors = {'us13':us13_errors, 'us14':errors, 'us_15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
