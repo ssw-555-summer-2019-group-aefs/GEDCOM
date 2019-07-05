@@ -132,26 +132,23 @@ def us15(children, num_chil, fam_id):
 def us17(fam_id, husb_id, wife_id, individuals):
     """ Parents should not marry any of their children. """
 
-    error1 = False
-    error2 = False
+    error = False
     if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
         if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
             print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-            error1 = True
+            error = True
     elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
         if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
             print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
-            error2 = False
-    errors = [error1, error2]
+            error = True
 
-    return errors
+    return error
 
 
 def us18(husb_id, wife_id, fam_id, individuals):
     """ Siblings should not marry one another. """
 
     error = False
-    print(individuals[husb_id]['FAMC'], individuals[wife_id]['FAMC'])
     if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
         print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
         error = True
