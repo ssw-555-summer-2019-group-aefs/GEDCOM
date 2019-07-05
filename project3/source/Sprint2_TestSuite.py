@@ -7,6 +7,7 @@
 # Notes:  Automated testing
 
 import unittest
+from prettytable import PrettyTable
 from gedcom_file_parser import print_pretty_table
 from Sprint1 import get_spouse_block
 from Sprint2 import get_child_block
@@ -29,6 +30,17 @@ class TestSuite(unittest.TestCase):
 
         directory_path = "C:/Users/Anthe/OneDrive/Documents/Stevens/SSW 555/GEDCOM/Projects/Sprint2/PPTtest2.ged"
 
+        # Expected Result for US32
+        us32_pt = PrettyTable(field_names=["ID", "Name"])
+        us32_pt.add_row(['@I5@','Mult1 /US14 US32/'])
+        us32_pt.add_row(['@I6@','Mult2 /US14 US32/'])
+        us32_pt.add_row(['@I7@','Mult3 /US14 US32/'])
+        us32_pt.add_row(['@I8@','Mult4 /US14 US32/'])
+        us32_pt.add_row(['@I9@','Mult5 /US14 US32/'])
+        us32_pt.add_row(['@I10@','Mult6 /US14 US32/'])
+        us32_str = str(us32_pt)
+
+
         error_chk = [
                     # get_spouse_block results
                     {'us02':{0:[False, False, False, True, False, True, True]},
@@ -39,12 +51,13 @@ class TestSuite(unittest.TestCase):
                     'us03':{0:True, 1:False}},
                     # get_child_block results
                     {'us13':{0:[]},
-                    'us14':{0:[]},
+                    'us14':{0:[True]},
                     'us15':{0:[]},
-                    'us17':{0:[]},
-                    'us18':{0:[]},
+                    'us17':{0:[True]},
+                    'us18':{0:[True]},
                     'us28':{0:[]},
                     'us32':{0:[]},
+                    'us32':{0:[us32_str]}
                     }
                     # get_recent_block results
                     ]
