@@ -1,4 +1,5 @@
 from prettytable import PrettyTable
+import os
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
 from Proj04_Awingate_03 import get_dates
@@ -185,7 +186,8 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 
 def main():
-    directory_path = "/Users/saranshahlawat/Desktop/Stevens/Semesters/Summer 2019/SSW-555/project/GEDCOM/project3/data/PPTtest2.ged"
+    dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+    directory_path = f"{dir_abs_path}/data/project01.ged"
     print_pretty_table(directory_path)
 
 
