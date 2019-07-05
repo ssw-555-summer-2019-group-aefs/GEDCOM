@@ -193,19 +193,21 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
 
     orphan_info = defaultdict(list)
-   
+    error = False
     for i in range(num_chil):
         if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
             orphan_info[i] = [children[i], individuals[children[i]]['NAME']]
 
-    num_orphans = len(orphan_info)  
-    print(f"US33: List: These children in family '{fam_id}' are orphans.")
-    pt = PrettyTable(field_names=["ID", "Name"])
-    for i in range(num_orphans):
-        pt.add_row(orphan_info[i])
-    print(pt)
-
-    return str(pt)
+    num_orphans = len(orphan_info)
+    if num_orphans > 0:  
+        print(f"US33: List: These children in family '{fam_id}' are orphans.")
+        pt = PrettyTable(field_names=["ID", "Name"])
+        for i in range(num_orphans-1):
+            pt.add_row(orphan_info[i])
+        print(pt)
+        return str(pt)
+    else:
+        return error
 
 
 def get_child_block(individuals, families):
