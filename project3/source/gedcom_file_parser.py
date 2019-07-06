@@ -1,3 +1,4 @@
+import os
 from prettytable import PrettyTable
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
@@ -10,7 +11,9 @@ from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
 
 
 
-def gedcom_file_parser(path):
+DUPLICATE_IDS = []
+
+def gedcom_file_parser(path, return_duplicate_ids = False):
     """gedcom file parser opens and reads a gedcom file line-byline
     and stores the fields of individuals and families in separate dictionaries.
     The key of individuals dictionary is the individual id, for families dictionary 
@@ -28,6 +31,7 @@ def gedcom_file_parser(path):
     except FileNotFoundError:
         print("Can't open", path)
     else:
+        duplicate_ids = []
         with fp:
             line = fp.readline()
             individuals_dict = dict()
@@ -43,6 +47,10 @@ def gedcom_file_parser(path):
                     elif line_split[0] == "0":
                         if len(line_split) > 2 and line_split[2] == "INDI":
                             individual_id = line_split[1]
+                            if individuals_dict.get(individual_id) != None:
+                                duplicate_ids.append(individual_id)
+                                line = fp.readline()
+                                continue
                             individuals_dict[individual_id] = {}
                             line = fp.readline().rstrip("\n")
                             if line:
@@ -76,6 +84,10 @@ def gedcom_file_parser(path):
                                         continue
                         if "FAM" in line_split and len(line_split) > 2:
                             family_id = line_split[1]
+                            if family_dict.get(family_id) != None:
+                                duplicate_ids.append(family_id)
+                                line = fp.readline()
+                                continue
                             family_dict[family_id] = {}
                             line = fp.readline().rstrip("\n")
                             line_split = line.split()
@@ -121,7 +133,10 @@ def gedcom_file_parser(path):
                     else:
                         line = fp.readline().rstrip("\n")
                         continue
-        return individuals_dict, family_dict
+        if return_duplicate_ids:
+            return individuals_dict, family_dict, duplicate_ids
+        else:
+            return individuals_dict, family_dict
 
 
 def print_pretty_table(directory_path):
@@ -133,11 +148,13 @@ def print_pretty_table(directory_path):
     e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
     #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
     errors = [e1, e2]
+
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
     check_bigamy(individuals, families)
     check_parents_not_too_old(individuals, families)
+    print_duplicate_ids(duplicate_ids) #US22
 
     return errors
 
@@ -188,7 +205,8 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 
 def main():
-    directory_path = "C:/Users/Anthe/OneDrive/Documents/GitHub/GEDCOM/project3/source/sprint2userstorytest.ged"
+    dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+    directory_path = f"{dir_abs_path}/data/project01.ged"
     print_pretty_table(directory_path)
 
 
