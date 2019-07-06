@@ -5,11 +5,13 @@ from util_date import Date
 from Proj04_Awingate_03 import get_dates
 from Homework05_US01 import us01
 from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
+from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from US03 import us03
 
+DUPLICATE_IDS = []
 
-def gedcom_file_parser(path):
+def gedcom_file_parser(path, return_duplicate_ids = False):
     """gedcom file parser opens and reads a gedcom file line-byline
     and stores the fields of individuals and families in separate dictionaries.
     The key of individuals dictionary is the individual id, for families dictionary 
@@ -27,6 +29,7 @@ def gedcom_file_parser(path):
     except FileNotFoundError:
         print("Can't open", path)
     else:
+        duplicate_ids = []
         with fp:
             line = fp.readline()
             individuals_dict = dict()
@@ -42,6 +45,10 @@ def gedcom_file_parser(path):
                     elif line_split[0] == "0":
                         if len(line_split) > 2 and line_split[2] == "INDI":
                             individual_id = line_split[1]
+                            if individuals_dict.get(individual_id) != None:
+                                duplicate_ids.append(individual_id)
+                                line = fp.readline()
+                                continue
                             individuals_dict[individual_id] = {}
                             line = fp.readline().rstrip("\n")
                             if line:
@@ -75,6 +82,10 @@ def gedcom_file_parser(path):
                                         continue
                         if "FAM" in line_split and len(line_split) > 2:
                             family_id = line_split[1]
+                            if family_dict.get(family_id) != None:
+                                duplicate_ids.append(family_id)
+                                line = fp.readline()
+                                continue
                             family_dict[family_id] = {}
                             line = fp.readline().rstrip("\n")
                             line_split = line.split()
@@ -120,12 +131,15 @@ def gedcom_file_parser(path):
                     else:
                         line = fp.readline().rstrip("\n")
                         continue
-        return individuals_dict, family_dict
+        if return_duplicate_ids:
+            return individuals_dict, family_dict, duplicate_ids
+        else:
+            return individuals_dict, family_dict
 
 
 def print_pretty_table(directory_path):
     
-    individuals, families = gedcom_file_parser(directory_path)
+    individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
     e1 = get_dates(individuals, families) #US02, US04, US05, US06, US10
@@ -136,8 +150,9 @@ def print_pretty_table(directory_path):
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
+    print_duplicate_ids(duplicate_ids) #US22
 
-    return errors    
+    return errors
 
 
 def print_individuals_pretty_table(individuals_dict):
