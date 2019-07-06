@@ -62,7 +62,7 @@ def us13(children, num_chil, fam_id, individuals):
     test_next = True
     errors = list()
     us14_error = False
-    us32_error = ""
+    us32_error = ''
 
     for bd_child, child in sorted(bd_dict.items(), reverse=True):
         error = False

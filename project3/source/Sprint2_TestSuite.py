@@ -116,7 +116,7 @@ class TestSuite(unittest.TestCase):
                     'us17':{0:True, 1:False},
                     'us18':{2:True},
                     'us28':{0:us28a_str, 1:us28b_str},
-                    'us32':{0:us32_str, 1:''},
+                    'us32':{0:us32_str, 1:""},
                     'us33':{0:us33_str, 1:False}
                     }
                     # get_recent_block results
