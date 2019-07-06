@@ -94,7 +94,6 @@ class TestSuite(unittest.TestCase):
         us33_pt.add_row(['@I19@','Tanya /Rose/'])
         us33_pt.add_row(['@I20@','Emmy /Rose/'])
         us33_pt.add_row(['@I21@','Thomas /Rose/'])
-        us33_pt.add_row(['@I22@','Richelle /Rose/'])
         us33_str = str(us33_pt)
 
 
