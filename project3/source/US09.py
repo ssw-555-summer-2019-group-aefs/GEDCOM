@@ -13,7 +13,7 @@ def birth_before_parents_death(individuals_dict, families_dict):
                         pass
                     else:
                         try:
-                            if Date.get_dates_difference(husb_info.get('DEAT').date_time_obj, child_info.get('BIRT').date_time_obj) < 0:
+                            if Date.get_dates_difference(child_info.get('BIRT').date_time_obj, husb_info.get('DEAT').date_time_obj) < 0:
                                 raise ValueError(f"ERROR: US09: {family_id}: Husband died before the birth of his child")
                         except ValueError as e:
                             print(e)
@@ -26,7 +26,7 @@ def birth_before_parents_death(individuals_dict, families_dict):
                         pass
                     else:
                         try:
-                            if Date.get_dates_difference(wife_info.get('DEAT').date_time_obj, child_info.get('BIRT').date_time_obj) < 0:
+                            if Date.get_dates_difference(child_info.get('BIRT').date_time_obj, wife_info.get('DEAT').date_time_obj) < 0:
                                 raise ValueError(f"ERROR: US09: {family_id} Wife died before the birth of her child")
                         except ValueError as e:
                             print(e)
