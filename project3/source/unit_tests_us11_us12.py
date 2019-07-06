@@ -12,7 +12,7 @@ class TestUserStories(unittest.TestCase):
     def test_user_stories(self):
 
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        directory_path = f'{dir_path}/data/Family-2-3-Jul-2019-927.ged'
+        directory_path = f'{dir_path}/data/Sprint2test.ged'
         individuals, families = gedcom_file_parser(directory_path)
 
         #US11 Test
