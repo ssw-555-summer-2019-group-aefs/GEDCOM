@@ -28,7 +28,7 @@ class TestSuite(unittest.TestCase):
         # e3 is a dictionary of dictionaries of booleans returned from function get_recent_block
         # self.assertEqual will used to test the expected results stored in error_chk against the observed results returned from the function.
 
-        directory_path = "C:/Users/Anthe/OneDrive/Documents/Stevens/SSW 555/GEDCOM/Projects/Sprint2/sprint2userstorytest.ged"
+        directory_path ="C:/Users/Anthe/OneDrive/Documents/GitHub/GEDCOM/project3/source/sprint2userstorytest.ged"
 
         # Expected Result for US28
         us28a_pt = PrettyTable(field_names=["ID", "Name","Date of Birth"])
@@ -111,23 +111,14 @@ class TestSuite(unittest.TestCase):
                     
                     
                     # get_child_block results
-                    {'us13':{0:False,1:True,2:False,3:False},
-                    'us14':{0:True,1:False,2:False,3:False},
-                    'us15':{0:True,1:False,2:False,3:False},
-                    'us17':{0:True,1:False,2:False,3:False},
-                    'us18':{0:False,1:False,2:True,3:False},
-                    'us28':{0:us28a_str,
-                            1:us28b_str,
-                            2:False,
-                            3:False},
-                    'us32':{0:us32_str,
-                            1:False,
-                            2:False,
-                            3:False},
-                    'us33':{0:us33_str,
-                            1:False,
-                            2:False,
-                            3:False}
+                    {'us13':{0:False,1:True,},
+                    'us14':{},
+                    'us15':{0:True,1:False},
+                    'us17':{0:True,1:False},
+                    'us18':{0:False,1:False,2:True},
+                    'us28':{0:us28a_str, 1:us28b_str},
+                    'us32':{0:us32_str, 1:''},
+                    'us33':{0:us33_str, 1:False}
                     }
                     # get_recent_block results
                     ]
