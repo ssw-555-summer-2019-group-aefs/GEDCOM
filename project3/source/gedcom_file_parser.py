@@ -143,19 +143,19 @@ def print_pretty_table(directory_path):
     individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
-    # e1 = get_dates(individuals, families) #US02, US04, US05, US06, US10
-    # e2 = us01(individuals, families)
-    # e3 = us03(individuals)
-    # errors = [e1, e2, e3]
+    e1 = get_dates(individuals, families) #US02, US04, US05, US06, US10
+    e2 = us01(individuals, families)
+    e3 = us03(individuals)
+    errors = [e1, e2, e3]
     
-    # check_150_years_age(individuals)
-    # check_birth_before_marriage_of_parents(families, individuals)
+    check_150_years_age(individuals)
+    check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
-    # print_duplicate_ids(duplicate_ids) #US22
-    # check_bigamy(individuals, families) # US11
-    # check_parents_not_too_old(individuals, families) # US12
+    print_duplicate_ids(duplicate_ids) #US22
+    check_bigamy(individuals, families) # US11
+    check_parents_not_too_old(individuals, families) # US12
 
-    return ""
+    return errors
 
 
 def print_individuals_pretty_table(individuals_dict):
