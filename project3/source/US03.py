@@ -2,7 +2,6 @@ from util_date import Date
 
 def us03(individuals):
     """ Check US03 Birth should occur before death of an individual."""
-
     i=0
     errors = dict()
     for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual

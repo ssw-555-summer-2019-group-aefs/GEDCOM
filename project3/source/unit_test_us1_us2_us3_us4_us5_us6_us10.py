@@ -7,6 +7,7 @@
 # Notes:  Automated testing
 
 import unittest
+import os
 from gedcom_file_parser import print_pretty_table
 from Proj04_Awingate_03 import get_dates
 from Homework05_US01 import us01
@@ -20,7 +21,8 @@ class TestSuite(unittest.TestCase):
     def test_ppt(self):
         """ Test for US01, US02, US03, US04, US05, US06, US10 """
 
-        directory_path = r"C:\Users\Erik\Desktop\GEDCOM-master\project3\data\PPTtest2.ged"
+        dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path = f"{dir_abs_path}/data/PPTtest2.ged"
         error_chk = [
                     {'us02':{0:[False, False, False, True, False, True, True]},
                     'us04':{0:[False, True, False]}, 
