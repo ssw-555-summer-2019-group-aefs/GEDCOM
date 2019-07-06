@@ -52,8 +52,8 @@ class TestSuite(unittest.TestCase):
         us28a_str = str(us28a_pt)
 
         us28b_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
-        us28b_pt.add_row(['@I1@','Tristin /Evans/', '12 APR 1987'])
-        us28b_pt.add_row(['@I5@','Aeryn /Evans/', '30 APR 1987'])
+        us28b_pt.add_row(['@I1@','Tristin /Evans/', '12 Apr 1987'])
+        us28b_pt.add_row(['@I5@','Aeryn /Evans/', '30 Apr 1987'])
         us28b_str = str(us28b_pt)
 
         # Expected Result for US32

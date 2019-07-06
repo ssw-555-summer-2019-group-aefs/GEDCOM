@@ -138,8 +138,6 @@ def print_pretty_table(directory_path):
     check_bigamy(individuals, families)
     check_parents_not_too_old(individuals, families)
 
-    print(errors)
-    
     return errors
 
 
