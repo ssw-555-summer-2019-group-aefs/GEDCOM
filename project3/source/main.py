@@ -7,7 +7,7 @@ import Sprint2_TestSuite
 
 if __name__ == '__main__':
     
-    print_pretty_table("C:/Users/Anthe/OneDrive/Documents/Stevens/SSW 555/GEDCOM/Projects/Sprint2/Sprint2test.ged")
+    print_pretty_table("C:/Users/Anthe/OneDrive/Documents/GitHub/GEDCOM/project3/source/sprint2userstorytest.ged")
     suit1 = unittest.TestLoader().loadTestsFromModule(util_date)
     suit2 = unittest.TestLoader().loadTestsFromModule(Sprint2_TestSuite)
     suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
