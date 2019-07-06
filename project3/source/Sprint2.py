@@ -246,7 +246,7 @@ def get_child_block(individuals, families):
                 us33_errors[i] = us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
         i+=1
     
-    errors = {'us13':us13_errors, 'us14':errors, 'us_15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
+    errors = {'us13':us13_errors, 'us14':errors, 'us15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
 
     return errors
 
