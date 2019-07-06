@@ -87,32 +87,23 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
         except:
             print(f"Data Error: Birth date '{dt1}' and marriage date '{dt2}' for '{spouse}' in family '{fam_id}' are not in a compatible format.")
     
-    error1, error2, error3, error4, error5, error6, error7 = False, False, False, False, False, False, False
-    if husb_birth_dt == None:
-        print(f"US02: Error: Husband '{husb_id}' in family '{fam_id}' does not have a date of birth.")
-        error1 = True
-    if wife_birth_dt == None:
-        print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' does not have a date of birth.")
-        error2 = True
-    if marriage_dt == None:
-        print(f"US02: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' do not have a date of marriage.")
-        error3 = True
-    elif husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
+    error1, error2 = False, False
+    if husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
         if date_before(husb_birth_dt, marriage_dt):
             print(f"US02: Error: Husband '{husb_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-            error4 = True
+            error1 = True
         if date_before(wife_birth_dt, marriage_dt):
             print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-            error5 = True
+            error1 = True
+        
         if us10(husb_birth_dt, marriage_dt, 'Husband', fam_id):
             print(f"US10: Error: Husband '{husb_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-            error6 = True
+            error2 = True
         if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
             print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-            error7 = True
+            error2 = True
         
-    errors = [error1, error2, error3, error4, error5, error6, error7]  
-    return errors
+    return error1, error2
 
 
 def us03(individuals):
@@ -199,6 +190,7 @@ def get_spouse_block(individuals, families):
     us04_errors = dict()
     us05_errors = dict()
     us06_errors = dict()
+    us10_errors = dict()
     i = 0
 
     for fam in families.values():  # each fam is dict with the attributes of the family
@@ -231,15 +223,14 @@ def get_spouse_block(individuals, families):
         
        
         fam_id = individuals[wife_id]['FAMS']
-        
-        us02_errors[i] = us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id)
+        us01_errors[i] = us01(individuals, families)
+        us02_errors[i], us10_errors[i] = us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id)
+        us03_errors[i] = us03(individuals)
         us04_errors[i] = us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id)
         us05_errors[i] = us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id)
         us06_errors[i] = us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id)
-        us01_errors[i] = us01(individuals, families)
-        us03_errors[i] = us03(individuals)
-
+       
         i+=1
     
-    errors = {'us02':us02_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors, 'uso1':us01_errors, 'us03':us03_errors}
+    errors = {'uso1':us01_errors,'us02':us02_errors, 'us03':us03_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors, 'uso1':us01_errors}
     return errors
