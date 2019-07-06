@@ -3,13 +3,16 @@ from util_date import Date
 from gedcom_file_parser import gedcom_file_parser, print_pretty_table
 import io
 import sys
+import os
 import unittest
 import datetime
 
 class TestUserStories(unittest.TestCase):
    
     def test_user_stories(self):
-        directory_path = r'C:\Users\Erik\Desktop\GEDCOM-master\project3\data\Sprint2test.ged'
+
+        dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path = f'{dir_path}/data/Family-2-3-Jul-2019-927.ged'
         individuals, families = gedcom_file_parser(directory_path)
 
         #US11 Test
