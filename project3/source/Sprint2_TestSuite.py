@@ -100,13 +100,13 @@ class TestSuite(unittest.TestCase):
 
         error_chk = [
                     # get_spouse_block results
-                    {'us01':{0:[True, True, True, False], 1:[False, False, True, False]},
-                    'us02':{0:True,1:False,2:False,3:False},
-                    'us03':{0:True, 1:False},
-                    'us04':{0:[False, True, False]}, 
-                    'us05':{0:[False, True, False]}, 
-                    'us06':{0:[True, False, False]}
-                    'us10':{0:}
+                    {'us01':True,
+                    'us02':{0:True, 1:False, 2:True},
+                    'us03':True,
+                    'us04':{0:False, 1:True, 2:False},
+                    'us05':{0:False, 1:True, 2:False},
+                    'us06':{0:False, 1:True, 2:False},
+                    'us10':{0:False, 1:True, 2:True}
                     },
                     
                     

@@ -247,6 +247,7 @@ def get_child_block(individuals, families):
         i+=1
     
     errors = {'us13':us13_errors, 'us14':errors, 'us_15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
+
     return errors
 
 

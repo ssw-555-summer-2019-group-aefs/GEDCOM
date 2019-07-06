@@ -36,21 +36,19 @@ def date_before(dt1, dt2):
 def us01(individuals, families):
     """ Check US01 Dates (birth, marriage, divorce, death) should not be after the current date."""
 
-    errors = dict()
-    i=0
-
+    errors = list()
+  
     for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-        error1, error2, error3, error4 = False, False, False, False
-        if type(ind['BIRT'].date_time_obj) is not str:
-            if ind['BIRT'] != 'NA':
-                if Date.get_dates_difference(ind['BIRT'].date_time_obj) < 0:
+        error = False
+        if ind['BIRT'] != 'NA' and type(ind['BIRT'].date_time_obj) is not str:
+            if Date.get_dates_difference(ind['BIRT'].date_time_obj) < 0:
                     print(f"US01: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
-                    error1 = True
+                    error = True
         
         if ind['DEAT'] != 'NA' and type(ind['DEAT'].date_time_obj) is not str:
             if Date.get_dates_difference(ind['DEAT'].date_time_obj) < 0:
                 print(f"US01: Error: Individual's '{ind_id}' death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
-                error2 = True
+                error = True
         
 
         if ind['FAMS'] != 'NA':
@@ -58,17 +56,18 @@ def us01(individuals, families):
                 if families[ind['FAMS']]['MARR'] != 'NA':
                     if Date.get_dates_difference(families[ind['FAMS']]['MARR'].date_time_obj) < 0:
                         print(f"US01: Error: Individual's '{ind_id}' marriage date '{families[ind['FAMS']]['MARR'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
-                        error3 = True
+                        error = True
 
             if families[ind['FAMS']]['DIV'] != 'NA' and type(families[ind['FAMS']]['DIV'].date_time_obj) is not str:
                 if Date.get_dates_difference(families[ind['FAMS']]['DIV'].date_time_obj) < 0:
                     print(f"US01: Error: Individual's '{ind_id}' divorce date '{families[ind['FAMS']]['DIV'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
-                    error4 = True
+                    error = True
     
-        errors[i] = [error1, error2, error3, error4]
-        i+=1
-    return errors
-
+        errors.append(error)
+  
+    if True in errors:
+        return True
+    
 
 def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
     """ Check US02 Birth before Marriage for both husband and wife.  Calls US10. """
@@ -109,10 +108,10 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id):
 def us03(individuals):
     """ Check US03 Birth should occur before death of an individual."""
 
-    i=0
-    errors = dict()
+
+    error = list()
     for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-        errors[i] = False
+        error.append(False)
         if type(ind['BIRT'].date_time_obj) is not str and type(ind['DEAT']) is not str and type(ind['DEAT'].date_time_obj) is not str:
             if ind['BIRT'] != 'NA':
                 birth_dt = ind['BIRT'].date_time_obj
@@ -120,10 +119,10 @@ def us03(individuals):
                 death_dt = ind['DEAT'].date_time_obj
                 if Date.get_dates_difference(birth_dt,death_dt) < 0:
                     print(f"US03: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs after the death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}'.")
-                    errors[i] = True
-        i+=1
-    
-    return errors
+                    error.append(True)
+        
+    if True in error:
+        return True
 
 
 def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id):
@@ -133,7 +132,7 @@ def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id):
     if marriage_dt != None and divorce_dt != None:
         if date_before(marriage_dt, divorce_dt):
             print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-            error3 = True
+            error = True
         
     return error
 
@@ -141,58 +140,65 @@ def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id):
 def us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id):
     """ Check US05 Marriage before death for both husband and wife """
 
-    error1, error2, error3 = False, False, False
+    error1, error2 = False, False
     if marriage_dt == None:
-        print(f"US05: Error: Husband '{husb_id}' in family '{fam_id}' does not have a date of marriage.")
-        error1 = True
+        error1, error2 = False, False
     else:
         if husb_death_dt != None:
             if date_before(marriage_dt, husb_death_dt):
                 print(f"US05: Error: Husband '{husb_id}' in family '{fam_id}' died before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}'")
-                error2 = True
+                error1 = True
         if wife_death_dt != None:
             if date_before(marriage_dt, wife_death_dt):
                 print(f"US05: Error: Wife '{wife_id}' in family '{fam_id}' died before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                error3 = True
+                error2 = True
     
-    errors = [error1, error2, error3]
-    return errors
+    errors = [error1, error2]
+    if True in errors:
+        return True
+    else:
+        return False
 
 
 def us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id):
     """ Check US06 Divorce before death for both husband and wife """
 
-    error1, error2, error3 = False, False, False
+    error1, error2 = False, False
     if divorce_dt is None:
-        error1 = True
+        error1, error2 = False, False
     else:
         if husb_death_dt != None and divorce_dt != None:
             if date_before(divorce_dt, husb_death_dt):
                 print(f"US06: Error: Husband '{husb_id}' in family '{fam_id}' died before divorce on {divorce_dt.date_time_obj.strftime('%d %b %Y')}'") 
-                error2 = True 
+                error1 = True 
                                  
         if wife_death_dt != None and divorce_dt != None:
             if date_before(divorce_dt, wife_death_dt):
                 print(f"US06: Error: Wife '{wife_id}' in family '{fam_id}' died before divorce on {divorce_dt.date_time_obj.strftime('%d %b %Y')}")
-                error3= True
+                error2 = True
     
-    errors = [error1, error2, error3]
-    return errors
+    errors = [error1, error2]
+    if True in errors:
+        return True
+    else:
+        return False
 
 
 def get_spouse_block(individuals, families):
     """ Stores dates for marriage, divorce, birth and death of spouses. Calls user story 02, 04, 05, and 06 for date comparison."""
     
     errors = dict()
-    us01_errors = dict()
+    us01_errors = False
     us02_errors = dict()
-    us03_errors = dict()
+    us03_errors = False
     us04_errors = dict()
     us05_errors = dict()
     us06_errors = dict()
     us10_errors = dict()
     i = 0
 
+    us01_errors = us01(individuals, families)
+    us03_errors = us03(individuals)
     for fam in families.values():  # each fam is dict with the attributes of the family
         marriage_dt = fam['MARR']
         if marriage_dt is "NA":
@@ -223,14 +229,14 @@ def get_spouse_block(individuals, families):
         
        
         fam_id = individuals[wife_id]['FAMS']
-        us01_errors[i] = us01(individuals, families)
+        
         us02_errors[i], us10_errors[i] = us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id)
-        us03_errors[i] = us03(individuals)
         us04_errors[i] = us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id)
         us05_errors[i] = us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id)
         us06_errors[i] = us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id)
        
         i+=1
     
-    errors = {'uso1':us01_errors,'us02':us02_errors, 'us03':us03_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors, 'uso1':us01_errors}
+    errors = {'us01':us01_errors,'us02':us02_errors, 'us03':us03_errors, 'us04':us04_errors, 'us05':us05_errors, 'us06':us06_errors, 'us10':us01_errors}
+    
     return errors
