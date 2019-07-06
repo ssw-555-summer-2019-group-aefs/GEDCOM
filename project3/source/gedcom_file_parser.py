@@ -4,9 +4,10 @@ from util_date import Date
 from Sprint1 import get_spouse_block
 from Sprint2 import get_child_block
 #from Sprint3 import get_recent_block
-from US07_US08 import check_150_years_age, check_birth_before_marriage_of_parents
+from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
 from US09 import birth_before_parents_death
-from us11_us12 import check_bigamy, check_parents_not_too_old
+from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
+
 
 
 def gedcom_file_parser(path):
