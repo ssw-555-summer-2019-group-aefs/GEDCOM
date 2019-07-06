@@ -206,7 +206,7 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 def main():
     dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    directory_path = f"{dir_abs_path}/data/project01.ged"
+    directory_path = f"{dir_abs_path}/data/ssprint2userstorytest.ged"
     print_pretty_table(directory_path)
 
 

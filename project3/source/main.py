@@ -8,7 +8,7 @@ import Sprint2_TestSuite
 
 if __name__ == '__main__':
     dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    print_pretty_table(f"{dir_path}/data/project01.ged")
+    print_pretty_table(f"{dir_path}/data/sprint2userstorytest.ged")
     suit1 = unittest.TestLoader().loadTestsFromModule(util_date)
     suit2 = unittest.TestLoader().loadTestsFromModule(Sprint2_TestSuite)
     suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
