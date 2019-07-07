@@ -7,6 +7,7 @@
 # Notes:  Automated testing
 
 import unittest
+import os
 from prettytable import PrettyTable
 from gedcom_file_parser import print_pretty_table
 from Sprint1 import get_spouse_block
@@ -27,8 +28,9 @@ class TestSuite(unittest.TestCase):
         # e2 is a dictionary of dictionaries of booleans returned from function get_child_block
         # e3 is a dictionary of dictionaries of booleans returned from function get_recent_block
         # self.assertEqual will used to test the expected results stored in error_chk against the observed results returned from the function.
+        dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path = f"{dir_path}/data/sprint2userstorytest.ged"
 
-        directory_path ="C:/Users/Anthe/OneDrive/Documents/GitHub/GEDCOM/project3/source/sprint2userstorytest.ged"
 
         # Expected Result for US28
         us28a_pt = PrettyTable(field_names=["ID", "Name","Date of Birth"])
