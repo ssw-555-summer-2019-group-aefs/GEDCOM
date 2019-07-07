@@ -23,10 +23,6 @@ if __name__ == '__main__':
     test_result4 = unittest.TextTestRunner(verbosity=2).run(suit4).wasSuccessful()
     test_result5 = unittest.TextTestRunner(verbosity=2).run(suit5).wasSuccessful()
 
-    print("*******:", test_result1, test_result2, test_result3, test_result4, test_result5)
+    final_test_result = (test_result1 and test_result2 and test_result3 and test_result4 and test_result5)
 
-    final_test_result = not (test_result1 and test_result2 and test_result3 and test_result4 and test_result5)
-
-    print("******* final:", final_test_result)
-
-    sys.exit(final_test_result)
+    print("\nAll tests successfully ended:", final_test_result)

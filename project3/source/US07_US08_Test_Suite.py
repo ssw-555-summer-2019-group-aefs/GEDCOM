@@ -18,9 +18,9 @@ class TestUserStories(unittest.TestCase):
         # US07 Test
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput
-        tempoo = check_150_years_age(individuals)
+        check_150_years_age(individuals)
         sys.stdout = sys.__stdout__
-        self.assertEqual(tempoo, ['ERROR: INDIVIDUAL: US07: @I3@: More than 150 years old - Birth date 19 May 0268', 'ERROR: INDIVIDUAL: US07: @I9@: More than 150 years old at death - Birth date 17 Nov 0301: Death date 15 Nov 0560'])
+        self.assertEqual(capturedOutput.getvalue(), 'ERROR: INDIVIDUAL: US07: @I3@: More than 150 years old - Birth date 19 May 0268\nERROR: INDIVIDUAL: US07: @I9@: More than 150 years old at death - Birth date 17 Nov 0301: Death date 15 Nov 0560\n')
        
         #US08 Test
         capturedOutput2 = io.StringIO()
