@@ -3,6 +3,7 @@ import os
 from gedcom_file_parser import print_pretty_table
 import util_date
 import US07_US08_Test_Suite
+import US22_unit_test
 import unit_tests_us11_us12
 import Sprint2_TestSuite
 
@@ -13,10 +14,9 @@ if __name__ == '__main__':
     suit2 = unittest.TestLoader().loadTestsFromModule(Sprint2_TestSuite)
     suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
     suit4 = unittest.TestLoader().loadTestsFromModule(unit_tests_us11_us12)
-    
-
+    suit5 = unittest.TestLoader().loadTestsFromModule(US22_unit_test)
     unittest.TextTestRunner(verbosity=2).run(suit1)
     unittest.TextTestRunner(verbosity=2).run(suit2)
     unittest.TextTestRunner(verbosity=2).run(suit3)
     unittest.TextTestRunner(verbosity=2).run(suit4)
-    
+    unittest.TextTestRunner(verbosity=2).run(suit5)
