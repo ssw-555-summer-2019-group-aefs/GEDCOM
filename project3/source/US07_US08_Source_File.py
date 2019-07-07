@@ -15,8 +15,6 @@ def check_150_years_age(individual_info_dict):
 
     age_limit = 150
 
-    test = []
-
     # gets dates from individual info
     for individual_id, individual_info in individual_info_dict.items():
         id = individual_id
@@ -36,12 +34,8 @@ def check_150_years_age(individual_info_dict):
         # checks to see if age exceeds age limit and prints error
         if type(age) is not str and age > age_limit and death_date == None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
-            test.append('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
         elif type(age) is not str and age > age_limit and death_date != None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
-            test.append("ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}".format(id, birth_date, death_date))
-
-    return test
 # End of User Story 07
 
 # User story 08
@@ -67,10 +61,10 @@ def check_birth_before_marriage_of_parents(family_info_dict, individual_info_dic
                 child_dict = individual_info_dict.get(child)
                 birth_date = Date(str(child_dict.get('BIRT')))
                 if type(marriage_date) is not str and marriage_date != None and type(marriage_date.date_time_obj) is not str and type(birth_date.date_time_obj) is not str:
-                    if marriage_date not in [None, 'NA'] and marriage_date.date_time_obj > birth_date.date_time_obj:
+                    if marriage_date not in [None, 'NA'] and marriage_date.date_time_obj < birth_date.date_time_obj:
                         print('ANOMOLY: FAMILY: US08: {}: Child {} born {} before marriage on {}'.format(family_id, child, birth_date, marriage_date))
                 if type(divorce_date) is not str and divorce_date != None and type(divorce_date.date_time_obj) is not str and type(birth_date.date_time_obj) is not str:
-                    if divorce_date not in [None, 'NA'] and birth_date.date_time_obj > divorce_date.date_time_obj:
+                    if divorce_date not in [None, 'NA'] and birth_date.date_time_obj < divorce_date.date_time_obj:
                         print('ANOMOLY: FAMILY: US08: {}: Child {} born {} after divorce on {}'.format(family_id, child, birth_date, divorce_date))
 # End of User Story 08
 
