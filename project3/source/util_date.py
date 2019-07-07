@@ -89,7 +89,7 @@ class Date:
             difference = today.year - date1.year - ((today.month, today.day) < (date1.month, date1.day))
         else:
             if date1 != None:
-                difference = date2.year - date1.year - ((date2.month, date2.day) < (date1.month, date1.day))
+                difference = date2.year - date1.year - 1
         return difference
 
     @staticmethod
