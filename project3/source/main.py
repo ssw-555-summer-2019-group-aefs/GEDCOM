@@ -29,4 +29,4 @@ if __name__ == '__main__':
 
     print("******* final:", final_test_result)
 
-    # sys.exit(final_test_result)
+    sys.exit(final_test_result)
