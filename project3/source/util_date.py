@@ -16,7 +16,7 @@ class DateTest(unittest.TestCase):
         date_4 = Date("10 1993")
         date_5 = Date("1993")
 
-        self.assertEqual(date_1.date_time_obj.day, 100000)
+        self.assertEqual(date_1.date_time_obj.day, 5)
         self.assertEqual(date_1.date_time_obj.month, 8)
         self.assertEqual(date_1.date_time_obj.year, 2018)
 
