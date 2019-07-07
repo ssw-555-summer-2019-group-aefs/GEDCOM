@@ -16,7 +16,3 @@ def print_duplicate_ids(duplicate_ids_error_list):
         else:
             id_type = "family"
         print(f"ERROR: US22: Duplicate {id_type} id: {id}")
-
-
-if __name__ == '__main__':
-    unittest.main(exit=False)
