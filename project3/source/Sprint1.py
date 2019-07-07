@@ -1,5 +1,5 @@
 #Project           : GEDCOM SSW 555 Summer 2019
-#Program name      : Proj04_AWingate_03
+#Program name      : Sprint1.py
 #Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 06.23.2019
 #Purpose           : User story Implementation of US02, US04, US05, US06, US10

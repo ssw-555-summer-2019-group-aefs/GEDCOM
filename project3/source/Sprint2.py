@@ -1,5 +1,5 @@
 #Project           : GEDCOM SSW 555 Summer 2019
-#Program name      : Sprint 2
+#Program name      : Sprint2.py
 #Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 07.07.2019
 #Purpose           : User story Implementation of US13, US14, US15, US17, US18, US28, US32, US33
