@@ -1,16 +1,16 @@
+import os
 from prettytable import PrettyTable
 import os
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
-from Proj04_Awingate_03 import get_dates
-from Homework05_US01 import us01
+from Sprint1 import get_spouse_block
+from Sprint2 import get_child_block
+#from Sprint3 import get_recent_block
 from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
-from US03 import us03
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
 
-DUPLICATE_IDS = []
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
     """gedcom file parser opens and reads a gedcom file line-byline
@@ -23,7 +23,7 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
     
     Returns:
         {tuple of dictionaries} -- the return value is a tuple of
-        individuals and families dictinary
+        individuals and families dictionary
     """
     try:
         fp = open(path, "r")
@@ -143,11 +143,11 @@ def print_pretty_table(directory_path):
     individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
-    e1 = get_dates(individuals, families) #US02, US04, US05, US06, US10
-    e2 = us01(individuals, families)
-    e3 = us03(individuals)
-    errors = [e1, e2, e3]
-    
+    e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
+    e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
+    #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
+    errors = [e1, e2]
+
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
     birth_before_parents_death(individuals, families)
@@ -205,7 +205,7 @@ def print_families_pretty_table(families_dict, individuals_dict):
 
 def main():
     dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    directory_path = f"{dir_abs_path}/data/project01.ged"
+    directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
     print_pretty_table(directory_path)
 
 
