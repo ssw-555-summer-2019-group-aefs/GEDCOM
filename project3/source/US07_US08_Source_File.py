@@ -14,7 +14,7 @@ import datetime
 def check_150_years_age(individual_info_dict):
 
     age_limit = 150
-    test = []
+    tempooo = []
 
     # gets dates from individual info
     for individual_id, individual_info in individual_info_dict.items():
@@ -35,11 +35,11 @@ def check_150_years_age(individual_info_dict):
         # checks to see if age exceeds age limit and prints error
         if type(age) is not str and age > age_limit and death_date == None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
-            test.append('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
+            tempooo.append('ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth date {}'.format(id, birth_date))
         elif type(age) is not str and age > age_limit and death_date != None:
             print('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
-            test.append('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
-    return test
+            tempooo.append('ERROR: INDIVIDUAL: US07: {}: More than 150 years old at death - Birth date {}: Death date {}'.format(id, birth_date, death_date))
+    return tempooo
 # End of User Story 07
 
 # User story 08
