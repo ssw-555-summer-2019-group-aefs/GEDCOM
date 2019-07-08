@@ -27,7 +27,7 @@ class TestUserStories(unittest.TestCase):
         sys.stdout = capturedOutput2
         check_birth_before_marriage_of_parents(families, individuals)
         sys.stdout = sys.__stdout__
-        self.assertEqual(capturedOutput2.getvalue(), 'ANOMOLY: FAMILY: US08: @F3@: Child @I7@ born 05 Sep 0287 before marriage on 16 Jun 0280\n')
+        self.assertEqual(capturedOutput2.getvalue(), 'ANOMOLY: FAMILY: US08: @F1@: Child @I3@ born 19 May 0268 before marriage on 08 Aug 0271\nANOMOLY: FAMILY: US08: @F1@: Child @I4@ born 13 Nov 0267 before marriage on 08 Aug 0271\nANOMOLY: FAMILY: US08: @F1@: Child @I5@ born 15 Oct 0265 before marriage on 08 Aug 0271\nANOMOLY: FAMILY: US08: @F2@: Child @I9@ born 17 Nov 0301 before marriage on 15 Jan 0304\nANOMOLY: FAMILY: US08: @F3@: Child @I7@ born 05 Sep 0287 after divorce on 18 Nov 0285\n')
 
 if __name__ == '__main__':
     unittest.main(exit=False)
