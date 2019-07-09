@@ -47,9 +47,9 @@ class DateTest(unittest.TestCase):
         date_3 = Date("5 AUG 2000")
         date_4 = Date("10 JAN 1969")
 
-        self.assertEqual(Date.get_dates_difference(date_2.date_time_obj, date_1.date_time_obj), 24)
-        self.assertEqual(Date.get_dates_difference(date_4.date_time_obj, date_3.date_time_obj), 30)
-        self.assertEqual(Date.get_dates_difference(date_2.date_time_obj, date_4.date_time_obj), -25)
+        self.assertEqual(Date.get_dates_difference(date_2.date_time_obj, date_1.date_time_obj), 25)
+        self.assertEqual(Date.get_dates_difference(date_4.date_time_obj, date_3.date_time_obj), 31)
+        self.assertEqual(Date.get_dates_difference(date_2.date_time_obj, date_4.date_time_obj), -24)
         self.assertEqual(Date.get_dates_difference(date_2.date_time_obj), 26)
         self.assertEqual(Date.get_dates_difference("NA"), "NA")
         self.assertEqual(Date.get_dates_difference(None), "NA")
@@ -89,7 +89,7 @@ class Date:
             difference = today.year - date1.year - ((today.month, today.day) < (date1.month, date1.day))
         else:
             if date1 != None:
-                difference = date2.year - date1.year - 1
+                difference = date2.year - date1.year - ((date2.month, date2.day) < (date1.month, date1.day))
         return difference
 
     @staticmethod
