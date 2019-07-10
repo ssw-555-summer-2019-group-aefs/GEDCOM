@@ -138,9 +138,9 @@ def us36(individuals, families):
     pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
     for ind_id, ind in individuals.items():
         if ind['DEAT'] != 'NA' and Date.is_valid_date(ind['DEAT'].date_time_obj):
+            us37(ind_id, individuals, families)
             diff, time_typ = get_dates_diff(ind['DEAT'].date_time_obj)
             if time_typ == 'days' and diff <= 30:
-                us37(ind_id, individuals, families)
                 recent_deaths = [ind_id, ind['NAME'], (ind['DEAT'].date_time_obj).strftime('%d %b %Y')]
                 pt.add_row(recent_deaths)
     

@@ -1,4 +1,3 @@
-import os
 from prettytable import PrettyTable
 import os
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
