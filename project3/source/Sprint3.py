@@ -84,7 +84,7 @@ def us36(individuals, families):
             # Each While loop collects a list of children that serve as the value for a dictionary.  The key for that value is the generation (child, grandchild, etc.)
             # A list of all related family ids is also appended each loop
             # Step 1:  At generation zero append children list and add family ids to family id list for every FAMS != NA
-            # Step 2: A generation 1, add children from each of the families in the family id list, use cnt variable to increment through family id list with each while loop. 
+            # Step 2: At generation 1, add children from each of the families in the family id list, use cnt variable to increment through family id list with each while loop. 
             # When all generation 1 children are checked, increment generation.
 
             next_fam_id = fam_id
@@ -137,7 +137,7 @@ def us36(individuals, families):
     print('US36: List:  The following people died within the last 30 days')
     pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
     for ind_id, ind in individuals.items():
-        if ind['DEAT'] != 'NA' and Date.is_valid_date(ind['DEAT'].date_time_obj):
+        if Date.is_valid_date(ind['DEAT'].date_time_obj):
             us37(ind_id, individuals, families)
             diff, time_typ = get_dates_diff(ind['DEAT'].date_time_obj)
             if time_typ == 'days' and diff <= 30:
