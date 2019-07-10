@@ -1,4 +1,4 @@
-0 NOTE Saransh Ahlawat
+﻿0 NOTE Saransh Ahlawat
 0 HEAD
 1 SOUR Family Echo
 2 WWW http://www.familyecho.com/
@@ -31,7 +31,7 @@
 1 BIRT
 2 DATE 27 SEP 1965
 1 FAMS @F2@
-0 @I3@ INDI
+0 @I1@ INDI
 1 NAME Elizabeth /Denfeld/
 2 GIVN Elizabeth
 2 SURN Denfeld
@@ -40,7 +40,7 @@
 1 BIRT
 2 DATE 17 AUG 1968
 1 FAMS @F2@
-0 @I4@ INDI
+0 @I5@ INDI
 1 NAME Sana /Singh/
 2 GIVN Sana
 2 SURN Singh
@@ -59,7 +59,7 @@
 2 DATE 21 JUL 1991
 1 FAMS @F3@
 1 FAMC @F2@
-0 @I6@ INDI
+0 @I5@ INDI
 1 NAME Rusty /Smith/
 2 GIVN Rusty
 2 SURN Smith
@@ -76,10 +76,10 @@
 1 SEX F
 1 BIRT
 2 DATE 26 NOV 1994
-1 FAMS @F4@
+1 FAMS @F1@
 1 FAMS @F5@
 1 FAMC @F2@
-0 @I8@ INDI
+0 @I5@ INDI
 1 NAME Ralph /Carpenter/
 2 GIVN Ralph
 2 SURN Carpenter
@@ -98,7 +98,7 @@
 1 SEX M
 1 BIRT
 2 DATE 6 APR 1991
-1 FAMS @F4@
+1 FAMS @F2@
 0 @I10@ INDI
 1 NAME Rachel /Smith/
 2 GIVN Rachel
@@ -107,9 +107,9 @@
 1 SEX F
 1 BIRT
 2 DATE 3 NOV 1996
-1 FAMS @F6@
+1 FAMS @F5@
 1 FAMC @F2@
-0 @I11@ INDI
+0 @I10@ INDI
 1 NAME John /Doe/
 2 GIVN John
 2 SURN Doe
@@ -119,8 +119,8 @@
 2 DATE 2 APR 1992
 1 DEAT Y
 2 DATE 24 APR 2018
-1 FAMS @F6@
-0 @I12@ INDI
+1 FAMS @F4@
+0 @I10@ INDI
 1 NAME Victoria /Orbach/
 2 GIVN Victoria
 2 SURN Orbach
@@ -158,13 +158,13 @@
 1 FAMC @F4@
 0 @F1@ FAM
 1 HUSB @I1@
-1 WIFE @I4@
-1 CHIL @I6@
+1 WIFE @I5@
+1 CHIL @I7@
 1 CHIL @I13@
 1 _CURRENT Y
 0 @F2@ FAM
 1 HUSB @I2@
-1 WIFE @I3@
+1 WIFE @I5@
 1 CHIL @I1@
 1 CHIL @I5@
 1 CHIL @I7@
@@ -175,14 +175,14 @@
 1 _CURRENT Y
 0 @F3@ FAM
 1 HUSB @I5@
-1 WIFE @I12@
+1 WIFE @I14@
 1 MARR
 2 DATE 16 MAY 2017
 2 PLAC Hoboken, New Jersey
 1 DIV
 2 DATE 5 NOV 2018
 1 _CURRENT N
-0 @F4@ FAM
+0 @F3@ FAM
 1 HUSB @I9@
 1 WIFE @I7@
 1 CHIL @I15@
@@ -191,12 +191,12 @@
 2 PLAC New York City, NY
 1 _CURRENT Y
 0 @F5@ FAM
-1 HUSB @I8@
+1 HUSB @I9@
 1 WIFE @I7@
 1 CHIL @I14@
 1 _CURRENT N
-0 @F6@ FAM
-1 HUSB @I11@
+0 @F5@ FAM
+1 HUSB @I13@
 1 WIFE @I10@
 1 _CURRENT N
 0 TRLR
