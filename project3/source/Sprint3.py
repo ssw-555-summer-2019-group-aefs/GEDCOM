@@ -154,6 +154,6 @@ def get_recent_block(individuals, families):
 
     us34(individuals, families)
     us35(individuals)
-    us36(individuals, families)
+    us36(individuals, families) # Calls US37
 
     return None
