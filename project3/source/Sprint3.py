@@ -70,12 +70,12 @@ def us36(individuals, families):
         pt = PrettyTable(field_names=["ID", "Name", "Relation"])
         if individuals[ind_id]['FAMS'] != 'NA':
             fam_id = individuals[ind_id]['FAMS']
-            if families[fam_id]['WIFE'] == individuals[ind_id]:
+            if families[fam_id]['WIFE'] == ind_id:
                 if families[fam_id]['HUSB'] != 'NA':
                     relation = 'Husband'
                     recent_survivor = [families[fam_id]['HUSB'], families[fam_id]['HNAME'], relation]
                     pt.add_row(recent_survivor)
-            elif families[fam_id]['HUSB'] == individuals[ind_id]:
+            elif families[fam_id]['HUSB'] == ind_id:
                 if families[fam_id]['WIFE'] != 'NA':
                     relation = 'Wife'
                     recent_survivor = [families[fam_id]['WIFE'], families[fam_id]['WNAME'], relation]
@@ -95,12 +95,12 @@ def us36(individuals, families):
             survivors = True
             while survivors:
                 if families[next_fam_id]['CHIL'] != 'NA':
-                    chil_id_list[generation].append(families[next_fam_id]['CHIL'])
+                    chil_id_list[generation].extend(families[next_fam_id]['CHIL'])
                     chil_list_len = len(chil_id_list[generation])
                     for i in range(chil_list_len):
                         chk_fam = chil_id_list[generation][i]
                         if individuals[chk_fam]['FAMS'] != 'NA':
-                            fam_id_list.append(individuals[chk_fam]['FAMS'])
+                            fam_id_list.extend(individuals[chk_fam]['FAMS'])
                         if i == chil_list_len - 1:    
                             generation += 1
                     next_fam_id = fam_id_list[cnt]
