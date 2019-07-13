@@ -100,7 +100,7 @@ def us36(individuals, families):
                     for i in range(chil_list_len):
                         chk_fam = chil_id_list[generation][i]
                         if individuals[chk_fam]['FAMS'] != 'NA':
-                            fam_id_list.extend(individuals[chk_fam]['FAMS'])
+                            fam_id_list.extend([individuals[chk_fam]['FAMS']])
                         if i == chil_list_len - 1:    
                             generation += 1
                     next_fam_id = fam_id_list[cnt]
