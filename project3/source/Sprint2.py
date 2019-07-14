@@ -19,6 +19,7 @@
 # US33:  List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
 
 import datetime
+import unittest
 from util_date import Date
 from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
@@ -47,61 +48,90 @@ def get_dates_diff(dt1, dt2=None):
     return difference/conversion[time_typ], time_typ
 
 
-def us13(children, num_chil, fam_id, individuals):
+def us13(children, num_chil, fam_id, individuals, test=False):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
 
-    bd_dict = defaultdict(list)
-    for i in range(num_chil):
-        bd_key = individuals[children[i]]['BIRT'].date_time_obj
-        if Date.is_valid_date(bd_key):
-            if bd_key not in bd_dict:
-                bd_dict[bd_key] = [children[i]]
-            else:
-                bd_dict[bd_key].append(children[i])
-    
-    test_next = True
-    errors = list()
-    us14_error = False
-    us32_error = ''
+    if test == True:
+        error1, error2 = False, False
+        error3 = ''
+        errors = list()
+        bd_dict = defaultdict(list)
+        for i in range(num_chil):
+            bd_key = individuals[children[i]]['BIRT'].date_time_obj
+            if Date.is_valid_date(bd_key):
+                if bd_key not in bd_dict:
+                    bd_dict[bd_key] = [children[i]]
+                else:
+                    bd_dict[bd_key].append(children[i])
+        
+        test_next = True
 
-    for bd_child, child in sorted(bd_dict.items(), reverse=True):
-        error = False
-        if len(bd_dict[bd_child]) == 1:
-            if test_next:
-                bd_sib1 = bd_child
-                child1 = child
-                test_next = False
-            else:
-                bd_sib2 = bd_child
-                child2 = child
-                diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
-                if time_typ == 'years':
-                    continue
-                elif time_typ == 'months' and diff < 8:
-                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born less than 8 months apart.")
-                    error = True
-                elif time_typ == 'days' and diff > 2:
-                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days apart.")
-                    error = True
+        for bd_child, child in sorted(bd_dict.items(), reverse=True):
+            error = False
+            if len(bd_dict[bd_child]) == 1:
+                if test_next:
+                    bd_sib1 = bd_child
+                    child1 = child
+                    test_next = False
+                else:
+                    bd_sib2 = bd_child
+                    child2 = child
+                    diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
+                    if time_typ == 'years':
+                        continue
+                    elif time_typ == 'months' and diff < 8:
+                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                        error1 = True
+                    elif time_typ == 'days' and diff > 2:
+                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                        error1 = True
+                    test_next = True
+
+            elif len(bd_dict[bd_child]) > 1:
+                error2, error3 = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals, test)
+                test_next = True
+            
+        errors = [error1, error2, error3]
+        return errors
+    else:
+        bd_dict = defaultdict(list)
+        for i in range(num_chil):
+            bd_key = individuals[children[i]]['BIRT'].date_time_obj
+            if Date.is_valid_date(bd_key):
+                if bd_key not in bd_dict:
+                    bd_dict[bd_key] = [children[i]]
+                else:
+                    bd_dict[bd_key].append(children[i])
+        
+        test_next = True
+
+        for bd_child, child in sorted(bd_dict.items(), reverse=True):
+            if len(bd_dict[bd_child]) == 1:
+                if test_next:
+                    bd_sib1 = bd_child
+                    child1 = child
+                    test_next = False
+                else:
+                    bd_sib2 = bd_child
+                    child2 = child
+                    diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
+                    if time_typ == 'years':
+                        continue
+                    elif time_typ == 'months' and diff < 8:
+                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                    elif time_typ == 'days' and diff > 2:
+                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                    test_next = True
+
+            elif len(bd_dict[bd_child]) > 1:
                 test_next = True
 
-        elif len(bd_dict[bd_child]) > 1:
-            us14_error, us32_error = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals)
-            test_next = True
-        errors.append(error)
-
-    us13_error = False
-    if True in errors:
-        us13_error = True
-
-    return us13_error, us14_error, us32_error
 
 
-
-def us14(num_mults, birthdate, mults, fam_id, individuals):
+def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
     """ No more than five siblings should be born at the same time. """
 
-    def us32(birthdate, fam_id, mults, num_mults, individuals):
+    def us32(birthdate, fam_id, mults, num_mults, individuals, test=False):
         """ List all multiple births in a GEDCOM file. """
 
         print(f"US32: List: The following '{num_mults}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
@@ -110,57 +140,82 @@ def us14(num_mults, birthdate, mults, fam_id, individuals):
             mults_info_list = [mults[i], individuals[mults[i]]['NAME']]
             pt.add_row(mults_info_list)
         print(pt)
+        if test == True:
+            return str(pt)
+        else:
+            return None
 
-        return str(pt)
-    
-    error = False
-    if num_mults > 5:
-        print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-        error = True
-    us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
+    if test == True:
+        us14_error = False
+        if num_mults > 5:
+            print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
+            error = True
+        us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
 
-    return error, us32_error
+        return us14_error, us32_error
+    else:
+        if num_mults > 5:
+            print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
+        us32(birthdate, fam_id, mults, num_mults, individuals, test)
+
+        return None
 
 
-def us15(children, num_chil, fam_id):
+def us15(children, num_chil, fam_id, test=False):
     """ There should be fewer than 15 siblings in a family. """
 
-    error = False
-    if num_chil >= 15:
-        print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
-        error = True
-    
-    return error
+    if test == True:
+        error = False
+        if num_chil >= 15:
+            print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
+            error = True  
+        return error
+    else:
+        if num_chil >= 15:
+            print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
+        return None
 
 
-def us17(fam_id, husb_id, wife_id, individuals):
+def us17(fam_id, husb_id, wife_id, individuals, test=False):
     """ Parents should not marry any of their children. """
 
-    error = False
-    if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
-        if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
-            print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-            error = True
-    elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
-        if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
-            print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
-            error = True
+    if test == True:
+        error = False
+        if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
+            if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
+                print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+                error = True
+        elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
+            if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
+                print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
+                error = True
+        return error
+    else:
+        if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
+            if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
+                print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+        elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
+            if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
+                print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
+        return None
 
-    return error
 
-
-def us18(husb_id, wife_id, fam_id, individuals):
+def us18(husb_id, wife_id, fam_id, individuals, test=False):
     """ Siblings should not marry one another. """
 
-    error = False
-    if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
-        print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
-        error = True
-            
-    return error
+    if test == True:
+        error = False
+        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
+            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+            error = True
+        return error
+    else:
+        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
+            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+        return None
             
     
-def us28(children, num_chil, fam_id, individuals):
+def us28(children, num_chil, fam_id, individuals, test=False):
     """ List siblings in families by decreasing age, i.e. oldest siblings first. """
     # Needs Revision: import from gedcom_file_parser and use print_individuals_pretty_table function?
 
@@ -183,17 +238,18 @@ def us28(children, num_chil, fam_id, individuals):
         elif child_list_len > 1:
             for i in range(child_list_len):
                 child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
-                pt.add_row(child_info)
-    print(pt)    
-
-    return str(pt)              
+                pt.add_row(child_info)    
+    
+    if test == True:
+        return str(pt)
+    else:
+        print(pt)              
     
 
-def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
+def us33(children, num_chil, fam_id, husb_id, wife_id, individuals, test=False):
     """ List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file. """
 
     orphan_info = defaultdict(list)
-    error = False
     for i in range(num_chil):
         if individuals[children[i]]['AGE'] != 'NA' and individuals[children[i]]['AGE'] < 18:
             orphan_info[i] = [children[i], individuals[children[i]]['NAME']]
@@ -204,32 +260,22 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals):
         pt = PrettyTable(field_names=["ID", "Name"])
         for i in range(num_orphans-1):
             pt.add_row(orphan_info[i])
-        print(pt)
-        return str(pt)
-    else:
-        return error
+        if test == True:
+            return str(pt)
+        else:
+            print(pt)
 
 
 def get_child_block(individuals, families):
     """ Get the children. """
     # Notes: us28, us32, us33 return prettytable for testing
 
-    errors = dict()
-    us13_errors = dict()
-    us14_errors = dict()
-    us15_errors = dict()
-    us17_errors = dict()
-    us18_errors = dict()
-    us28_errors = dict()
-    us32_errors = dict()
-    us33_errors = dict()
-    i = 0
     for fam_id, fam in families.items():  # each fam is dict with the attributes of the family
         if fam['CHIL'] == 'NA':
             husb_id = fam['HUSB']
             wife_id = fam['WIFE']
             if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
-                us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)
+                us18(husb_id, wife_id, fam_id, individuals)
             continue
         else:
             children = fam['CHIL']
@@ -237,19 +283,153 @@ def get_child_block(individuals, families):
             husb_id = fam['HUSB']
             wife_id = fam['WIFE']
             if individuals[husb_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMC'] != 'NA':
-                us18_errors[i] = us18(husb_id, wife_id, fam_id, individuals)           
-            us13_errors[i], us14_errors[i], us32_errors[i] = us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
-            us15_errors[i] = us15(children, num_chil, fam_id)
-            us17_errors[i] = us17(fam_id, husb_id, wife_id, individuals)
-            us28_errors[i] = us28(children, num_chil, fam_id, individuals)
+                us18(husb_id, wife_id, fam_id, individuals)           
+            us13(children, num_chil, fam_id, individuals) #Also calls US14 and US32
+            us15(children, num_chil, fam_id)
+            us17(fam_id, husb_id, wife_id, individuals)
+            us28(children, num_chil, fam_id, individuals)
             if individuals[fam['HUSB']]['DEAT'] != 'NA' and individuals[fam['WIFE']]['DEAT'] != 'NA':
-                us33_errors[i] = us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
-        i+=1
-    
-    errors = {'us13':us13_errors, 'us14':errors, 'us15': us15_errors, 'us17':us17_errors, 'us18':us18_errors, 'us28':us28_errors, 'us32':us32_errors, 'us33':us33_errors}
+                us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
+        
 
     return errors
 
 
+class TestSuite(unittest.TestCase):
+    def __init__(self):
+        self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
+        self.individuals, self.families = print_pretty_table(self.directory_path)
+    
+    def test_us13(self):
+        """ Test for US13"""
+        # Test with GEDCOM family @F1@
+    
+        test = True
+        fam_id = '@F3@'
+        children = ['@I1@', '@I5@']
+        num_chil = 2
+        error_chk = [True, False, '']
+        self.assertEqual(us_13(children, num_chil, fam_id, self.individuals, test), error_chk)
 
+    def test_us14_us32(self):
+        """ Test for US14 and US32"""
+        # Test with GEDCOM family @F1@
+    
+        test = True
+        fam_id = '@F1@'
+        mults = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
+        num_mults = 16
+        birthdate = '27 May 2018'
+        # Expected Result for US32
+        us32_pt = PrettyTable(field_names=["ID", "Name"])
+        us32_pt.add_row(['@I3@','Emma /Rose/'])
+        us32_pt.add_row(['@I7@','Isabel /Rose/'])
+        us32_pt.add_row(['@I8@','Angela /Rose/'])
+        us32_pt.add_row(['@I9@','Trish /Rose/'])
+        us32_pt.add_row(['@I10@','Ethan /Rose/'])
+        us32_pt.add_row(['@I11@','Ian /Rose/'])
+        us32_pt.add_row(['@I12@','Michael /Rose/'])
+        us32_pt.add_row(['@I13@','Richelle /Rose/'])
+        us32_pt.add_row(['@I14@','Matthew /Rose/'])
+        us32_pt.add_row(['@I15@','Luke /Rose/'])
+        us32_pt.add_row(['@I16@','Cynthia /Rose/'])
+        us32_pt.add_row(['@I17@','Frederick /Rose/'])
+        us32_pt.add_row(['@I18@','Tina /Rose/'])
+        us32_pt.add_row(['@I19@','Tanya /Rose/'])
+        us32_pt.add_row(['@I20@','Emmy /Rose/'])
+        us32_pt.add_row(['@I21@','Thomas /Rose/'])
+        us32_str = str(us32_pt)
+        error_chk = [True, us32_str]
+        self.assertEqual(us_14(num_mults, birthdate, mults, fam_id, self.individuals, test), error_chk)
+        return None
+
+    def test_us15(self):
+        """ Test for US15"""
+        # Test with GEDCOM family @F1@
+    
+        test = True
+        fam_id = '@F1@'
+        children = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
+        num_chil = 16    
+        error_chk = [True]
+        self.assertEqual(us_15(children, num_chil, fam_id, test), error_chk)
+        return None
+
+    def test_us17(self):
+        """ Test for US17"""
+        # Test with GEDCOM individual @I2@
+    
+        test = True
+        husb_id = '@I2@'
+        wife_id = '@I9@'
+        fam_id = '@F1@'  
+        error_chk = [True]
+        self.assertEqual(us_17(fam_id, husb_id, wife_id, self.individuals, test), error_chk)
+        return None
+
+    def test_us18(self):
+        """ Test for US18"""
+        # Test with GEDCOM family @F4@
+    
+        test = True
+        husb_id = '@I17@'
+        wife_id = '@I16@'
+        fam_id = '@F4@'  
+        error_chk = [True]
+        self.assertEqual(us_18(husb_id, wife_id, fam_id, self.individuals, test), error_chk)
+        return None
+
+    def test_us28(self):
+        """ Test for US28"""
+        # Test with GEDCOM family @F3@
+    
+        test = True
+        children = ['@I1@', '@I5@']
+        num_chil = 2
+        fam_id = '@F3@'
+        # Expected Result for US28
+        us28_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+        us28_pt.add_row(['@I1@','Tristin /Evans/', '12 Apr 1987'])
+        us28_pt.add_row(['@I5@','Aeryn /Evans/', '30 Apr 1987'])
+        us28_str = str(us28_pt)
+        error_chk = us28_str
+        self.assertEqual(us_28(children, num_chil, fam_id, self.individuals, test), error_chk)
+        return None
+
+    def test_us33(self):
+        """ Test for US33"""
+        # Test with GEDCOM family @F3@
+    
+        test = True
+        husb_id = '@I2@'
+        wife_id = '@I9@'
+        children = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
+        num_chil = 16
+        fam_id = '@F1@'
+        # Expected Result for US33
+        us33_pt = PrettyTable(field_names=["ID", "Name"])
+        us33_pt.add_row(['@I3@','Emma /Rose/'])
+        us33_pt.add_row(['@I7@','Isabel /Rose/'])
+        us33_pt.add_row(['@I8@','Angela /Rose/'])
+        us33_pt.add_row(['@I9@','Trish /Rose/'])
+        us33_pt.add_row(['@I10@','Ethan /Rose/'])
+        us33_pt.add_row(['@I11@','Ian /Rose/'])
+        us33_pt.add_row(['@I12@','Michael /Rose/'])
+        us33_pt.add_row(['@I13@','Richelle /Rose/'])
+        us33_pt.add_row(['@I14@','Matthew /Rose/'])
+        us33_pt.add_row(['@I15@','Luke /Rose/'])
+        us33_pt.add_row(['@I16@','Cynthia /Rose/'])
+        us33_pt.add_row(['@I17@','Frederick /Rose/'])
+        us33_pt.add_row(['@I18@','Tina /Rose/'])
+        us33_pt.add_row(['@I19@','Tanya /Rose/'])
+        us33_pt.add_row(['@I20@','Emmy /Rose/'])
+        us33_pt.add_row(['@I21@','Thomas /Rose/'])
+        us33_str = str(us33_pt)
+        error_chk = us33_str
+        self.assertEqual(us_33(children, num_chil, fam_id, husb_id, wife_id, self.individuals, test), error_chk)
+        return None
+
+if __name__ == '__main__':
+    unittest.main()
     
