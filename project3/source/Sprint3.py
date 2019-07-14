@@ -103,14 +103,17 @@ def us36(individuals, families):
                             fam_id_list.extend([individuals[chk_fam]['FAMS']])
                         if i == chil_list_len - 1:    
                             generation += 1
-                    next_fam_id = fam_id_list[cnt]
-                    cnt += 1
+                    curr_tot_fam = len(fam_id_list)
+                    if cnt < curr_tot_fam:
+                        next_fam_id = fam_id_list[cnt]
+                        cnt += 1
+                    else:
+                        survivors = False
                 else:
                     curr_tot_fam = len(fam_id_list)
                     if cnt < curr_tot_fam:
                         next_fam_id = fam_id_list[cnt]
                         cnt += 1
-                        survivors = True
                     else:
                         survivors = False
 
