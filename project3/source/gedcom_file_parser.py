@@ -142,10 +142,10 @@ def print_pretty_table(directory_path):
     individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
     print_families_pretty_table(families, individuals)
-    e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
-    e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
+    get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
+    get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
     get_recent_block(individuals, families) #US34, US35, US36, US37
-    errors = [e1, e2]
+    
 
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
@@ -154,7 +154,7 @@ def print_pretty_table(directory_path):
     check_bigamy(individuals, families) # US11
     check_parents_not_too_old(individuals, families) # US12
 
-    return errors
+    return None
 
 
 def print_individuals_pretty_table(individuals_dict):
