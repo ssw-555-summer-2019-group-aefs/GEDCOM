@@ -62,12 +62,35 @@ def us35(individuals):
 def us36(individuals, families):
     """ List all people in a GEDCOM file who died in the last 30 days. """
 
-
     def us37(ind_id, individuals, families):
         """ List all living spouses and descendants of people in a GEDCOM file who died in the last 30 days. """
        
-        print('US37: List:  The following people are living spouses and descendents of people who died within the last 30 days')
+        def get_descendants(ind_id, individuals, families):
+            """ return a set of individual ids of all descendants of ind_id """
+
+            descendants = set()
+
+            if individuals[ind_id]['FAMS'] != 'NA':
+
+                # an individual can be in more than one family
+
+                for fam_id in individuals[ind_id]['FAMS']:
+
+                    # get the descendants for all of ind_id's children
+
+                    if families[fam_id]['CHIL']:
+
+                        for child in families[fam_id]['CHIL']:
+
+                            descendants.add(child)  # this child is a descendant
+
+                            descendants.update(get_descendants(child))  # add all of the children of child to the set as well
+
+            return descendants
+
+        print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
         pt = PrettyTable(field_names=["ID", "Name", "Relation"])
+        
         if individuals[ind_id]['FAMS'] != 'NA':
             fam_id = individuals[ind_id]['FAMS']
             if families[fam_id]['WIFE'] == ind_id:
@@ -80,73 +103,23 @@ def us36(individuals, families):
                     relation = 'Wife'
                     recent_survivor = [families[fam_id]['WIFE'], families[fam_id]['WNAME'], relation]
                     pt.add_row(recent_survivor)
+        
+        for child in get_descendants(ind_id, individuals, families):
+            relation = 'Descendant'
+            recent_survivor = [child, individuals[child]['NAME'], relation]
+            pt.add_row(recent_survivor)
 
-            # Each While loop collects a list of children that serve as the value for a dictionary.  The key for that value is the generation (child, grandchild, etc.)
-            # A list of all related family ids is also appended each loop
-            # Step 1:  At generation zero append children list and add family ids to family id list for every FAMS != NA
-            # Step 2: At generation 1, add children from each of the families in the family id list, use cnt variable to increment through family id list with each while loop. 
-            # When all generation 1 children are checked, increment generation.
 
-            next_fam_id = fam_id
-            fam_id_list = list()
-            chil_id_list = defaultdict(list)
-            cnt = 0
-            generation = 0
-            survivors = True
-            while survivors:
-                if families[next_fam_id]['CHIL'] != 'NA':
-                    chil_id_list[generation].extend(families[next_fam_id]['CHIL'])
-                    chil_list_len = len(chil_id_list[generation])
-                    for i in range(chil_list_len):
-                        chk_fam = chil_id_list[generation][i]
-                        if individuals[chk_fam]['FAMS'] != 'NA':
-                            fam_id_list.extend([individuals[chk_fam]['FAMS']])
-                        if i == chil_list_len - 1:    
-                            generation += 1
-                    curr_tot_fam = len(fam_id_list)
-                    if cnt < curr_tot_fam:
-                        next_fam_id = fam_id_list[cnt]
-                        cnt += 1
-                    else:
-                        survivors = False
-                else:
-                    curr_tot_fam = len(fam_id_list)
-                    if cnt < curr_tot_fam:
-                        next_fam_id = fam_id_list[cnt]
-                        cnt += 1
-                    else:
-                        survivors = False
-
-            
-            for n in range(generation + 1):
-                if n == 0:
-                    relation = 'Child'
-                elif n == 1:
-                    relation = 'Grandchild'
-                elif n>1:
-                    relation = f"'{n}' x Great Grandchild"
-                
-                children = chil_id_list[n]
-                num_chil = len(children)
-                for y in range(num_chil):
-                    recent_survivor = [children[y], individuals[children[y]]['NAME'], relation]
-                    pt.add_row(recent_survivor)
-            
-            print(pt)
-
-            return None
-                    
-
-    print('US36: List:  The following people died within the last 30 days')
-    pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+    pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
     for ind_id, ind in individuals.items():
         if Date.is_valid_date(ind['DEAT'].date_time_obj):
-            us37(ind_id, individuals, families)
             diff, time_typ = get_dates_diff(ind['DEAT'].date_time_obj)
             if time_typ == 'days' and diff <= 30:
+                us37(ind_id, individuals, families)
                 recent_deaths = [ind_id, ind['NAME'], (ind['DEAT'].date_time_obj).strftime('%d %b %Y')]
                 pt.add_row(recent_deaths)
-    
+
+    print('US36: List:  The following people died within the last 30 days')
     print(pt)
 
     return None
