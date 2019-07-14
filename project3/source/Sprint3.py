@@ -68,25 +68,20 @@ def us36(individuals, families):
         def get_descendants(ind_id, individuals, families):
             """ return a set of individual ids of all descendants of ind_id """
 
-            descendants = set()
+            descendants = list()
 
-            if individuals[ind_id]['FAMS'] != 'NA':
+            if individuals[ind_id]['FAMS'] != 'NA' and families[fam_id]['CHIL'] != 'NA':
 
-                # an individual can be in more than one family
+                for child in families[fam_id]['CHIL']:
+                    desc =[child]
+                    descendants.extend(desc)  # this child is a descendant
+                    descendants.extend(get_descendants(child, individuals, families))  # add all of the children of child to the list as well
+                
+                return descendants
+            else:
+                return []
+            # End get_descendants
 
-                for fam_id in individuals[ind_id]['FAMS']:
-
-                    # get the descendants for all of ind_id's children
-
-                    if families[fam_id]['CHIL']:
-
-                        for child in families[fam_id]['CHIL']:
-
-                            descendants.add(child)  # this child is a descendant
-
-                            descendants.update(get_descendants(child))  # add all of the children of child to the set as well
-
-            return descendants
 
         print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
         pt = PrettyTable(field_names=["ID", "Name", "Relation"])
@@ -103,12 +98,16 @@ def us36(individuals, families):
                     relation = 'Wife'
                     recent_survivor = [families[fam_id]['WIFE'], families[fam_id]['WNAME'], relation]
                     pt.add_row(recent_survivor)
-        
-        for child in get_descendants(ind_id, individuals, families):
-            relation = 'Descendant'
-            recent_survivor = [child, individuals[child]['NAME'], relation]
-            pt.add_row(recent_survivor)
 
+        descendants = get_descendants(ind_id, individuals, families)
+        if  descendants is not []:
+            len_desc = len(descendants)
+            for i in range(len_desc):
+                child = descendants[i]
+                recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
+                pt.add_row(recent_survivor)
+        print(pt)
+        # End US37
 
     pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
     for ind_id, ind in individuals.items():
