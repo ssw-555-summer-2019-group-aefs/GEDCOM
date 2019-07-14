@@ -399,7 +399,7 @@ class TestSuite(unittest.TestCase):
 
     def test_us33(self):
         """ Test for US33"""
-        # Test with GEDCOM family @F3@
+        # Test with GEDCOM family @F1@
     
         test = True
         husb_id = '@I2@'
