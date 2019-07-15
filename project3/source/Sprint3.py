@@ -16,37 +16,56 @@
 import datetime
 from prettytable import PrettyTable
 from collections import defaultdict
-from project3.source.util_date import Date
-from project3.source.Sprint2 import get_dates_diff
+from util_date import Date
+from Sprint2 import get_dates_diff
 
 #
 # Begin Sprint 3 Recents Block
 #
 
-def us34(individuals, families):
+def us34(individuals, families, fam_id='', test=False):
     """ List all couples who were married when the older spouse was more than twice as old as the younger spouse. """
     
-    husb_bd, wife_bd, marr_dt = None, None, None
-    for fam_id, fam in families.items():
-        if fam['HUSB'] != 'NA' and Date.is_valid_date(individuals[fam['HUSB']]['BIRT'].date_time_obj):
-            husb_id = fam['HUSB']
+    if test == True:
+        errors = list()
+        error1, error2 = False, False
+        if families[fam_id]['HUSB'] != 'NA' and Date.is_valid_date(individuals[families[fam_id]['HUSB']]['BIRT'].date_time_obj):
+            husb_id = families[fam_id]['HUSB']
             husb_bd = individuals[husb_id]['BIRT'].date_time_obj
-        if fam['WIFE'] != 'NA' and Date.is_valid_date(individuals[fam['WIFE']]['BIRT'].date_time_obj):
-            wife_id = fam['WIFE']
+        if families[fam_id]['WIFE'] != 'NA' and Date.is_valid_date(individuals[families[fam_id]['WIFE']]['BIRT'].date_time_obj):
+            wife_id = families[fam_id]['WIFE']
             wife_bd = individuals[wife_id]['BIRT'].date_time_obj
-        if fam['MARR'] != 'NA' and Date.is_valid_date(fam['MARR'].date_time_obj):
-            marr_dt = fam['MARR'].date_time_obj
+        if families[fam_id]['MARR'] != 'NA' and Date.is_valid_date(families[fam_id]['MARR'].date_time_obj):
+            marr_dt = families[fam_id]['MARR'].date_time_obj
         check = [husb_bd, wife_bd, marr_dt]
         if None not in check:
             if Date.get_dates_difference(husb_bd, marr_dt) > (2 * Date.get_dates_difference(wife_bd, marr_dt)):
-                print(f"US34: Husband '{husb_id}' was more than twice as old as wife '{wife_id}' in family '{fam_id}' on marriage date '{marr_dt}'.")
+                error1 = True
             elif Date.get_dates_difference(wife_bd, marr_dt) > (2 * Date.get_dates_difference(husb_bd, marr_dt)):
-                print(f"US34: Wife '{wife_id}' was more than twice as old as wife '{husb_id}' in family '{fam_id}' on marriage date '{marr_dt}'.")
-        
-    return None
+                error2 = True
+        errors = [error1, error2]
+        return errors
+    else:
+        husb_bd, wife_bd, marr_dt = None, None, None
+        for fam_id, fam in families.items():
+            if fam['HUSB'] != 'NA' and Date.is_valid_date(individuals[fam['HUSB']]['BIRT'].date_time_obj):
+                husb_id = fam['HUSB']
+                husb_bd = individuals[husb_id]['BIRT'].date_time_obj
+            if fam['WIFE'] != 'NA' and Date.is_valid_date(individuals[fam['WIFE']]['BIRT'].date_time_obj):
+                wife_id = fam['WIFE']
+                wife_bd = individuals[wife_id]['BIRT'].date_time_obj
+            if fam['MARR'] != 'NA' and Date.is_valid_date(fam['MARR'].date_time_obj):
+                marr_dt = fam['MARR'].date_time_obj
+            check = [husb_bd, wife_bd, marr_dt]
+            if None not in check:
+                if Date.get_dates_difference(husb_bd, marr_dt) > (2 * Date.get_dates_difference(wife_bd, marr_dt)):
+                    print(f"US34: Husband '{husb_id}' was more than twice as old as wife '{wife_id}' in family '{fam_id}' on marriage date '{marr_dt}'.")
+                elif Date.get_dates_difference(wife_bd, marr_dt) > (2 * Date.get_dates_difference(husb_bd, marr_dt)):
+                    print(f"US34: Wife '{wife_id}' was more than twice as old as wife '{husb_id}' in family '{fam_id}' on marriage date '{marr_dt}'.")
+        return None
 
 
-def us35(individuals):
+def us35(individuals, test=False):
     """ List all people in a GEDCOM file who were born in the last 30 days. """
     
     print('US35: List:  The following people were born within the last 30 days')
@@ -57,10 +76,12 @@ def us35(individuals):
             if time_typ == 'days' and diff <= 30:
                 recent_births = [ind_id, ind['NAME'], (ind['BIRT'].date_time_obj).strftime('%d %b %Y')]
                 pt.add_row(recent_births)
-
-    print(pt)
-
-    return None
+    
+    if test == True:
+        return(str(pt))
+    else:
+        print(pt)
+        return None
 
 def us36(individuals, families):
     """ List all people in a GEDCOM file who died in the last 30 days. """

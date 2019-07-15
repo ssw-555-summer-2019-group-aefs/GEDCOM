@@ -19,8 +19,8 @@
 # US33:  List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
 
 import datetime
-from project3.source.util_date import Date
-from project3.source.gedcom_file_parser import print_individuals_pretty_table
+from util_date import Date
+from gedcom_file_parser import print_individuals_pretty_table
 from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
 

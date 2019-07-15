@@ -1,21 +1,21 @@
 import unittest
 import os
 import sys
-from project3.source.gedcom_file_parser import print_pretty_table
-import project3.source.util_date
-import project3.source.US07_US08_Test_Suite
-import project3.source.US22_unit_test
-import project3.source.unit_tests_us11_us12
-import project3.source.AWFS_TestSuite
+from gedcom_file_parser import print_pretty_table
+import util_date
+import US07_US08_Test_Suite
+import US22_unit_test
+import unit_tests_us11_us12
+import AWFS_TestSuite
 
 if __name__ == '__main__':
     dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
     print_pretty_table(f"{dir_path}/data/sprint2userstorytest.ged")
-    suit1 = unittest.TestLoader().loadTestsFromModule(project3.source.util_date)
-    suit2 = unittest.TestLoader().loadTestsFromModule(project3.source.AWFS_TestSuite)
-    suit3 = unittest.TestLoader().loadTestsFromModule(project3.source.US07_US08_Test_Suite)
-    suit4 = unittest.TestLoader().loadTestsFromModule(project3.source.unit_tests_us11_us12)
-    suit5 = unittest.TestLoader().loadTestsFromModule(project3.source.US22_unit_test)
+    suit1 = unittest.TestLoader().loadTestsFromModule(util_date)
+    suit2 = unittest.TestLoader().loadTestsFromModule(AWFS_TestSuite)
+    suit3 = unittest.TestLoader().loadTestsFromModule(US07_US08_Test_Suite)
+    suit4 = unittest.TestLoader().loadTestsFromModule(unit_tests_us11_us12)
+    suit5 = unittest.TestLoader().loadTestsFromModule(US22_unit_test)
 
     test_result1 = unittest.TextTestRunner(verbosity=2).run(suit1).wasSuccessful()
     test_result2 = unittest.TextTestRunner(verbosity=2).run(suit2).wasSuccessful()

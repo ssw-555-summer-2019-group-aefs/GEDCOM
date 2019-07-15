@@ -15,7 +15,7 @@
 # US10:  Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
 
 import datetime
-from project3.source.util_date import Date
+from util_date import Date
 
 #
 # Begin Sprint 1 Spouse Block

@@ -9,12 +9,12 @@
 import unittest
 import os
 from prettytable import PrettyTable
-from project3.source.utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
-from project3.source.util_date import Date
-from project3.source.gedcom_file_parser import print_pretty_table
-from project3.source.Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
-from project3.source.Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
-from project3.source.Sprint3 import get_recent_block, us34, us35, us36, us37
+from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
+from util_date import Date
+from gedcom_file_parser import print_pretty_table
+from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
+from Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
+from Sprint3 import get_recent_block, us34, us35, us36, us37
 
 
 class TestSuite(unittest.TestCase):
@@ -251,11 +251,30 @@ class TestSuite(unittest.TestCase):
 #
 
     def test_us34(self):
-            """ Test for US34"""
-            # Test with GEDCOM family 
+        """ Test for US34"""
+        # Test with GEDCOM family @F@
+    
+        test = True
+        fam_id = '@F@'
+        error_chk = []
+        self.assertEqual(us34(self.individuals, self.families, fam_id, test), error_chk)
         
-            test = True
-            
+        return None
+    
+    def test_us35(self):
+        """ Test for US35"""
+        # Test with GEDCOM family @F@
+    
+        test = True
+        # Expected Result for US35
+        us35_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
+        us35_pt.add_row(['@I3@','Emma /Rose/'])
+        us35_str = str(us35_pt)
+        error_chk = us35_str
+        self.assertEqual(us35(self.individuals, test), error_chk)
+        
+        return None
+
 
 if __name__ == '__main__':
     unittest.main()
