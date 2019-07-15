@@ -20,7 +20,7 @@
 
 import datetime
 from util_date import Date
-from gedcom_file_parser import print_individuals_pretty_table
+#from gedcom_file_parser import print_individuals_pretty_table
 from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
 
