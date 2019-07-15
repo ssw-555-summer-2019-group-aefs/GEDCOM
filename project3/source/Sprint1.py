@@ -15,9 +15,11 @@
 # US10:  Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
 
 import datetime
-from util_date import Date
-import unittest
+from project3.source.util_date import Date
 
+#
+# Begin Sprint 1 Spouse Block
+#
 
 def date_before(dt1, dt2):
     """ Send two dates to Date class for comparison """
@@ -287,95 +289,3 @@ def get_spouse_block(individuals, families):
     
     return None
 
-class TestSuite(unittest.TestCase):
-    def __init__(self):
-        self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
-        self.individuals, self.families = print_pretty_table(self.directory_path)
-    
-    def test_us01(self):
-        """ Test for US01 """
-        # Test with GEDCOM individual @I4@
-    
-        test = True
-        test_id = '@I4@'
-        error_chk = [False, True, False, False]
-        self.assertEqual(us_01(self.individuals, self.families, test_id, test), error_chk)
-
-        return None
-    
-    def test_us02_us10(self):
-        """ Test for US02 and US10 """
-        # Test with GEDCOM individual @I4@
-
-        test = True
-        husb_id = '@I4@'
-        wife_id = '@I6@'
-        husb_birth_dt = '18 Jun 2021'
-        wife_birth_dt = '18 Jun 2000'
-        marriage_dt = '18 Jun 2019'
-        fam_id = '@F3@'
-        error_chk = [True, False, True, False]
-        self.assertEqual(us_02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, test), error_chk)
-
-        return None
-
-    def test_us03(self):
-        """ Test for US03 """
-        # Test with GEDCOM individual @I4@
-
-        test = True
-        error_chk = '@I4@'
-        self.assertEqual(us_03(self.individuals, test), error_chk)
-
-        return None
-
-    def test_us04(self):
-        """ Test for US04 """
-        # Test with GEDCOM individual @I4@
-
-        test = True
-        husb_id = '@I4@'
-        wife_id = '@I6@'
-        marriage_dt = '18 Jun 2019'
-        divorce_dt = '18 Jun 2018'
-        fam_id = '@F3@'
-        error_chk = True
-        self.assertEqual(us_04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test), error_chk)
-
-        return None
-    
-    def test_us05(self):
-        """ Test for US05 """
-        # Test with GEDCOM individual @I6@
-
-        test = True
-        husb_id = '@I4@'
-        wife_id = '@I6@'
-        husb_death_dt = '18 Jun 2020'
-        wife_death_dt = '18 Jun 2017'
-        marriage_dt = '18 Jun 2019'
-        fam_id = '@F3@'
-        error_chk = [False, True]
-        self.assertEqual(us_05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, test), error_chk)
-
-        return None
-
-    def test_us06(self):
-        """ Test for US06 """
-        # Test with GEDCOM individual @I6@
-
-        test = True
-        husb_id = '@I4@'
-        wife_id = '@I6@'
-        husb_death_dt = '18 Jun 2020'
-        wife_death_dt = '18 Jun 2017'
-        divorce_dt = '18 Jun 2018'
-        fam_id = '@F3@'
-        error_chk = [False, True]
-        self.assertEqual(us_06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id, test), error_chk)
-
-        return None
-
-if __name__ == '__main__':
-    unittest.main()

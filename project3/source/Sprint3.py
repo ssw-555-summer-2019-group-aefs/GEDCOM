@@ -14,11 +14,14 @@
 # US37:  List all living spouses and descendants of people in a GEDCOM file who died in the last 30 days
 
 import datetime
-from util_date import Date
-from Sprint2 import get_dates_diff
 from prettytable import PrettyTable
 from collections import defaultdict
+from project3.source.util_date import Date
+from project3.source.Sprint2 import get_dates_diff
 
+#
+# Begin Sprint 3 Recents Block
+#
 
 def us34(individuals, families):
     """ List all couples who were married when the older spouse was more than twice as old as the younger spouse. """
