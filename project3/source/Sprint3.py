@@ -92,12 +92,15 @@ def us36(individuals, families):
                 # get the descendants for all of ind_id's children
                 fam_id = individuals[ind_id]['FAMS']
                 if families[fam_id]['CHIL'] != 'NA':
+                    child_in_desc = False
                     for child in families[fam_id]['CHIL']:
                         if child not in descendants:
                             descendants.add(child)  # this child is a descendant
                             descendants.update(get_descendants(child, individuals, families, descendants))  # add all of the children of child to the set as well
                         else:
-                            print(f"WARNING: {ind_id} is a descendant of him/her self in {fam_id}")
+                            child_in_desc = True
+                    if child_in_desc == True:
+                        print(f"WARNING: {ind_id} is a descendant of him/her self in {fam_id}")  
             return descendants
 
         print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
