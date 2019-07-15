@@ -274,6 +274,27 @@ class TestSuite(unittest.TestCase):
         self.assertEqual(us35(self.individuals, test), error_chk)
         
         return None
+    
+    def test_us36_us37(self):
+        """ Test for US36 and US37"""
+        # Test with GEDCOM individuals @I1@, @I2@, @I9@
+    
+        test = True
+        # Expected Result for US36
+        us36_pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
+        us36_pt.add_row(['@I1@','Tristin /Evans/', '04 Jul 2019'])
+        us36_pt.add_row(['@I2@','Angelo /Rose/', '04 Jul 2019'])
+        us36_pt.add_row(['@I9@','Trish /Rose/', '04 Jul 2019'])
+        us36_str = str(us36_pt)
+        
+        # Expected Result for US37
+        us37_pt = PrettyTable(field_names=["ID", "Name", "Relation"])
+        us37_pt.add_row([])
+        us37_str = str(us37_pt)
+        error_chk = (us36_str, us37_str)
+        self.assertEqual(us36(self.individuals, self.families, test), error_chk)
+        
+        return None
 
 
 if __name__ == '__main__':
