@@ -292,7 +292,7 @@ def get_child_block(individuals, families):
                 us33(children, num_chil, fam_id, husb_id, wife_id, individuals)
         
 
-    return errors
+    return None
 
 
 class TestSuite(unittest.TestCase):

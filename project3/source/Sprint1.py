@@ -34,7 +34,7 @@ def date_before(dt1, dt2):
         print('Data Error', dt1, dt2)
 
 
-def us01(individuals, families, ind_id, test=False):
+def us01(individuals, families, ind_id='', test=False):
     """ Check US01 Dates (birth, marriage, divorce, death) should not be after the current date."""
 
     

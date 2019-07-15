@@ -65,9 +65,8 @@ def us36(individuals, families):
     def us37(ind_id, individuals, families):
         """ List all living spouses and descendants of people in a GEDCOM file who died in the last 30 days. """
        
-        def get_descendants(ind_id, individuals, families):
+        def anthem_get_descendants(ind_id, individuals, families):
             """ return a set of individual ids of all descendants of ind_id """
-
             descendants = list()
 
             if individuals[ind_id]['FAMS'] != 'NA' and families[fam_id]['CHIL'] != 'NA':
@@ -82,6 +81,24 @@ def us36(individuals, families):
                 return []
             # End get_descendants
 
+        def get_descendants(ind_id, individuals, families, so_far=None):
+            """ return a set of individual ids of all descendants of ind_id """
+            if so_far is None:
+                descendants = set()
+            else:
+                descendants = so_far  # the descendants we've already checked
+                
+            if individuals[ind_id]['FAMS'] != 'NA':
+                # get the descendants for all of ind_id's children
+                fam_id = individuals[ind_id]['FAMS']
+                if families[fam_id]['CHIL'] != 'NA':
+                    for child in families[fam_id]['CHIL']:
+                        if child not in descendants:
+                            descendants.add(child)  # this child is a descendant
+                            descendants.update(get_descendants(child, individuals, families, descendants))  # add all of the children of child to the set as well
+                        else:
+                            print(f"WARNING: {ind_id} is a descendant of him/her self in {fam_id}")
+            return descendants
 
         print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
         pt = PrettyTable(field_names=["ID", "Name", "Relation"])
@@ -100,10 +117,16 @@ def us36(individuals, families):
                     pt.add_row(recent_survivor)
 
         descendants = get_descendants(ind_id, individuals, families)
+        """ OLD
         if  descendants is not []:
             len_desc = len(descendants)
             for i in range(len_desc):
                 child = descendants[i]
+                recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
+                pt.add_row(recent_survivor)
+        """
+        if len(descendants) > 0:
+            for child in descendants:
                 recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
                 pt.add_row(recent_survivor)
         print(pt)
@@ -111,7 +134,8 @@ def us36(individuals, families):
 
     pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
     for ind_id, ind in individuals.items():
-        if Date.is_valid_date(ind['DEAT'].date_time_obj):
+        if ind['DEAT'] != 'NA' and Date.is_valid_date(ind['DEAT'].date_time_obj):
+
             diff, time_typ = get_dates_diff(ind['DEAT'].date_time_obj)
             if time_typ == 'days' and diff <= 30:
                 us37(ind_id, individuals, families)
