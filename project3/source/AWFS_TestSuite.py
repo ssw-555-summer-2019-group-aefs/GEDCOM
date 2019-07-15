@@ -250,5 +250,12 @@ class TestSuite(unittest.TestCase):
 # Begin Sprint 3 Recents Block Tests
 #
 
+    def test_us34(self):
+            """ Test for US34"""
+            # Test with GEDCOM family 
+        
+            test = True
+            
+
 if __name__ == '__main__':
     unittest.main()
