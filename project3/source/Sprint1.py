@@ -45,7 +45,7 @@ def us01(individuals, families, ind_id='', test=False):
         error1, error2, error3, error4 = False, False, False, False
         if individuals[ind_id]['BIRT'] != 'NA' and type(individuals[ind_id]['BIRT'].date_time_obj) is not str:
             if Date.get_dates_difference(individuals[ind_id]['BIRT'].date_time_obj) < 0:
-                print(f"US01: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
+                print(f"US01: Error: Individual's '{ind_id}' birthday '{individuals['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                 error1 = True
             
         if individuals[ind_id]['DEAT'] != 'NA' and type(individuals[ind_id]['DEAT'].date_time_obj) is not str:
@@ -57,12 +57,12 @@ def us01(individuals, families, ind_id='', test=False):
         if individuals[ind_id]['FAMS'] != 'NA':
             if families[individuals[ind_id]['FAMS']]['MARR'] != "NA" and type(families[individuals[ind_id]['FAMS']]['MARR'].date_time_obj) is not str:
                 if families[individuals[ind_id]['FAMS']]['MARR'] != 'NA':
-                    if Date.get_dates_difference(families[ind['FAMS']]['MARR'].date_time_obj) < 0:
+                    if Date.get_dates_difference(families[individuals['FAMS']]['MARR'].date_time_obj) < 0:
                         print(f"US01: Error: Individual's '{ind_id}' marriage date '{families[individuals[ind_id]['FAMS']]['MARR'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                         error3 = True
 
             if families[individuals[ind_id]['FAMS']]['DIV'] != 'NA' and type(families[individuals[ind_id]['FAMS']]['DIV'].date_time_obj) is not str:
-                if Date.get_dates_difference(families[ind['FAMS']]['DIV'].date_time_obj) < 0:
+                if Date.get_dates_difference(families[individuals['FAMS']]['DIV'].date_time_obj) < 0:
                     print(f"US01: Error: Individual's '{ind_id}' divorce date '{families[individuals[ind_id]['FAMS']]['DIV'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                     error4 = True
 

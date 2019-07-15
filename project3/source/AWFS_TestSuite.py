@@ -2,18 +2,19 @@
 #Program name      : AWFS_TestSuite.py
 #Author            : Anthem Rukiya J. Wingate, Fran Sabetpour
 #Date created      : 07.15.2019
-#Purpose           : Unit tests for user story implementation
+#Purpose           : Unit tests for GEDCOM user story implementation
 #Revision History  : Version 1.0
 # Notes:  GEDCOM Project Test Suite
 
 import unittest
 import os
+from prettytable import PrettyTable
 from project3.source.utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from project3.source.util_date import Date
 from project3.source.gedcom_file_parser import print_pretty_table
-from project3.source.Sprint1 import get_spouse_block
-from project3.source.Sprint2 import get_child_block
-from project3.source.Sprint3 import get_recent_block
+from project3.source.Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
+from project3.source.Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
+from project3.source.Sprint3 import get_recent_block, us34, us35, us36, us37
 
 
 class TestSuite(unittest.TestCase):
@@ -22,6 +23,10 @@ class TestSuite(unittest.TestCase):
         self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
         self.individuals, self.families = print_pretty_table(self.directory_path)
     
+#
+# Begin Sprint 1 Spouse Block Tests
+#
+
     def test_us01(self):
         """ Test for US01 """
         # Test with GEDCOM individual @I4@
@@ -29,7 +34,7 @@ class TestSuite(unittest.TestCase):
         test = True
         test_id = '@I4@'
         error_chk = [False, True, False, False]
-        self.assertEqual(us_01(self.individuals, self.families, test_id, test), error_chk)
+        self.assertEqual(us01(self.individuals, self.families, test_id, test), error_chk)
 
         return None
     
@@ -45,7 +50,7 @@ class TestSuite(unittest.TestCase):
         marriage_dt = '18 Jun 2019'
         fam_id = '@F3@'
         error_chk = [True, False, True, False]
-        self.assertEqual(us_02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, test), error_chk)
+        self.assertEqual(us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, test), error_chk)
 
         return None
 
@@ -55,7 +60,7 @@ class TestSuite(unittest.TestCase):
 
         test = True
         error_chk = '@I4@'
-        self.assertEqual(us_03(self.individuals, test), error_chk)
+        self.assertEqual(us03(self.individuals, test), error_chk)
 
         return None
 
@@ -70,7 +75,7 @@ class TestSuite(unittest.TestCase):
         divorce_dt = '18 Jun 2018'
         fam_id = '@F3@'
         error_chk = True
-        self.assertEqual(us_04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test), error_chk)
+        self.assertEqual(us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test), error_chk)
 
         return None
     
@@ -86,7 +91,7 @@ class TestSuite(unittest.TestCase):
         marriage_dt = '18 Jun 2019'
         fam_id = '@F3@'
         error_chk = [False, True]
-        self.assertEqual(us_05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, test), error_chk)
+        self.assertEqual(us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, test), error_chk)
 
         return None
 
@@ -102,14 +107,14 @@ class TestSuite(unittest.TestCase):
         divorce_dt = '18 Jun 2018'
         fam_id = '@F3@'
         error_chk = [False, True]
-        self.assertEqual(us_06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id, test), error_chk)
+        self.assertEqual(us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id, test), error_chk)
 
         return None
 
-    def __init__(self):
-        self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
-        self.individuals, self.families = print_pretty_table(self.directory_path)
+    
+#
+# Begin Sprint 2 Child Block Tests
+#
     
     def test_us13(self):
         """ Test for US13"""
@@ -120,7 +125,7 @@ class TestSuite(unittest.TestCase):
         children = ['@I1@', '@I5@']
         num_chil = 2
         error_chk = [True, False, '']
-        self.assertEqual(us_13(children, num_chil, fam_id, self.individuals, test), error_chk)
+        self.assertEqual(us13(children, num_chil, fam_id, self.individuals, test), error_chk)
 
     def test_us14_us32(self):
         """ Test for US14 and US32"""
@@ -151,7 +156,7 @@ class TestSuite(unittest.TestCase):
         us32_pt.add_row(['@I21@','Thomas /Rose/'])
         us32_str = str(us32_pt)
         error_chk = [True, us32_str]
-        self.assertEqual(us_14(num_mults, birthdate, mults, fam_id, self.individuals, test), error_chk)
+        self.assertEqual(us14(num_mults, birthdate, mults, fam_id, self.individuals, test), error_chk)
         return None
 
     def test_us15(self):
@@ -163,7 +168,7 @@ class TestSuite(unittest.TestCase):
         children = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
         num_chil = 16    
         error_chk = [True]
-        self.assertEqual(us_15(children, num_chil, fam_id, test), error_chk)
+        self.assertEqual(us15(children, num_chil, fam_id, test), error_chk)
         return None
 
     def test_us17(self):
@@ -175,7 +180,7 @@ class TestSuite(unittest.TestCase):
         wife_id = '@I9@'
         fam_id = '@F1@'  
         error_chk = [True]
-        self.assertEqual(us_17(fam_id, husb_id, wife_id, self.individuals, test), error_chk)
+        self.assertEqual(us17(fam_id, husb_id, wife_id, self.individuals, test), error_chk)
         return None
 
     def test_us18(self):
@@ -187,7 +192,7 @@ class TestSuite(unittest.TestCase):
         wife_id = '@I16@'
         fam_id = '@F4@'  
         error_chk = [True]
-        self.assertEqual(us_18(husb_id, wife_id, fam_id, self.individuals, test), error_chk)
+        self.assertEqual(us18(husb_id, wife_id, fam_id, self.individuals, test), error_chk)
         return None
 
     def test_us28(self):
@@ -204,7 +209,7 @@ class TestSuite(unittest.TestCase):
         us28_pt.add_row(['@I5@','Aeryn /Evans/', '30 Apr 1987'])
         us28_str = str(us28_pt)
         error_chk = us28_str
-        self.assertEqual(us_28(children, num_chil, fam_id, self.individuals, test), error_chk)
+        self.assertEqual(us28(children, num_chil, fam_id, self.individuals, test), error_chk)
         return None
 
     def test_us33(self):
@@ -237,8 +242,13 @@ class TestSuite(unittest.TestCase):
         us33_pt.add_row(['@I21@','Thomas /Rose/'])
         us33_str = str(us33_pt)
         error_chk = us33_str
-        self.assertEqual(us_33(children, num_chil, fam_id, husb_id, wife_id, self.individuals, test), error_chk)
+        self.assertEqual(us33(children, num_chil, fam_id, husb_id, wife_id, self.individuals, test), error_chk)
         return None
+
+    
+#
+# Begin Sprint 3 Recents Block Tests
+#
 
 if __name__ == '__main__':
     unittest.main()
