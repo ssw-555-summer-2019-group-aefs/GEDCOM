@@ -10,6 +10,7 @@ from US07_US08_Source_File import check_150_years_age, check_birth_before_marria
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
+from US29_30_Source_File import print_list_deceased, print_list_living_married
 
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
@@ -154,6 +155,8 @@ def print_pretty_table(directory_path):
     print_duplicate_ids(duplicate_ids) #US22
     check_bigamy(individuals, families) # US11
     check_parents_not_too_old(individuals, families) # US12
+    print_list_deceased(individuals) #US29
+    print_list_living_married(individuals, families) #US30
 
     return errors
 
