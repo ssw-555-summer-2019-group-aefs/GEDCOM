@@ -113,9 +113,8 @@ def us36(individuals, families, test=False):
             return descendants
 
        
-        pt = PrettyTable(field_names=["ID", "Name", "Relation"])
-        
         if individuals[ind_id]['FAMS'] != 'NA':
+            pt = PrettyTable(field_names=["ID", "Name", "Relation"])
             fam_id = individuals[ind_id]['FAMS']
             if families[fam_id]['WIFE'] == ind_id:
                 if families[fam_id]['HUSB'] != 'NA':
@@ -128,18 +127,18 @@ def us36(individuals, families, test=False):
                     recent_survivor = [families[fam_id]['WIFE'], families[fam_id]['WNAME'], relation]
                     pt.add_row(recent_survivor)
 
-        descendants = get_descendants(ind_id, individuals, families)
-        if len(descendants) > 0:
-            for child in descendants:
-                recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
-                pt.add_row(recent_survivor)
+            descendants = get_descendants(ind_id, individuals, families)
+            if len(descendants) > 0:
+                for child in descendants:
+                    recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
+                    pt.add_row(recent_survivor)
 
-        if test == True:
-            return str(pt)
-        else:
-            print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
-            print(pt)
-            return None
+            if test == True:
+                return str(pt)
+            else:
+                print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
+                print(pt)
+                return None
         # End US37
 
     pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])

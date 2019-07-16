@@ -14,7 +14,7 @@ from util_date import Date
 from gedcom_file_parser import print_pretty_table
 from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
 from Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
-from Sprint3 import get_recent_block, us34, us35, us36, us37
+from Sprint3 import get_recent_block, us34, us35, us36
 
 
 class TestSuite(unittest.TestCase):
@@ -270,7 +270,8 @@ class TestSuite(unittest.TestCase):
         test = True
         # Expected Result for US35
         us35_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
-        us35_pt.add_row(['@I3@','Emma /Rose/'])
+        us35_pt.add_row(['@I23@','US35 /One/','12 Jul 2019'])
+        us35_pt.add_row(['@I24@','US35 /Two/','02 Jul 2019'])
         us35_str = str(us35_pt)
         error_chk = us35_str
         self.assertEqual(us35(self.individuals, test), error_chk)
@@ -279,22 +280,26 @@ class TestSuite(unittest.TestCase):
     
     def test_us36_us37(self):
         """ Test for US36 and US37"""
-        # Test with GEDCOM individuals @I1@, @I2@, @I9@
-    
+        # Test with GEDCOM individuals 
+
+        dir_abs_path_us36_us37 = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path_us36_us37 = f"{dir_abs_path_us36_us37}/data/sprint2userstorytest_us36_us37.ged"
+        ind, fam = print_pretty_table(directory_path_us36_us37)
         test = True
         # Expected Result for US36
         us36_pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
         us36_pt.add_row(['@I1@','Tristin /Evans/', '04 Jul 2019'])
-        us36_pt.add_row(['@I2@','Angelo /Rose/', '04 Jul 2019'])
-        us36_pt.add_row(['@I9@','Trish /Rose/', '04 Jul 2019'])
+        #us36_pt.add_row(['@I2@','Angelo /Rose/', '04 Jul 2019'])
+        #us36_pt.add_row(['@I9@','Trish /Rose/', '04 Jul 2019'])
         us36_str = str(us36_pt)
 
         # Expected Result for US37
         us37_pt = PrettyTable(field_names=["ID", "Name", "Relation"])
-        us37_pt.add_row([])
+        us37_pt.add_row(['@I23@','US35 /One/','12 Jul 2019'])
+        us37_pt.add_row(['@I24@','US35 /Two/','02 Jul 2019'])
         us37_str = str(us37_pt)
         error_chk = (us36_str, us37_str)
-        self.assertEqual(us36(self.individuals, self.families, test), error_chk)
+        self.assertEqual(us36(ind, fam, test), error_chk)
         
         return None
 
