@@ -39,7 +39,6 @@ def date_before(dt1, dt2):
 def us01(individuals, families, ind_id='', test=False):
     """ Check US01 Dates (birth, marriage, divorce, death) should not be after the current date."""
 
-    
     if test == True:
         errors = list()
         error1, error2, error3, error4 = False, False, False, False
@@ -247,7 +246,6 @@ def us10(dt1, dt2, spouse, fam_id):
 
 def get_spouse_block(individuals, families):
     """ Stores dates for marriage, divorce, birth and death of spouses. Calls user story 02, 04, 05, and 06 for date comparison."""
-    
 
     us01(individuals, families)
     us03(individuals)
