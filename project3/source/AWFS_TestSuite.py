@@ -19,6 +19,8 @@ from Sprint3 import get_recent_block, us34, us35, us36, us37
 
 class TestSuite(unittest.TestCase):
     def __init__(self):
+        #Assign directory path variables to individual gedcom files to test each user story
+        #run print_pretty_table function with specialized directory path to create indivduals and families dictionaries unique to the user story that will be tested
         self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
         self.individuals, self.families = print_pretty_table(self.directory_path)
@@ -286,7 +288,7 @@ class TestSuite(unittest.TestCase):
         us36_pt.add_row(['@I2@','Angelo /Rose/', '04 Jul 2019'])
         us36_pt.add_row(['@I9@','Trish /Rose/', '04 Jul 2019'])
         us36_str = str(us36_pt)
-        
+
         # Expected Result for US37
         us37_pt = PrettyTable(field_names=["ID", "Name", "Relation"])
         us37_pt.add_row([])
