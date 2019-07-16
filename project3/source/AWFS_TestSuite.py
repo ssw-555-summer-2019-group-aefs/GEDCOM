@@ -18,9 +18,13 @@ from Sprint3 import get_recent_block, us34, us35, us36
 
 
 class TestSuite(unittest.TestCase):
+    """test Class for Sprint1, Sprint2, and Sprint3 """
+
     def __init__(self):
+        """ Assignment of self.individuals and self.families """
         # Assign directory path variables to individual gedcom files to test each user story as needed for Sprint 3 Implementation
         # Run print_pretty_table function with specialized directory path to create indivduals and families dictionaries unique to the user story that will be tested
+        
         self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         self.directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
         self.individuals, self.families = print_pretty_table(self.directory_path)
