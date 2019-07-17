@@ -40,7 +40,7 @@ def us01(individuals, families, ind_id='', test=False):
     """ Check US01 Dates (birth, marriage, divorce, death) should not be after the current date."""
 
     
-    if test == True:
+    if test:
         errors = list()
         error1, error2, error3, error4 = False, False, False, False
         if individuals[ind_id]['BIRT'] != 'NA' and type(individuals[ind_id]['BIRT'].date_time_obj) is not str:
@@ -95,7 +95,7 @@ def us01(individuals, families, ind_id='', test=False):
 def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, test=False):
     """ Check US02 Birth before Marriage for both husband and wife.  Calls US10. """
     
-    if test ==True:
+    if test:
         errors = list()
         error1, error2, error3, error4 = False, False, False, False
         if husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
@@ -132,7 +132,7 @@ def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, te
 def us03(individuals, test=False):
     """ Check US03 Birth should occur before death of an individual."""
 
-    if test == True:
+    if test:
         for ind_id, ind in individuals.items():
             if type(ind['BIRT'].date_time_obj) is not str and type(ind['DEAT']) is not str and type(ind['DEAT'].date_time_obj) is not str:
                 if ind['BIRT'] != 'NA':
@@ -160,7 +160,7 @@ def us03(individuals, test=False):
 def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test=False):
     """ Check US04 Marriage before Divorce for both husband and wife """
 
-    if test == True:
+    if test:
         error = False
         if marriage_dt != None and divorce_dt != None:
             if date_before(marriage_dt, divorce_dt):
@@ -177,7 +177,7 @@ def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test=False):
 def us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, test=False):
     """ Check US05 Marriage before death for both husband and wife """
 
-    if test == True:
+    if test:
         error1, error2 = False, False
         if marriage_dt != None and husb_death_dt != None:
             if date_before(marriage_dt, husb_death_dt):
@@ -202,7 +202,7 @@ def us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, te
 def us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id, test=False):
     """ Check US06 Divorce before death for both husband and wife """
 
-    if test==True:
+    if test:
         error1, error2 = False, False
         if husb_death_dt != None and divorce_dt != None:
             if date_before(divorce_dt, husb_death_dt):

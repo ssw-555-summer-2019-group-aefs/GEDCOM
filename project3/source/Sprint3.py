@@ -26,7 +26,7 @@ from Sprint2 import get_dates_diff
 def us34(individuals, families, fam_id='', test=False):
     """ List all couples who were married when the older spouse was more than twice as old as the younger spouse. """
     
-    if test == True:
+    if test:
         errors = list()
         error1, error2 = False, False
         if families[fam_id]['HUSB'] != 'NA' and Date.is_valid_date(individuals[families[fam_id]['HUSB']]['BIRT'].date_time_obj):
@@ -77,7 +77,7 @@ def us35(individuals, test=False):
                 recent_births = [ind_id, ind['NAME'], (ind['BIRT'].date_time_obj).strftime('%d %b %Y')]
                 pt.add_row(recent_births)
     
-    if test == True:
+    if test:
         return(str(pt))
     else:
         print(pt)
@@ -133,7 +133,7 @@ def us36(individuals, families, test=False):
                     recent_survivor = [child, individuals[child]['NAME'], 'Descendant']
                     pt.add_row(recent_survivor)
 
-            if test == True:
+            if test:
                 return str(pt)
             else:
                 print(f"US37: List:  The following people are living spouses and descendents of '{individuals[ind_id]['NAME']}' who died within the last 30 days")
@@ -150,7 +150,7 @@ def us36(individuals, families, test=False):
                 recent_deaths = [ind_id, ind['NAME'], (ind['DEAT'].date_time_obj).strftime('%d %b %Y')]
                 pt.add_row(recent_deaths)
 
-    if test == True:
+    if test:
         return str(pt), us37_test
     else:
         print('US36: List:  The following people died within the last 30 days')

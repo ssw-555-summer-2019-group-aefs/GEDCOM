@@ -310,7 +310,7 @@ class TestSuite(unittest.TestCase):
         return None
 
 def tearDown(self):
-    """ Class tear down with clean up of self.individuals and self.families """
+    """ Class tear down of self.individuals and self.families """
 
     self.dir_abs_path.dispose
     self.directory_path.dispose

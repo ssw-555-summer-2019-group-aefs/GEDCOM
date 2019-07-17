@@ -48,7 +48,7 @@ def get_dates_diff(dt1, dt2=None):
 def us13(children, num_chil, fam_id, individuals, test=False):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
 
-    if test == True:
+    if test:
         error1, error2 = False, False
         error3 = ''
         errors = list()
@@ -142,7 +142,7 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
         else:
             return None
 
-    if test == True:
+    if test:
         us14_error = False
         if num_mults > 5:
             print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
@@ -161,7 +161,7 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
 def us15(children, num_chil, fam_id, test=False):
     """ There should be fewer than 15 siblings in a family. """
 
-    if test == True:
+    if test:
         error = False
         if num_chil >= 15:
             print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
@@ -176,7 +176,7 @@ def us15(children, num_chil, fam_id, test=False):
 def us17(fam_id, husb_id, wife_id, individuals, test=False):
     """ Parents should not marry any of their children. """
 
-    if test == True:
+    if test :
         error = False
         if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
             if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
@@ -200,7 +200,7 @@ def us17(fam_id, husb_id, wife_id, individuals, test=False):
 def us18(husb_id, wife_id, fam_id, individuals, test=False):
     """ Siblings should not marry one another. """
 
-    if test == True:
+    if test:
         error = False
         if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
             print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
@@ -237,7 +237,7 @@ def us28(children, num_chil, fam_id, individuals, test=False):
                 child_info = [child_list[i], individuals[child_list[i]]['NAME'], birthdate.strftime('%d %b %Y')]
                 pt.add_row(child_info)    
     
-    if test == True:
+    if test:
         return str(pt)
     else:
         print(pt)              
@@ -257,7 +257,7 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals, test=False):
         pt = PrettyTable(field_names=["ID", "Name"])
         for i in range(num_orphans-1):
             pt.add_row(orphan_info[i])
-        if test == True:
+        if test:
             return str(pt)
         else:
             print(pt)
