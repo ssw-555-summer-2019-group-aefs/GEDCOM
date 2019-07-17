@@ -48,80 +48,50 @@ def get_dates_diff(dt1, dt2=None):
 def us13(children, num_chil, fam_id, individuals, test=False):
     """ Birth dates of siblings should be more than 8 months apart or less than 2 days apart. """
 
-    if test == True:
-        error1, error2 = False, False
-        error3 = ''
-        errors = list()
-        bd_dict = defaultdict(list)
-        for i in range(num_chil):
-            bd_key = individuals[children[i]]['BIRT'].date_time_obj
-            if Date.is_valid_date(bd_key):
-                if bd_key not in bd_dict:
-                    bd_dict[bd_key] = [children[i]]
-                else:
-                    bd_dict[bd_key].append(children[i])
-        
-        test_next = True
+    error1, error2 = False, False
+    error3 = ''
+    errors = list()
+    bd_dict = defaultdict(list)
+    for i in range(num_chil):
+        bd_key = individuals[children[i]]['BIRT'].date_time_obj
+        if Date.is_valid_date(bd_key):
+            if bd_key not in bd_dict:
+                bd_dict[bd_key] = [children[i]]
+            else:
+                bd_dict[bd_key].append(children[i])
+    
+    test_next = True
 
-        for bd_child, child in sorted(bd_dict.items(), reverse=True):
-            error = False
-            if len(bd_dict[bd_child]) == 1:
-                if test_next:
-                    bd_sib1 = bd_child
-                    child1 = child
-                    test_next = False
-                else:
-                    bd_sib2 = bd_child
-                    child2 = child
-                    diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
-                    if time_typ == 'years':
-                        continue
-                    elif time_typ == 'months' and diff < 8:
-                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
-                        error1 = True
-                    elif time_typ == 'days' and diff > 2:
-                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
-                        error1 = True
-                    test_next = True
-
-            elif len(bd_dict[bd_child]) > 1:
-                error2, error3 = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals, test)
+    for bd_child, child in sorted(bd_dict.items(), reverse=True):
+        error = False
+        if len(bd_dict[bd_child]) == 1:
+            if test_next:
+                bd_sib1 = bd_child
+                child1 = child
+                test_next = False
+            else:
+                bd_sib2 = bd_child
+                child2 = child
+                diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
+                if time_typ == 'years':
+                    continue
+                elif time_typ == 'months' and diff < 8:
+                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                    error1 = True
+                elif time_typ == 'days' and diff > 2:
+                    print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
+                    error1 = True
                 test_next = True
+
+        elif len(bd_dict[bd_child]) > 1:
+            error2, error3 = us14(len(bd_dict[bd_child]), bd_child, bd_dict[bd_child], fam_id, individuals, test)
+            test_next = True
             
+    if test == True:
         errors = [error1, error2, error3]
         return errors
     else:
-        bd_dict = defaultdict(list)
-        for i in range(num_chil):
-            bd_key = individuals[children[i]]['BIRT'].date_time_obj
-            if Date.is_valid_date(bd_key):
-                if bd_key not in bd_dict:
-                    bd_dict[bd_key] = [children[i]]
-                else:
-                    bd_dict[bd_key].append(children[i])
-        
-        test_next = True
-
-        for bd_child, child in sorted(bd_dict.items(), reverse=True):
-            if len(bd_dict[bd_child]) == 1:
-                if test_next:
-                    bd_sib1 = bd_child
-                    child1 = child
-                    test_next = False
-                else:
-                    bd_sib2 = bd_child
-                    child2 = child
-                    diff, time_typ = get_dates_diff(bd_sib1, bd_sib2)
-                    if time_typ == 'years':
-                        continue
-                    elif time_typ == 'months' and diff < 8:
-                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
-                    elif time_typ == 'days' and diff > 2:
-                        print(f"US13: Error: Child '{child1}' and Child '{child2}' in family '{fam_id}' are born more than 2 days and less than 8 months apart.")
-                    test_next = True
-
-            elif len(bd_dict[bd_child]) > 1:
-                test_next = True
+        return None
 
 
 
@@ -137,78 +107,69 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
             mults_info_list = [mults[i], individuals[mults[i]]['NAME']]
             pt.add_row(mults_info_list)
         print(pt)
+
         if test == True:
             return str(pt)
         else:
             return None
 
-    if test == True:
-        us14_error = False
-        if num_mults > 5:
-            print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-            error = True
-        us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
+    
+    us14_error = False
+    if num_mults > 5:
+        print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
+        error = True
+    us32_error = us32(birthdate, fam_id, mults, num_mults, individuals, test)
 
+    if test == True:
         return us14_error, us32_error
     else:
-        if num_mults > 5:
-            print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-        us32(birthdate, fam_id, mults, num_mults, individuals, test)
-
         return None
 
 
 def us15(children, num_chil, fam_id, test=False):
     """ There should be fewer than 15 siblings in a family. """
 
-    if test == True:
-        error = False
-        if num_chil >= 15:
-            print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
-            error = True  
+    error = False
+    if num_chil >= 15:
+        print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
+        error = True
+
+    if test == True: 
         return error
     else:
-        if num_chil >= 15:
-            print(f"US15: Error: No more than fourteen children should be born in each family.  '{num_chil}' children born in family '{fam_id}'")
-        return None
+       return None
 
 
 def us17(fam_id, husb_id, wife_id, individuals, test=False):
     """ Parents should not marry any of their children. """
 
+    error = False
+    if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
+        if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
+            print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
+            error = True
+    elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
+        if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
+            print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
+            error = True
+            
     if test == True:
-        error = False
-        if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
-            if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
-                print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-                error = True
-        elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
-            if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
-                print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
-                error = True
         return error
     else:
-        if individuals[husb_id]['FAMC'] != 'NA' and individuals[husb_id]['FAMS'] != 'NA':
-            if individuals[husb_id]['FAMC'] == individuals[husb_id]['FAMS']:
-                print(f"US17: Error: Wife'{wife_id}' in family '{fam_id}' is married to her child.")
-        elif individuals[wife_id]['FAMC'] != 'NA' and individuals[wife_id]['FAMS'] != 'NA':
-            if individuals[wife_id]['FAMC'] == individuals[wife_id]['FAMS']:
-                print(f"US17: Error: Husband '{husb_id}' in family '{fam_id}' is married to his child.")
         return None
 
 
 def us18(husb_id, wife_id, fam_id, individuals, test=False):
     """ Siblings should not marry one another. """
 
+    error = False
+    if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
+        print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
+        error = True
+
     if test == True:
-        error = False
-        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
-            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
-            error = True
         return error
     else:
-        if individuals[husb_id]['FAMC'] == individuals[wife_id]['FAMC']:
-            print(f"US18: Error: Husband '{husb_id}' and wife '{wife_id}' in family '{fam_id}' are brother and sister.  Siblings should not marry one another.")
         return None
             
     
@@ -257,6 +218,7 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals, test=False):
         pt = PrettyTable(field_names=["ID", "Name"])
         for i in range(num_orphans-1):
             pt.add_row(orphan_info[i])
+
         if test == True:
             return str(pt)
         else:
