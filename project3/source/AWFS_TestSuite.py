@@ -11,7 +11,7 @@ import os
 from prettytable import PrettyTable
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
-from gedcom_file_parser import print_pretty_table
+from gedcom_file_parser import gedcom_file_parser
 from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
 from Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
 from Sprint3 import get_recent_block, us34, us35, us36
@@ -28,7 +28,7 @@ class TestSuite(unittest.TestCase):
 
         self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         self.directory_path = f"{self.dir_abs_path}/data/sprint2userstorytest.ged"
-        self.individuals, self.families = print_pretty_table(self.directory_path)
+        self.individuals, self.families = gedcom_file_parser(self.directory_path)
         #return super().setUp()
     
 #
