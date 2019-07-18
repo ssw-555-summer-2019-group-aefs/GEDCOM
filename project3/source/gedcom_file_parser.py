@@ -141,7 +141,7 @@ def print_pretty_table(directory_path):
     
     individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
-    print_families_pretty_table(families, individuals)
+    print_families_pretty_table(individuals, families)
     get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
     get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
     get_recent_block(individuals, families) #US34, US35, US36, US37
@@ -157,7 +157,7 @@ def print_pretty_table(directory_path):
     return None
 
 
-def print_individuals_pretty_table(individuals_dict):
+def print_individuals_pretty_table(individuals_dict, test=False):
     pt = PrettyTable(field_names=[
                      "ID", "Name", "Gender", "Birthday", "Age", "Alive", "Death", "Child", "Spouse"])
     for individual_id, individual_info in individuals_dict.items():
@@ -178,10 +178,14 @@ def print_individuals_pretty_table(individuals_dict):
         for key in get_individual_pretty_Table_order():
             individual_info_list.append(individual_info.get(key))
         pt.add_row(individual_info_list)
-    print(pt)
+
+    if test:
+        return individuals_dict
+    else:
+        print(pt)
 
 
-def print_families_pretty_table(families_dict, individuals_dict):
+def print_families_pretty_table(individuals_dict, families_dict, test=False):
     pt = PrettyTable(field_names=["ID", "Married", "Divorced",
                                   "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"])
     for family_id, family_info in families_dict.items():
@@ -199,12 +203,16 @@ def print_families_pretty_table(families_dict, individuals_dict):
         for key in get_families_pretty_table_order():
             family_info_list.append(family_info.get(key))
         pt.add_row(family_info_list)
-    print(pt)
+    
+    if test:
+        return families_dict
+    else:
+        print(pt)
 
 
 def main():
     dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    directory_path = f"{dir_abs_path}/data/sprint3userstorytest.ged"
+    directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
     print_pretty_table(directory_path)
 
 

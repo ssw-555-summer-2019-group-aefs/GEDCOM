@@ -131,7 +131,7 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
     def us32(birthdate, fam_id, mults, num_mults, individuals, test=False):
         """ List all multiple births in a GEDCOM file. """
 
-        print(f"US32: List: The following '{num_mults}' births occured in family '{fam_id}' on date '{birthdate.strftime('%d %b %Y')}'")
+        print(f"US32: List: The following '{num_mults}' births occured in family '{fam_id}' on date '{birthdate}'")
         pt = PrettyTable(field_names=["ID", "Name"])
         for i in range(num_mults):
             mults_info_list = [mults[i], individuals[mults[i]]['NAME']]
@@ -145,7 +145,7 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
     if test:
         us14_error = False
         if num_mults > 5:
-            print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
+            print(f"US14: Error: More than five children born on date '{birthdate}' in family '{fam_id}'")
             error = True
         us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
 

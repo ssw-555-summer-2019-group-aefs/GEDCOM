@@ -45,7 +45,7 @@ def us01(individuals, families, ind_id='', test=False):
         error1, error2, error3, error4 = False, False, False, False
         if individuals[ind_id]['BIRT'] != 'NA' and type(individuals[ind_id]['BIRT'].date_time_obj) is not str:
             if Date.get_dates_difference(individuals[ind_id]['BIRT'].date_time_obj) < 0:
-                print(f"US01: Error: Individual's '{ind_id}' birthday '{individuals['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
+                print(f"US01: Error: Individual's '{ind_id}' birthday '{individuals[ind_id]['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                 error1 = True
             
         if individuals[ind_id]['DEAT'] != 'NA' and type(individuals[ind_id]['DEAT'].date_time_obj) is not str:
@@ -57,12 +57,12 @@ def us01(individuals, families, ind_id='', test=False):
         if individuals[ind_id]['FAMS'] != 'NA':
             if families[individuals[ind_id]['FAMS']]['MARR'] != "NA" and type(families[individuals[ind_id]['FAMS']]['MARR'].date_time_obj) is not str:
                 if families[individuals[ind_id]['FAMS']]['MARR'] != 'NA':
-                    if Date.get_dates_difference(families[individuals['FAMS']]['MARR'].date_time_obj) < 0:
+                    if Date.get_dates_difference(families[individuals[ind_id]['FAMS']]['MARR'].date_time_obj) < 0:
                         print(f"US01: Error: Individual's '{ind_id}' marriage date '{families[individuals[ind_id]['FAMS']]['MARR'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                         error3 = True
 
             if families[individuals[ind_id]['FAMS']]['DIV'] != 'NA' and type(families[individuals[ind_id]['FAMS']]['DIV'].date_time_obj) is not str:
-                if Date.get_dates_difference(families[individuals['FAMS']]['DIV'].date_time_obj) < 0:
+                if Date.get_dates_difference(families[individuals[ind_id]['FAMS']]['DIV'].date_time_obj) < 0:
                     print(f"US01: Error: Individual's '{ind_id}' divorce date '{families[individuals[ind_id]['FAMS']]['DIV'].date_time_obj.strftime('%d %b %Y')}' occurs in the future.")
                     error4 = True
 
@@ -95,82 +95,56 @@ def us01(individuals, families, ind_id='', test=False):
 def us02(husb_id, husb_birth_dt, wife_id, wife_birth_dt, marriage_dt, fam_id, test=False):
     """ Check US02 Birth before Marriage for both husband and wife.  Calls US10. """
     
+
+    errors = list()
+    error1, error2, error3, error4 = False, False, False, False
+    if husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
+        if date_before(husb_birth_dt, marriage_dt):
+            print(f"US02: Error: Husband '{husb_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
+            error1 = True
+        if date_before(wife_birth_dt, marriage_dt):
+            print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
+            error2 = True
+        if us10(husb_birth_dt, marriage_dt, 'Husband', fam_id):
+            print(f"US10: Error: Husband '{husb_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
+            error3 = True
+        if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
+            print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
+            error4 = True
     if test:
-        errors = list()
-        error1, error2, error3, error4 = False, False, False, False
-        if husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
-            if date_before(husb_birth_dt, marriage_dt):
-                print(f"US02: Error: Husband '{husb_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                error1 = True
-            if date_before(wife_birth_dt, marriage_dt):
-                print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                error2 = True
-            if us10(husb_birth_dt, marriage_dt, 'Husband', fam_id):
-                print(f"US10: Error: Husband '{husb_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-                error3 = True
-            if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
-                print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-                error4 = True
         errors = [error1, error2, error3, error4]
         return errors
     else:
-        if husb_birth_dt != None and wife_birth_dt != None and marriage_dt != None:
-            if date_before(husb_birth_dt, marriage_dt):
-                print(f"US02: Error: Husband '{husb_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                
-            if date_before(wife_birth_dt, marriage_dt):
-                print(f"US02: Error: Wife '{wife_id}' in family '{fam_id}' born after wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                            
-            if us10(husb_birth_dt, marriage_dt, 'Husband', fam_id):
-                print(f"US10: Error: Husband '{husb_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
-                
-            if us10(wife_birth_dt, marriage_dt, 'Wife', fam_id):
-                print(f"US10: Error: Wife '{wife_id}' in family '{fam_id}' married on '{marriage_dt}' before legal age.")
         return None
 
 
 def us03(individuals, test=False):
     """ Check US03 Birth should occur before death of an individual."""
 
-    if test:
-        for ind_id, ind in individuals.items():
-            if type(ind['BIRT'].date_time_obj) is not str and type(ind['DEAT']) is not str and type(ind['DEAT'].date_time_obj) is not str:
-                if ind['BIRT'] != 'NA':
-                    birth_dt = ind['BIRT'].date_time_obj
-                if ind['DEAT'] != 'NA':
-                    death_dt = ind['DEAT'].date_time_obj
-                    if Date.get_dates_difference(birth_dt, death_dt) < 0:
-                        print(f"US03: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs after the death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}'.")
-                        return ind_id
-    else:
-        for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
-            if type(ind['BIRT'].date_time_obj) is not str and type(ind['DEAT']) is not str and type(ind['DEAT'].date_time_obj) is not str:
-                if ind['BIRT'] != 'NA':
-                    birth_dt = ind['BIRT'].date_time_obj
-                if ind['DEAT'] != 'NA':
-                    death_dt = ind['DEAT'].date_time_obj
-                    if Date.get_dates_difference(birth_dt, death_dt) < 0:
-                        print(f"US03: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs after the death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}'.")
-        
-        return None
+    for ind_id, ind in individuals.items(): # each ind is dict with the attributes of the individual
+        if ind['BIRT'] != 'NA':
+            birth_dt = ind['BIRT'].date_time_obj
+        if ind['DEAT'] != 'NA':
+            death_dt = ind['DEAT'].date_time_obj
+            if Date.get_dates_difference(birth_dt, death_dt) < 0:
+                print(f"US03: Error: Individual's '{ind_id}' birthday '{ind['BIRT'].date_time_obj.strftime('%d %b %Y')}' occurs after the death date '{ind['DEAT'].date_time_obj.strftime('%d %b %Y')}'.")
+                if test:
+                    return ind_id
+                else:
+                    return None
 
-        
-    
 
 def us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, test=False):
     """ Check US04 Marriage before Divorce for both husband and wife """
 
-    if test:
-        error = False
-        if marriage_dt != None and divorce_dt != None:
-            if date_before(marriage_dt, divorce_dt):
-                print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
-                error = True       
+    error = False
+    if marriage_dt != None and divorce_dt != None:
+        if date_before(marriage_dt, divorce_dt):
+            print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
+            error = True   
+    if test:    
         return error
     else:
-        if marriage_dt != None and divorce_dt != None:
-            if date_before(marriage_dt, divorce_dt):
-                print(f"US04: Error: Husband '{husb_id}' and Wife '{wife_id}' in family '{fam_id}' divorced before wedding on {marriage_dt.date_time_obj.strftime('%d %b %Y')}")
         return None
 
 
