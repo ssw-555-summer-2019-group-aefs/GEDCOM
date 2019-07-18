@@ -109,7 +109,7 @@ def us36(individuals, families, test=False):
                         else:
                             child_in_desc = True
                     if child_in_desc == True:
-                        print(f"WARNING: {ind_id} is a descendant of him/her self in {fam_id}")  
+                        print(f"US37: WARNING: {ind_id} is a descendant of him/her self in {fam_id}")  
             return descendants
 
        

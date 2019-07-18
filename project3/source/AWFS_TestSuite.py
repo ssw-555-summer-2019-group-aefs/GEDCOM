@@ -161,7 +161,7 @@ class TestSuite(unittest.TestCase):
         us32_pt.add_row(['@I20@','Emmy /Rose/'])
         us32_pt.add_row(['@I21@','Thomas /Rose/'])
         us32_str = str(us32_pt)
-        error_chk = [True, us32_str]
+        error_chk = True, us32_str
         self.assertEqual(us14(num_mults, birthdate, mults, fam_id, self.individuals, True), error_chk)
         return None
 
@@ -291,19 +291,20 @@ class TestSuite(unittest.TestCase):
         # Test with GEDCOM individual @I10@
 
         dir_abs_path_us36_us37 = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        directory_path_us36_us37 = f"{dir_abs_path_us36_us37}/data/us36_us37.ged"
+        directory_path_us36_us37 = f"{dir_abs_path_us36_us37}/data/us36_37.ged"
         ind, fam = gedcom_file_parser(directory_path_us36_us37)
         ind = print_individuals_pretty_table(ind, True)
         fam = print_families_pretty_table(ind, fam, True)
 
         # Expected Result for US36
         us36_pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
-        us36_pt.add_row(['@I10@','Tristin /Evans/', '04 Jul 2019'])
+        us36_pt.add_row(['@I1@','Tristin /Evans/', '16 Jul 2019'])
         us36_str = str(us36_pt)
 
         # Expected Result for US37
         us37_pt = PrettyTable(field_names=["ID", "Name", "Relation"])
-        us37_pt.add_row(['@I23@','US35 /One/','12 Jul 2019'])
+        us37_pt.add_row(['@I2@','Angelo /Rose/','Husband'])
+        us37_pt.add_row(['@I6@','Emma /Rose/','Descendant'])
         us37_str = str(us37_pt)
         error_chk = (us36_str, us37_str)
         self.assertEqual(us36(ind, fam, True), error_chk)

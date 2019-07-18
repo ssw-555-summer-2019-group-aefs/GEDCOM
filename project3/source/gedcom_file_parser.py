@@ -212,7 +212,7 @@ def print_families_pretty_table(individuals_dict, families_dict, test=False):
 
 def main():
     dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
+    directory_path = f"{dir_abs_path}/data/sprint3userstorytest.ged"
     print_pretty_table(directory_path)
 
 

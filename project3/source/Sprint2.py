@@ -136,10 +136,11 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
         for i in range(num_mults):
             mults_info_list = [mults[i], individuals[mults[i]]['NAME']]
             pt.add_row(mults_info_list)
-        print(pt)
+
         if test == True:
             return str(pt)
         else:
+            print(pt)
             return None
 
     if test:
@@ -148,13 +149,11 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
             print(f"US14: Error: More than five children born on date '{birthdate}' in family '{fam_id}'")
             us14_error = True
         us32_error = us32(birthdate, fam_id, mults, num_mults, individuals, True)
-
         return us14_error, us32_error
     else:
         if num_mults > 5:
             print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
         us32(birthdate, fam_id, mults, num_mults, individuals)
-
         return None
 
 
@@ -255,7 +254,7 @@ def us33(children, num_chil, fam_id, husb_id, wife_id, individuals, test=False):
     if num_orphans > 0:  
         print(f"US33: List: These children in family '{fam_id}' are orphans.")
         pt = PrettyTable(field_names=["ID", "Name"])
-        for i in range(num_orphans-1):
+        for i in range(num_orphans):
             pt.add_row(orphan_info[i])
         if test:
             return str(pt)
