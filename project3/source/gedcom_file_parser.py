@@ -10,6 +10,7 @@ from US07_US08_Source_File import check_150_years_age, check_birth_before_marria
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
+from Saransh_Sprint3 import us21, us31
 
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
@@ -145,15 +146,21 @@ def print_pretty_table(directory_path):
     print_families_pretty_table(families, individuals)
     e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
     e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
+    # print(e1)
     #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
-    errors = [e1, e2]
+    # errors = [e1, e2]
 
-    check_150_years_age(individuals)
-    check_birth_before_marriage_of_parents(families, individuals)
-    birth_before_parents_death(individuals, families)
-    print_duplicate_ids(duplicate_ids) #US22
-    check_bigamy(individuals, families) # US11
-    check_parents_not_too_old(individuals, families) # US12
+    # check_150_years_age(individuals) #US07
+    # check_birth_before_marriage_of_parents(families, individuals) #US08
+    # birth_before_parents_death(individuals, families) #US09
+    # print_duplicate_ids(duplicate_ids) #US22
+    # check_bigamy(individuals, families) # US11
+    # check_parents_not_too_old(individuals, families) # US12
+
+    us31(individuals, families) # US31
+    us21(individuals, families) # US21
+
+    errors = [e1, e2]
 
     return errors
 
