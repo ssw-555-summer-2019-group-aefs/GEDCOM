@@ -146,14 +146,14 @@ def us14(num_mults, birthdate, mults, fam_id, individuals, test=False):
         us14_error = False
         if num_mults > 5:
             print(f"US14: Error: More than five children born on date '{birthdate}' in family '{fam_id}'")
-            error = True
-        us32_error = us32(birthdate, fam_id, mults, num_mults, individuals)
+            us14_error = True
+        us32_error = us32(birthdate, fam_id, mults, num_mults, individuals, True)
 
         return us14_error, us32_error
     else:
         if num_mults > 5:
             print(f"US14: Error: More than five children born on date '{birthdate.strftime('%d %b %Y')}' in family '{fam_id}'")
-        us32(birthdate, fam_id, mults, num_mults, individuals, test)
+        us32(birthdate, fam_id, mults, num_mults, individuals)
 
         return None
 

@@ -15,19 +15,22 @@ from gedcom_file_parser import gedcom_file_parser, print_individuals_pretty_tabl
 from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
 from Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
 from Sprint3 import get_recent_block, us34, us35, us36
+from textwrap import wrap
 
 
 class TestSuite(unittest.TestCase):
     """test Class for Sprint1, Sprint2, and Sprint3 """
-
+    
+    maxDiff = None
+    
     def setUp(self):
-        
+
         """ Class setup with assignment of self.individuals and self.families """
         # Assign directory path variables to individual gedcom files to test each user story as needed for Sprint 3 Implementation
         # Run print_pretty_table function with specialized directory path to create indivduals and families dictionaries unique to the user story that will be tested
 
         self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        self.directory_path = f"{self.dir_abs_path}/data/sprint2userstorytest.ged"
+        self.directory_path = f"{self.dir_abs_path}/data/sprint3userstorytest.ged"
         self.individuals, self.families = gedcom_file_parser(self.directory_path)
         self.individuals = print_individuals_pretty_table(self.individuals, True)
         self.families = print_families_pretty_table(self.individuals, self.families, True)
@@ -53,9 +56,9 @@ class TestSuite(unittest.TestCase):
 
         husb_id = '@I4@'
         wife_id = '@I6@'
-        husb_birth_dt = '18 Jun 2021'
-        wife_birth_dt = '18 Jun 2000'
-        marriage_dt = '18 Jun 2019'
+        husb_birth_dt = Date('18 Jun 2021')
+        wife_birth_dt = Date('18 Jun 2000')
+        marriage_dt = Date('18 Jun 2019')
         fam_id = '@F3@'
         error_chk = [True, False, True, False]
         # Must add functionality of Date Class prior to sending dates to US02
@@ -78,8 +81,8 @@ class TestSuite(unittest.TestCase):
 
         husb_id = '@I4@'
         wife_id = '@I6@'
-        marriage_dt = '18 Jun 2019'
-        divorce_dt = '18 Jun 2018'
+        marriage_dt = Date('18 Jun 2019')
+        divorce_dt = Date('18 Jun 2018')
         fam_id = '@F3@'
         error_chk = True
         self.assertEqual(us04(husb_id, wife_id, marriage_dt, divorce_dt, fam_id, True), error_chk)
@@ -92,9 +95,9 @@ class TestSuite(unittest.TestCase):
 
         husb_id = '@I4@'
         wife_id = '@I6@'
-        husb_death_dt = '18 Jun 2020'
-        wife_death_dt = '18 Jun 2017'
-        marriage_dt = '18 Jun 2019'
+        husb_death_dt = Date('18 Jun 2020')
+        wife_death_dt = Date('18 Jun 2017')
+        marriage_dt = Date('18 Jun 2019')
         fam_id = '@F3@'
         error_chk = [False, True]
         self.assertEqual(us05(husb_id, husb_death_dt, wife_id, wife_death_dt, marriage_dt, fam_id, True), error_chk)
@@ -107,9 +110,9 @@ class TestSuite(unittest.TestCase):
 
         husb_id = '@I4@'
         wife_id = '@I6@'
-        husb_death_dt = '18 Jun 2020'
-        wife_death_dt = '18 Jun 2017'
-        divorce_dt = '18 Jun 2018'
+        husb_death_dt = Date('18 Jun 2020')
+        wife_death_dt = Date('18 Jun 2017')
+        divorce_dt = Date('18 Jun 2018')
         fam_id = '@F3@'
         error_chk = [False, True]
         self.assertEqual(us06(husb_id, husb_death_dt, wife_id, wife_death_dt, divorce_dt, fam_id, True), error_chk)
@@ -136,7 +139,7 @@ class TestSuite(unittest.TestCase):
         # Test with GEDCOM family @F1@
 
         fam_id = '@F1@'
-        mults = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
+        mults = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@']
         num_mults = 16
         birthdate = '27 May 2018'
         # Expected Result for US32
@@ -168,8 +171,8 @@ class TestSuite(unittest.TestCase):
 
         fam_id = '@F1@'
         children = ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I21@', '@I22@']
-        num_chil = 16    
-        error_chk = [True]
+        num_chil = 17    
+        error_chk = True
         self.assertEqual(us15(children, num_chil, fam_id, True), error_chk)
         return None
 
@@ -180,8 +183,8 @@ class TestSuite(unittest.TestCase):
         husb_id = '@I2@'
         wife_id = '@I9@'
         fam_id = '@F1@'  
-        error_chk = [True]
-        self.assertEqual(us17(fam_id, husb_id, wife_id, self.individuals, test), error_chk)
+        error_chk = True
+        self.assertEqual(us17(fam_id, husb_id, wife_id, self.individuals, True), error_chk)
         return None
 
     def test_us18(self):
@@ -192,7 +195,7 @@ class TestSuite(unittest.TestCase):
         husb_id = '@I17@'
         wife_id = '@I16@'
         fam_id = '@F4@'  
-        error_chk = [True]
+        error_chk = True
         self.assertEqual(us18(husb_id, wife_id, fam_id, self.individuals, True), error_chk)
         return None
 
@@ -251,49 +254,56 @@ class TestSuite(unittest.TestCase):
 
     def test_us34(self):
         """ Test for US34"""
-        # Test with GEDCOM family @F@
+        # Test with GEDCOM family @F1@
 
-        fam_id = '@F@'
-        error_chk = []
-        self.assertEqual(us34(self.individuals, self.families, fam_id, True), error_chk)
+        dir_abs_path_us34 = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path_us34 = f"{dir_abs_path_us34}/data/us34.ged"
+        ind, fam = gedcom_file_parser(directory_path_us34)
+        ind = print_individuals_pretty_table(ind, True)
+        fam = print_families_pretty_table(ind, fam, True)
+        fam_id = '@F1@'
+        error_chk = [True, False]
+        self.assertEqual(us34(ind, fam, fam_id, True), error_chk)
         
         return None
     
     def test_us35(self):
         """ Test for US35"""
-        # Test with GEDCOM family @F@
+        # Test with GEDCOM Individual @I6@
+
+        dir_abs_path_us35 = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        directory_path_us35 = f"{dir_abs_path_us35}/data/us35.ged"
+        ind, fam = gedcom_file_parser(directory_path_us35)
+        ind = print_individuals_pretty_table(ind, True)
+        fam = print_families_pretty_table(ind, fam, True)
     
         # Expected Result for US35
         us35_pt = PrettyTable(field_names=["ID", "Name", "Date of Birth"])
-        us35_pt.add_row(['@I23@','US35 /One/','12 Jul 2019'])
-        us35_pt.add_row(['@I24@','US35 /Two/','02 Jul 2019'])
+        us35_pt.add_row(['@I6@','Emma /Rose/','17 Jul 2019'])
         us35_str = str(us35_pt)
         error_chk = us35_str
-        self.assertEqual(us35(self.individuals, True), error_chk)
+        self.assertEqual(us35(ind, True), error_chk)
         
         return None
     
     def test_us36_us37(self):
         """ Test for US36 and US37"""
-        # Test with GEDCOM individuals 
+        # Test with GEDCOM individual @I10@
 
         dir_abs_path_us36_us37 = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        directory_path_us36_us37 = f"{dir_abs_path_us36_us37}/data/sprint2userstorytest_us36_us37.ged"
+        directory_path_us36_us37 = f"{dir_abs_path_us36_us37}/data/us36_us37.ged"
         ind, fam = gedcom_file_parser(directory_path_us36_us37)
         ind = print_individuals_pretty_table(ind, True)
         fam = print_families_pretty_table(ind, fam, True)
 
         # Expected Result for US36
         us36_pt = PrettyTable(field_names=["ID", "Name", "Date of Death"])
-        us36_pt.add_row(['@I1@','Tristin /Evans/', '04 Jul 2019'])
-        #us36_pt.add_row(['@I2@','Angelo /Rose/', '04 Jul 2019'])
-        #us36_pt.add_row(['@I9@','Trish /Rose/', '04 Jul 2019'])
+        us36_pt.add_row(['@I10@','Tristin /Evans/', '04 Jul 2019'])
         us36_str = str(us36_pt)
 
         # Expected Result for US37
         us37_pt = PrettyTable(field_names=["ID", "Name", "Relation"])
         us37_pt.add_row(['@I23@','US35 /One/','12 Jul 2019'])
-        us37_pt.add_row(['@I24@','US35 /Two/','02 Jul 2019'])
         us37_str = str(us37_pt)
         error_chk = (us36_str, us37_str)
         self.assertEqual(us36(ind, fam, True), error_chk)
@@ -309,4 +319,5 @@ def tearDown(self):
     self.families.dispose
 
 if __name__ == '__main__':
-        unittest.main()
+    unittest.TestCase.maxDiff = None
+    unittest.main(verbosity=2)
