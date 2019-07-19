@@ -4,12 +4,12 @@
 #Date created      : 07.16.2019
 #Purpose           : Automated testing for US21, US31
 #Revision History  : Version 1.0
-# Notes:  Automated testing
+#Notes:  Automated testing
 
 import unittest
 import os
 from prettytable import PrettyTable
-from gedcom_file_parser import gedcom_file_parser
+from gedcom_file_parser import gedcom_file_parser, print_individuals_pretty_table, print_families_pretty_table
 from Saransh_Sprint3 import us21, us31
 
 """
@@ -20,13 +20,26 @@ class TestSuite(unittest.TestCase):
     
     def test_us31(self):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        individuals, families = gedcom_file_parser(f'{dir_path}/data/sprint3userstorytest.ged')
+        individuals, families = gedcom_file_parser(f"{dir_path}/data/sprint3userstorytest.ged")
+        print_individuals_pretty_table(individuals, False)
+        print_families_pretty_table(families, individuals, False)
 
         expected_result = ["US31: Individual @I1@ is more than 30 years old and is not married.", "US31: Individual @I5@ is more than 30 years old and is not married."]
-        print(us31(individuals, families))
+        result = us31(individuals, families, False)
 
-        # self.assertEqual(us31(individuals, families), expected_result)
-        
+        self.assertEqual(result, expected_result)
+    
+    
+    def test_us21(self):
+        dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+        individuals, families = gedcom_file_parser(f"{dir_path}/data/sprint3userstorytest.ged")
+        print_individuals_pretty_table(individuals, False)
+        print_families_pretty_table(families, individuals, False)
+
+        expected_result = ["US21: Error: Family @F5@ does not have a male husband.", "US21: Error: Family @F5@ does not have a female wife."]
+        result = us21(individuals, families, False)
+
+        self.assertEqual(result, expected_result)
 
 
 if __name__ == '__main__':

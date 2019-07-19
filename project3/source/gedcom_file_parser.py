@@ -165,7 +165,7 @@ def print_pretty_table(directory_path):
     return errors
 
 
-def print_individuals_pretty_table(individuals_dict):
+def print_individuals_pretty_table(individuals_dict, print_table = True):
     pt = PrettyTable(field_names=[
                      "ID", "Name", "Gender", "Birthday", "Age", "Alive", "Death", "Child", "Spouse"])
     for individual_id, individual_info in individuals_dict.items():
@@ -186,10 +186,11 @@ def print_individuals_pretty_table(individuals_dict):
         for key in get_individual_pretty_Table_order():
             individual_info_list.append(individual_info.get(key))
         pt.add_row(individual_info_list)
-    print(pt)
+    if print_table:
+        print(pt)
 
 
-def print_families_pretty_table(families_dict, individuals_dict):
+def print_families_pretty_table(families_dict, individuals_dict, print_table = True):
     pt = PrettyTable(field_names=["ID", "Married", "Divorced",
                                   "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"])
     for family_id, family_info in families_dict.items():
@@ -207,7 +208,8 @@ def print_families_pretty_table(families_dict, individuals_dict):
         for key in get_families_pretty_table_order():
             family_info_list.append(family_info.get(key))
         pt.add_row(family_info_list)
-    print(pt)
+    if print_table:
+        print(pt)
 
 
 def main():

@@ -25,29 +25,23 @@ from prettytable import PrettyTable
 import json
 
 
-
-def us31(individuals, families):
+def us31(individuals, families, print_errors = True):
     """ List all living people over 30 who have never been married """
-
-    print(individuals)
-
     result = list()
 
     for individual_key in individuals:
         individual_obj = individuals.get(individual_key)
         if individual_obj != None:
             if individual_obj.get("AGE") > 30 and (individual_obj.get("FAMS") == None or individual_obj.get("FAMS") == "NA"):
-                print(f'US31: Individual {individual_key} is more than 30 years old and is not married.')
+                if print_errors:
+                    print(f'US31: Individual {individual_key} is more than 30 years old and is not married.')
                 result.append(f'US31: Individual {individual_key} is more than 30 years old and is not married.')
 
     return result
 
 
-def us21(individuals, families):
+def us21(individuals, families, print_errors = True):
     """ Husband in family should be male and wife in family should be female """
-
-    ######################## need to update the gedcom file to show this ##############################
-
     error_result = list()
 
     for family_key in families:
@@ -56,13 +50,15 @@ def us21(individuals, families):
             husband_id = family_obj.get("HUSB")
             husband_individual_obj = individuals.get(husband_id)
             if husband_individual_obj.get("SEX") != "M":
-                print(f'US21: Error: Family {family_key} does not have a male husband.')
+                if print_errors:
+                    print(f'US21: Error: Family {family_key} does not have a male husband.')
                 error_result.append(f'US21: Error: Family {family_key} does not have a male husband.')
 
             wife_id = family_obj.get("WIFE")
             wife_individual_obj = individuals.get(wife_id)
             if wife_individual_obj.get("SEX") != "F":
-                print(f'US21: Error: Family {family_key} does not have a female wife.')
+                if print_errors:
+                    print(f'US21: Error: Family {family_key} does not have a female wife.')
                 error_result.append(f'US21: Error: Family {family_key} does not have a female wife.')
 
     return error_result
