@@ -15,14 +15,20 @@ from prettytable import PrettyTable
 def us31(individuals, families, print_errors = True):
     """ List all living people over 30 who have never been married """
     result = list()
+    pt = PrettyTable(field_names = ["ID", "Name", "Age"])
 
     for individual_key in individuals:
         individual_obj = individuals.get(individual_key)
         if individual_obj != None:
             if individual_obj.get("AGE") > 30 and (individual_obj.get("FAMS") == None or individual_obj.get("FAMS") == "NA"):
-                if print_errors:
-                    print(f'US31: Individual {individual_key} is more than 30 years old and is not married.')
-                result.append(f'US31: Individual {individual_key} is more than 30 years old and is not married.')
+                
+                individual_info = [individual_key, individual_obj.get("NAME"), individual_obj.get("AGE")]
+                pt.add_row(individual_info)
+                result.append(individual_key)
+
+    if len(result) > 0 and print_errors:
+        print(f'US31: List: Individuals more than 30 years old and not married.')
+        print(pt)
 
     return result
 

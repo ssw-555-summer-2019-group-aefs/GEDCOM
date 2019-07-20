@@ -24,7 +24,7 @@ class TestSuite(unittest.TestCase):
         print_individuals_pretty_table(individuals, False)
         print_families_pretty_table(families, individuals, False)
 
-        expected_result = ["US31: Individual @I1@ is more than 30 years old and is not married.", "US31: Individual @I5@ is more than 30 years old and is not married."]
+        expected_result = ['@I1@', '@I5@']
         result = us31(individuals, families, False)
 
         self.assertEqual(result, expected_result)
