@@ -16,6 +16,8 @@ class TestUserStories(unittest.TestCase):
         directory_path_us30 = f'{dir_path}/data/us30.ged'
         individuals_us29, families_us29 = gedcom_file_parser(directory_path_us29)
         individuals_us30, families_us30 = gedcom_file_parser(directory_path_us30)
+        print_pretty_table(directory_path_us29)
+        print_pretty_table(directory_path_us30)
 
         # Expected Result for US29
         us29_pt = PrettyTable(field_names=["ID", "Name"])
