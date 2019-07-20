@@ -99,7 +99,7 @@ class Date:
         """
         try:
             if type(date) is datetime.datetime:
-                return True
+               return True
             datetime.datetime.strptime(date, "%d %b %Y")
             return True
         except ValueError:
