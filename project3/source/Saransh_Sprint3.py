@@ -5,24 +5,11 @@
 #Purpose           : User story Implementation of 
 #Revision History  : Version 1.0
 
-# Notes:  Block implementation of user stories involving spouses and children
-
-# Sprint 2:  Child Block
-# US13:  Birth dates of siblings should be more than 8 months apart or less than 2 days apart 
-# (twins may be born one day apart, e.g. 11:59 PM and 12:02 AM the following calendar day)
-# US14:  No more than five siblings should be born at the same time
-# US15:  There should be fewer than 15 siblings in a family
-# US17:  Parents should not marry any of their children
-# US18:  Siblings should not marry one another
-# US28:  List siblings in families by decreasing age, i.e. oldest siblings first
-# US32:  List all multiple births in a GEDCOM file
-# US33:  List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
 
 import datetime
 from util_date import Date
 from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
-import json
 
 
 def us31(individuals, families, print_errors = True):

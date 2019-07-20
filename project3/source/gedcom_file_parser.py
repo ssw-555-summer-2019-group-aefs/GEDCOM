@@ -150,12 +150,12 @@ def print_pretty_table(directory_path):
     #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
     # errors = [e1, e2]
 
-    # check_150_years_age(individuals) #US07
-    # check_birth_before_marriage_of_parents(families, individuals) #US08
-    # birth_before_parents_death(individuals, families) #US09
-    # print_duplicate_ids(duplicate_ids) #US22
-    # check_bigamy(individuals, families) # US11
-    # check_parents_not_too_old(individuals, families) # US12
+    check_150_years_age(individuals) #US07
+    check_birth_before_marriage_of_parents(families, individuals) #US08
+    birth_before_parents_death(individuals, families) #US09
+    print_duplicate_ids(duplicate_ids) #US22
+    check_bigamy(individuals, families) # US11
+    check_parents_not_too_old(individuals, families) # US12
 
     us31(individuals, families) # US31
     us21(individuals, families) # US21
