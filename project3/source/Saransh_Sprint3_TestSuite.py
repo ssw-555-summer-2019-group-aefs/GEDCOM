@@ -36,7 +36,7 @@ class TestSuite(unittest.TestCase):
         print_individuals_pretty_table(individuals, False)
         print_families_pretty_table(families, individuals, False)
 
-        expected_result = ["US21: Error: Family @F5@ does not have a male husband.", "US21: Error: Family @F5@ does not have a female wife."]
+        expected_result = ["US21: Error: Family @F4@ does not have a male husband."]
         result = us21(individuals, families, False)
 
         self.assertEqual(result, expected_result)
