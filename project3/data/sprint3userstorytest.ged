@@ -172,7 +172,7 @@
 2 GIVN Frederick
 2 SURN Rose
 2 _MARNM Rose
-1 SEX M
+1 SEX F
 1 BIRT
 2 DATE 27 MAY 2018
 1 FAMS @F4@
@@ -212,6 +212,15 @@
 1 SEX M
 1 BIRT
 2 DATE 27 MAY 2018
+1 FAMC @F1@
+0 @I22@ INDI
+1 NAME Richelle /Rose/
+2 GIVN Richelle
+2 SURN Rose
+2 _MARNM Rose
+1 SEX F
+1 BIRT
+2 DATE 2 JUL 2019
 1 FAMC @F1@
 0 @I22@ INDI
 1 NAME Richelle /Rose/

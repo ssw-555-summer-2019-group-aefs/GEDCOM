@@ -10,6 +10,7 @@ from US07_US08_Source_File import check_150_years_age, check_birth_before_marria
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
+from Saransh_Sprint3 import us21, us31
 from US29_30_Source_File import print_list_deceased, print_list_living_married
 
 
@@ -149,19 +150,22 @@ def print_pretty_table(directory_path):
     #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
     errors = [e1, e2]
 
-    check_150_years_age(individuals)
-    check_birth_before_marriage_of_parents(families, individuals)
-    birth_before_parents_death(individuals, families)
+    check_150_years_age(individuals) #US07
+    check_birth_before_marriage_of_parents(families, individuals) #US08
+    birth_before_parents_death(individuals, families) #US09
     print_duplicate_ids(duplicate_ids) #US22
     check_bigamy(individuals, families) # US11
     check_parents_not_too_old(individuals, families) # US12
     print_list_deceased(individuals) #US29
     print_list_living_married(individuals, families) #US30
 
+    us31(individuals, families) # US31
+    us21(individuals, families) # US21
+
     return errors
 
 
-def print_individuals_pretty_table(individuals_dict):
+def print_individuals_pretty_table(individuals_dict, print_table = True):
     pt = PrettyTable(field_names=[
                      "ID", "Name", "Gender", "Birthday", "Age", "Alive", "Death", "Child", "Spouse"])
     for individual_id, individual_info in individuals_dict.items():
@@ -182,10 +186,11 @@ def print_individuals_pretty_table(individuals_dict):
         for key in get_individual_pretty_Table_order():
             individual_info_list.append(individual_info.get(key))
         pt.add_row(individual_info_list)
-    print(pt)
+    if print_table:
+        print(pt)
 
 
-def print_families_pretty_table(families_dict, individuals_dict):
+def print_families_pretty_table(families_dict, individuals_dict, print_table = True):
     pt = PrettyTable(field_names=["ID", "Married", "Divorced",
                                   "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"])
     for family_id, family_info in families_dict.items():
@@ -203,7 +208,8 @@ def print_families_pretty_table(families_dict, individuals_dict):
         for key in get_families_pretty_table_order():
             family_info_list.append(family_info.get(key))
         pt.add_row(family_info_list)
-    print(pt)
+    if print_table:
+        print(pt)
 
 
 def main():

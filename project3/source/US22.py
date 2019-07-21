@@ -15,4 +15,4 @@ def print_duplicate_ids(duplicate_ids_error_list):
             id_type = "individual"
         else:
             id_type = "family"
-        print(f"ERROR: US22: Duplicate {id_type} id: {id}")
+        print(f"US22: ERROR: Duplicate {id_type} id: {id}")
