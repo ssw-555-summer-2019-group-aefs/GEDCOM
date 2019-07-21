@@ -13,7 +13,6 @@ class TestUserStories(unittest.TestCase):
         dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         directory_path = f"{dir_abs_path}/data/US07_US08_test_file.ged"
         individuals, families = gedcom_file_parser(directory_path)
-        print_pretty_table(directory_path)
 
         # US07 Test
         capturedOutput = io.StringIO()
