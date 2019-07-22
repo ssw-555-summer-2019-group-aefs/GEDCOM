@@ -21,13 +21,15 @@ class TestUserStories(unittest.TestCase):
         check_bigamy(individuals, families)
         sys.stdout = sys.__stdout__
         self.assertEqual(capturedOutput.getvalue(), 'ANOMOLY: INDIVIDUAL: US11: @I4@: Bigamy detected: Robert Evans married to multiple spouses at the same time\nANOMOLY: INDIVIDUAL: US11: @I5@: Bigamy detected: Angelo Rose married to multiple spouses at the same time\n')
-       
+        print(capturedOutput.getvalue())
+
         #US12 Test
         capturedOutput2 = io.StringIO()
         sys.stdout = capturedOutput2
         check_parents_not_too_old(individuals, families)
         sys.stdout = sys.__stdout__
         self.assertEqual(capturedOutput2.getvalue(), 'ANOMOLY: FAMILY: US12: @F2@: Parents are too old: Parent(s) were greater than 65 years old when child was born\n')
+        print(capturedOutput2.getvalue())
 
 if __name__ == '__main__':
     unittest.main(exit=False)
