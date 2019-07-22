@@ -30,7 +30,7 @@ class TestSuite(unittest.TestCase):
         # Run print_pretty_table function with specialized directory path to create indivduals and families dictionaries unique to the user story that will be tested
 
         self.dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-        self.directory_path = f"{self.dir_abs_path}/data/sprint3userstorytest.ged"
+        self.directory_path = f"{self.dir_abs_path}/data/AWFStest.ged"
         self.individuals, self.families = gedcom_file_parser(self.directory_path)
         self.individuals = print_individuals_pretty_table(self.individuals, True)
         self.families = print_families_pretty_table(self.individuals, self.families, True)
