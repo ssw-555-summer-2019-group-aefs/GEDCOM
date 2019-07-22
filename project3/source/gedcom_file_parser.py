@@ -42,7 +42,6 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
                     tag_array = LEVEL_TAGS.get(line[0])
                     line_split = line.split()
                     if tag_array == None:
-                        print("Invalid tag")
                         line = fp.readline()
                         continue
                     elif line_split[0] == "0":
@@ -214,7 +213,7 @@ def print_families_pretty_table(families_dict, individuals_dict, print_table = T
 
 def main():
     dir_abs_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-    directory_path = f"{dir_abs_path}/data/sprint2userstorytest.ged"
+    directory_path = f"{dir_abs_path}/data/sprint3userstorytest.ged"
     print_pretty_table(directory_path)
 
 
