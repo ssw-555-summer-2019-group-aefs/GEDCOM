@@ -25,7 +25,7 @@ class TestSuite(unittest.TestCase):
         print_families_pretty_table(families, individuals, False)
 
         expected_result = ['@I1@', '@I5@']
-        result = us31(individuals, families, False)
+        result = us31(individuals, families)
 
         self.assertEqual(result, expected_result)
     
@@ -37,7 +37,7 @@ class TestSuite(unittest.TestCase):
         print_families_pretty_table(families, individuals, False)
 
         expected_result = ["US21: Error: Family @F4@ does not have a male husband."]
-        result = us21(individuals, families, False)
+        result = us21(individuals, families)
 
         self.assertEqual(result, expected_result)
 
