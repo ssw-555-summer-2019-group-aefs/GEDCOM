@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
 from gedcom_file_parser import gedcom_file_parser, print_individuals_pretty_table, print_families_pretty_table
-from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06, us10
+from Sprint1 import get_spouse_block, us01, us02, us03, us04, us05, us06
 from Sprint2 import get_child_block, us13, us14, us15, us17, us18, us28, us33
 from Sprint3 import get_recent_block, us34, us35, us36
 from textwrap import wrap
