@@ -1,0 +1,270 @@
+Microsoft Windows [Version 10.0.17134.885]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM>cd c:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM && cmd /C "set "PYTHONIOENCODING=UTF-8" && set "PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.24221\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63151 c:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM\project3\source\gedcom_file_parser.py "
+Invalid tag
++-------+------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|   ID  |       Name       | Gender |   Birthday  | Age | Alive |    Death    | Child | Spouse |
++-------+------------------+--------+-------------+-----+-------+-------------+-------+--------+
+|  @I1@ | Tristin /Evans/  |   F    | 12 Apr 1987 |  32 | False | 04 Jul 2019 |  @F3@ |  @F1@  |
+|  @I2@ |  Angelo /Rose/   |   M    | 09 Jun 1948 |  71 | False | 04 Jul 2019 |   NA  |  @F1@  |
+|  @I3@ |   Emma /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+|  @I4@ |   Phil /Evans/   |   M    | 18 Jun 2021 |  -1 | False | 18 Jun 2020 |   NA  |  @F3@  |
+|  @I5@ |  Aeryn /Evans/   |   F    | 30 Apr 1987 |  32 |  True |      NA     |  @F3@ |   NA   |
+|  @I6@ |  Sheila /Evans/  |   F    | 18 Jun 1500 | 517 | False | 18 Jun 2017 |   NA  |  @F3@  |
+|  @I7@ |  Isabel /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+|  @I8@ |  Angela /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+|  @I9@ |   Trish /Rose/   |   F    | 27 May 2018 |  1  | False | 04 Jul 2019 |  @F1@ |  @F1@  |
+| @I10@ |   Ethan /Rose/   |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I11@ |    Ian /Rose/    |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I12@ |  Michael /Rose/  |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I13@ | Richelle /Rose/  |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I14@ |  Matthew /Rose/  |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I15@ |   Luke /Rose/    |   M    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I16@ |  Cynthia /Rose/  |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |  @F4@  |
+| @I17@ | Frederick /Rose/ |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |  @F4@  |
+| @I18@ |   Tina /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I19@ |   Tanya /Rose/   |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I20@ |   Emmy /Rose/    |   F    | 27 May 2018 |  1  |  True |      NA     |  @F1@ |   NA   |
+| @I22@ | Richelle /Rose/  |   F    | 21 Jul 2019 |  0  |  True |      NA     |  @F1@ |   NA   |
++-------+------------------+--------+-------------+-----+-------+-------------+-------+--------+
++------+-------------+-------------+------------+------------------+---------+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+
+|  ID  |   Married   |   Divorced  | Husband ID |   Husband Name   | Wife ID |   Wife Name    |                                                                        Children
+                        |
++------+-------------+-------------+------------+------------------+---------+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+
+| @F1@ | 30 Jul 2017 |      NA     |    @I2@    |  Angelo /Rose/   |   @I9@  |  Trish /Rose/  | ['@I3@', '@I7@', '@I8@', '@I9@', '@I10@', '@I11@', '@I12@', '@I13@', '@I14@', '@I15@', '@I16@', '@I17@', '@I18@', '@I19@', '@I20@', '@I20@', '@I22@'] |
+| @F3@ | 18 Jun 2019 | 18 Jun 2018 |    @I4@    |   Phil /Evans/   |   @I6@  | Sheila /Evans/ |                                                                    ['@I1@', '@I5@']
+                        |
+| @F4@ | 02 Apr 2019 |      NA     |   @I17@    | Frederick /Rose/ |  @I16@  | Cynthia /Rose/ |                                                                           NA
+                        |
+| @F5@ | 30 Jul 2018 |      NA     |    @I2@    |  Angelo /Rose/   |   @I9@  |  Trish /Rose/  |                                                                           NA
+                        |
++------+-------------+-------------+------------+------------------+---------+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+
+US01: Error: Individual's '@I4@' birthday '18 Jun 2021' occurs in the future.
+US01: Error: Individual's '@I4@' death date '18 Jun 2020' occurs in the future.
+US03: Error: Individual's '@I4@' birthday '18 Jun 2021' occurs after the death date '18 Jun 2020'.
+US02: Error: Wife '@I9@' in family '@F1@' born after wedding on 30 Jul 2017
+US10: Error: Wife '@I9@' in family '@F1@' married on '30 Jul 2017' before legal age.
+US02: Error: Husband '@I4@' in family '@F3@' born after wedding on 18 Jun 2019
+US10: Error: Husband '@I4@' in family '@F3@' married on '18 Jun 2019' before legal age.
+US04: Error: Husband '@I4@' and Wife '@I6@' in family '@F3@' divorced before wedding on 18 Jun 2019
+US05: Error: Wife '@I6@' in family '@F3@' died before wedding on 18 Jun 2019
+US06: Error: Wife '@I6@' in family '@F3@' died before divorce on 18 Jun 2018
+US10: Error: Husband '@I17@' in family '@F4@' married on '02 Apr 2019' before legal age.
+US10: Error: Wife '@I16@' in family '@F4@' married on '02 Apr 2019' before legal age.
+US10: Error: Wife '@I9@' in family '@F1@' married on '30 Jul 2018' before legal age.
+US15: Error: No more than fourteen children should be born in each family.  '17' children born in family '@F1@'
+US17: Error: Husband '@I2@' in family '@F1@' is married to his child.
+US28: List: Eldest to youngest children in family '@F1@'.
++-------+------------------+---------------+
+|   ID  |       Name       | Date of Birth |
++-------+------------------+---------------+
+|  @I3@ |   Emma /Rose/    |  27 May 2018  |
+|  @I7@ |  Isabel /Rose/   |  27 May 2018  |
+|  @I8@ |  Angela /Rose/   |  27 May 2018  |
+|  @I9@ |   Trish /Rose/   |  27 May 2018  |
+| @I10@ |   Ethan /Rose/   |  27 May 2018  |
+| @I11@ |    Ian /Rose/    |  27 May 2018  |
+| @I12@ |  Michael /Rose/  |  27 May 2018  |
+| @I13@ | Richelle /Rose/  |  27 May 2018  |
+| @I14@ |  Matthew /Rose/  |  27 May 2018  |
+| @I15@ |   Luke /Rose/    |  27 May 2018  |
+| @I16@ |  Cynthia /Rose/  |  27 May 2018  |
+| @I17@ | Frederick /Rose/ |  27 May 2018  |
+| @I18@ |   Tina /Rose/    |  27 May 2018  |
+| @I19@ |   Tanya /Rose/   |  27 May 2018  |
+| @I20@ |   Emmy /Rose/    |  27 May 2018  |
+| @I20@ |   Emmy /Rose/    |  27 May 2018  |
+| @I22@ | Richelle /Rose/  |  21 Jul 2019  |
++-------+------------------+---------------+
+US33: List: These children in family '@F1@' are orphans.
++-------+------------------+
+|   ID  |       Name       |
++-------+------------------+
+|  @I3@ |   Emma /Rose/    |
+|  @I7@ |  Isabel /Rose/   |
+|  @I8@ |  Angela /Rose/   |
+|  @I9@ |   Trish /Rose/   |
+| @I10@ |   Ethan /Rose/   |
+| @I11@ |    Ian /Rose/    |
+| @I12@ |  Michael /Rose/  |
+| @I13@ | Richelle /Rose/  |
+| @I14@ |  Matthew /Rose/  |
+| @I15@ |   Luke /Rose/    |
+| @I16@ |  Cynthia /Rose/  |
+| @I17@ | Frederick /Rose/ |
+| @I18@ |   Tina /Rose/    |
+| @I19@ |   Tanya /Rose/   |
+| @I20@ |   Emmy /Rose/    |
+| @I20@ |   Emmy /Rose/    |
+| @I22@ | Richelle /Rose/  |
++-------+------------------+
+US13: Error: Child '['@I5@']' and Child '['@I1@']' in family '@F3@' are born more than 2 days and less than 8 months apart.
+US28: List: Eldest to youngest children in family '@F3@'.
++------+-----------------+---------------+
+|  ID  |       Name      | Date of Birth |
++------+-----------------+---------------+
+| @I1@ | Tristin /Evans/ |  12 Apr 1987  |
+| @I5@ |  Aeryn /Evans/  |  30 Apr 1987  |
++------+-----------------+---------------+
+US18: Error: Husband '@I17@' and wife '@I16@' in family '@F4@' are brother and sister.  Siblings should not marry one another.
+US34: Husband '@I2@' was more than twice as old as wife '@I9@' in family '@F1@' on marriage date '2017-07-30 00:00:00'.
+US34: Wife '@I6@' was more than twice as old as wife '@I4@' in family '@F3@' on marriage date '2019-06-18 00:00:00'.
+US34: Husband '@I2@' was more than twice as old as wife '@I9@' in family '@F5@' on marriage date '2018-07-30 00:00:00'.
+US35: List:  The following people were born within the last 30 days
++-------+-----------------+---------------+
+|   ID  |       Name      | Date of Birth |
++-------+-----------------+---------------+
+| @I22@ | Richelle /Rose/ |  21 Jul 2019  |
++-------+-----------------+---------------+
+US37: WARNING: @I9@ is a descendant of him/her self in @F1@
+US37: WARNING: @I1@ is a descendant of him/her self in @F1@
+US37: List:  The following people are living spouses and descendents of 'Tristin /Evans/' who died within the last 30 days
++-------+------------------+------------+
+|   ID  |       Name       |  Relation  |
++-------+------------------+------------+
+|  @I3@ |   Emma /Rose/    | Descendant |
+|  @I7@ |  Isabel /Rose/   | Descendant |
+| @I13@ | Richelle /Rose/  | Descendant |
+| @I22@ | Richelle /Rose/  | Descendant |
+|  @I9@ |   Trish /Rose/   | Descendant |
+| @I10@ |   Ethan /Rose/   | Descendant |
+| @I19@ |   Tanya /Rose/   | Descendant |
+| @I15@ |   Luke /Rose/    | Descendant |
+| @I11@ |    Ian /Rose/    | Descendant |
+| @I16@ |  Cynthia /Rose/  | Descendant |
+| @I17@ | Frederick /Rose/ | Descendant |
+| @I14@ |  Matthew /Rose/  | Descendant |
+| @I20@ |   Emmy /Rose/    | Descendant |
+| @I12@ |  Michael /Rose/  | Descendant |
+| @I18@ |   Tina /Rose/    | Descendant |
+|  @I8@ |  Angela /Rose/   | Descendant |
++-------+------------------+------------+
+US37: WARNING: @I9@ is a descendant of him/her self in @F1@
+US37: WARNING: @I2@ is a descendant of him/her self in @F1@
+US37: List:  The following people are living spouses and descendents of 'Angelo /Rose/' who died within the last 30 days
++-------+------------------+------------+
+|   ID  |       Name       |  Relation  |
++-------+------------------+------------+
+|  @I9@ |   Trish /Rose/   |    Wife    |
+|  @I3@ |   Emma /Rose/    | Descendant |
+|  @I7@ |  Isabel /Rose/   | Descendant |
+| @I13@ | Richelle /Rose/  | Descendant |
+| @I22@ | Richelle /Rose/  | Descendant |
+|  @I9@ |   Trish /Rose/   | Descendant |
+| @I10@ |   Ethan /Rose/   | Descendant |
+| @I19@ |   Tanya /Rose/   | Descendant |
+| @I15@ |   Luke /Rose/    | Descendant |
+| @I11@ |    Ian /Rose/    | Descendant |
+| @I16@ |  Cynthia /Rose/  | Descendant |
+| @I17@ | Frederick /Rose/ | Descendant |
+| @I14@ |  Matthew /Rose/  | Descendant |
+| @I20@ |   Emmy /Rose/    | Descendant |
+| @I12@ |  Michael /Rose/  | Descendant |
+| @I18@ |   Tina /Rose/    | Descendant |
+|  @I8@ |  Angela /Rose/   | Descendant |
++-------+------------------+------------+
+US37: WARNING: @I9@ is a descendant of him/her self in @F1@
+US37: WARNING: @I9@ is a descendant of him/her self in @F1@
+US37: List:  The following people are living spouses and descendents of 'Trish /Rose/' who died within the last 30 days
++-------+------------------+------------+
+|   ID  |       Name       |  Relation  |
++-------+------------------+------------+
+|  @I2@ |  Angelo /Rose/   |  Husband   |
+|  @I3@ |   Emma /Rose/    | Descendant |
+|  @I7@ |  Isabel /Rose/   | Descendant |
+| @I13@ | Richelle /Rose/  | Descendant |
+| @I22@ | Richelle /Rose/  | Descendant |
+|  @I9@ |   Trish /Rose/   | Descendant |
+| @I10@ |   Ethan /Rose/   | Descendant |
+| @I19@ |   Tanya /Rose/   | Descendant |
+| @I15@ |   Luke /Rose/    | Descendant |
+| @I11@ |    Ian /Rose/    | Descendant |
+| @I16@ |  Cynthia /Rose/  | Descendant |
+| @I17@ | Frederick /Rose/ | Descendant |
+| @I14@ |  Matthew /Rose/  | Descendant |
+| @I20@ |   Emmy /Rose/    | Descendant |
+| @I12@ |  Michael /Rose/  | Descendant |
+| @I18@ |   Tina /Rose/    | Descendant |
+|  @I8@ |  Angela /Rose/   | Descendant |
++-------+------------------+------------+
+US36: List:  The following people died within the last 30 days
++------+-----------------+---------------+
+|  ID  |       Name      | Date of Death |
++------+-----------------+---------------+
+| @I1@ | Tristin /Evans/ |  04 Jul 2019  |
+| @I2@ |  Angelo /Rose/  |  04 Jul 2019  |
+| @I9@ |   Trish /Rose/  |  04 Jul 2019  |
++------+-----------------+---------------+
+ERROR: INDIVIDUAL: US07: @I6@: More than 150 years old at death - Birth date 18 Jun 1500: Death date 18 Jun 2017
+ANOMOLY: FAMILY: US08: @F3@: Child @I1@ born 12 Apr 1987 before marriage on 18 Jun 2019
+ANOMOLY: FAMILY: US08: @F3@: Child @I5@ born 30 Apr 1987 before marriage on 18 Jun 2019
+ERROR: US09: @F1@: Husband died before the birth of his child
+ERROR: US09: @F1@ Wife died before the birth of her child
+US22: ERROR: Duplicate individual id: @I20@
+ANOMOLY: INDIVIDUAL: US11: @I2@: Bigamy detected: Angelo Rose married to multiple spouses at the same time
+ANOMOLY: INDIVIDUAL: US11: @I9@: Bigamy detected: Trish Rose married to multiple spouses at the same time
+ANOMOLY: FAMILY: US12: @F1@: Parents are too old: Parent(s) were greater than 65 years old when child was bornTest out
+ANOMOLY: FAMILY: US12: @F3@: Parents are too old: Parent(s) were greater than 65 years old when child was born
+
+Test Output:
+Microsoft Windows [Version 10.0.17134.885]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM>cd c:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM && cmd /C "set "PYTHONIOENCODING=UTF-8" && set "PYTHONUNBUFFERED=1" && C:\Users\Anthe\AppData\Local\Programs\Python\Python37\python.exe c:\Users\Anthe\.vscode\extensions\ms-python.python-2019.6.24221\pythonFiles\ptvsd_launcher.py --default --client --host localhost --port 63178 c:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM\project3\source\AWFS_TestSuite.py "
+test_us01 (__main__.TestSuite)
+Test for US01 ... US01: Error: Individual's '@I4@' birthday '18 Jun 2021' occurs in the future.
+US01: Error: Individual's '@I4@' death date '18 Jun 2020' occurs in the future.
+ok
+test_us02_us10 (__main__.TestSuite)
+Test for US02 and US10 ... US02: Error: Husband '@I4@' in family '@F3@' born after wedding on 18 Jun 2019
+US10: Error: Husband '@I4@' in family '@F3@' married on '18 Jun 2019' before legal age.
+ok
+test_us03 (__main__.TestSuite)
+Test for US03 ... US03: Error: Individual's '@I4@' birthday '18 Jun 2021' occurs after the death date '18 Jun 2020'.
+ok
+test_us04 (__main__.TestSuite)
+Test for US04 ... US04: Error: Husband '@I4@' and Wife '@I6@' in family '@F3@' divorced before wedding on 18 Jun 2019
+ok
+test_us05 (__main__.TestSuite)
+Test for US05 ... US05: Error: Wife '@I6@' in family '@F3@' died before wedding on 18 Jun 2019
+ok
+test_us06 (__main__.TestSuite)
+Test for US06 ... US06: Error: Wife '@I6@' in family '@F3@' died before divorce on 18 Jun 2018
+ok
+test_us13 (__main__.TestSuite)
+Test for US13 ... US13: Error: Child '['@I5@']' and Child '['@I1@']' in family '@F3@' are born more than 2 days and less than 8 months apart.
+ok
+test_us14_us32 (__main__.TestSuite)
+Test for US14 and US32 ... US14: Error: More than five children born on date '27 May 2018' in family '@F1@'
+US32: List: The following '16' births occured in family '@F1@' on date '27 May 2018'
+ok
+test_us15 (__main__.TestSuite)
+Test for US15 ... US15: Error: No more than fourteen children should be born in each family.  '17' children born in family '@F1@'
+ok
+test_us17 (__main__.TestSuite)
+Test for US17 ... US17: Error: Husband '@I2@' in family '@F1@' is married to his child.
+ok
+test_us18 (__main__.TestSuite)
+Test for US18 ... US18: Error: Husband '@I17@' and wife '@I16@' in family '@F4@' are brother and sister.  Siblings should not marry one another.
+ok
+test_us28 (__main__.TestSuite)
+Test for US28 ... US28: List: Eldest to youngest children in family '@F3@'.
+ok
+test_us33 (__main__.TestSuite)
+Test for US33 ... US33: List: These children in family '@F1@' are orphans.
+ok
+test_us34 (__main__.TestSuite)
+Test for US34 ... ok
+test_us35 (__main__.TestSuite)
+Test for US35 ... US35: List:  The following people were born within the last 30 days
+ok
+test_us36_us37 (__main__.TestSuite)
+Test for US36 and US37 ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.382s
+
+OK
+
+C:\Users\Anthe\OneDrive\Documents\GitHub\GEDCOM>

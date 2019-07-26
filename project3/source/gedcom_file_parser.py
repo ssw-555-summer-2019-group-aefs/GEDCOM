@@ -1,18 +1,14 @@
-import os
 from prettytable import PrettyTable
 import os
 from utils import LEVEL_TAGS, get_families_pretty_table_order, get_family_info_tags, get_individual_info_tags, get_individual_pretty_Table_order
 from util_date import Date
 from Sprint1 import get_spouse_block
 from Sprint2 import get_child_block
-#from Sprint3 import get_recent_block
+from Sprint3 import get_recent_block
 from US07_US08_Source_File import check_150_years_age, check_birth_before_marriage_of_parents
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
-from Saransh_Sprint3 import us21, us31
-from US29_30_Source_File import print_list_deceased, print_list_living_married
-from US38_39_Source_File import print_list_upcoming_anniversaries, print_list_upcoming_birthdays
 
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
@@ -43,6 +39,7 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
                     tag_array = LEVEL_TAGS.get(line[0])
                     line_split = line.split()
                     if tag_array == None:
+                        print("Invalid tag")
                         line = fp.readline()
                         continue
                     elif line_split[0] == "0":
@@ -144,30 +141,23 @@ def print_pretty_table(directory_path):
     
     individuals, families, duplicate_ids = gedcom_file_parser(directory_path, True)
     print_individuals_pretty_table(individuals)
-    print_families_pretty_table(families, individuals)
-    e1 = get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
-    e2 = get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
-    #e3 = get_recent_block(individuals, families) #US34, US35, US36, US37
-    errors = [e1, e2]
+    print_families_pretty_table(individuals, families)
+    get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
+    get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
+    get_recent_block(individuals, families) #US34, US35, US36, US37
+    
 
-    check_150_years_age(individuals) #US07
-    check_birth_before_marriage_of_parents(families, individuals) #US08
-    birth_before_parents_death(individuals, families) #US09
+    check_150_years_age(individuals)
+    check_birth_before_marriage_of_parents(families, individuals)
+    birth_before_parents_death(individuals, families)
     print_duplicate_ids(duplicate_ids) #US22
     check_bigamy(individuals, families) # US11
     check_parents_not_too_old(individuals, families) # US12
-    print_list_deceased(individuals) #US29
-    print_list_living_married(individuals, families) #US30
-    print_list_upcoming_birthdays(individuals) #US38
-    print_list_upcoming_anniversaries(individuals, families) #US39
 
-    us31(individuals, families) # US31
-    us21(individuals, families) # US21
-
-    return errors
+    return None
 
 
-def print_individuals_pretty_table(individuals_dict, print_table = True):
+def print_individuals_pretty_table(individuals_dict, test=False):
     pt = PrettyTable(field_names=[
                      "ID", "Name", "Gender", "Birthday", "Age", "Alive", "Death", "Child", "Spouse"])
     for individual_id, individual_info in individuals_dict.items():
@@ -188,11 +178,14 @@ def print_individuals_pretty_table(individuals_dict, print_table = True):
         for key in get_individual_pretty_Table_order():
             individual_info_list.append(individual_info.get(key))
         pt.add_row(individual_info_list)
-    if print_table:
+
+    if test:
+        return individuals_dict
+    else:
         print(pt)
 
 
-def print_families_pretty_table(families_dict, individuals_dict, print_table = True):
+def print_families_pretty_table(individuals_dict, families_dict, test=False):
     pt = PrettyTable(field_names=["ID", "Married", "Divorced",
                                   "Husband ID", "Husband Name", "Wife ID", "Wife Name", "Children"])
     for family_id, family_info in families_dict.items():
@@ -210,7 +203,10 @@ def print_families_pretty_table(families_dict, individuals_dict, print_table = T
         for key in get_families_pretty_table_order():
             family_info_list.append(family_info.get(key))
         pt.add_row(family_info_list)
-    if print_table:
+    
+    if test:
+        return families_dict
+    else:
         print(pt)
 
 
