@@ -3,18 +3,21 @@ import datetime
 from util_date import Date
 
 #US38
-def list_upcoming_birthdays(individual_info_dict):
+def list_upcoming_birthdays(individual_info_dict, use_todays_date=True):
     """ Lists all birthdays within a month in a GEDCOM file. """
     
     upcoming_birthday_list = []
-    today = datetime.date.today()
+    if use_todays_date == True:
+        today = datetime.date.today()
+    else:
+        today = datetime.date(2019, 6, 1)
     for individual_id, individual_info in individual_info_dict.items():
         id = individual_id
         name = individual_info.get('NAME')
         birth_date = Date(str(individual_info.get("BIRT"))).date_time_obj
         if birth_date not in [None, 'NA', '']:
             this_year_birthday = datetime.date(today.year, birth_date.month, birth_date.day)
-            difference = today - this_year_birthday
+            difference = this_year_birthday - today
             if difference > datetime.timedelta(0) and difference < datetime.timedelta(30):
                 info = [id, name]
                 upcoming_birthday_list.append(info)
@@ -32,16 +35,21 @@ def list_upcoming_birthdays(individual_info_dict):
 
     return return_print
 
-def print_list_upcoming_birthdays(individual_info_dict):
-    if list_upcoming_birthdays(individual_info_dict) != None:
-        print(list_upcoming_birthdays(individual_info_dict))
+def print_list_upcoming_birthdays(individual_info_dict, use_todays_date=True):
+    if use_todays_date == False and list_upcoming_birthdays(individual_info_dict, use_todays_date=False):
+        print(list_upcoming_birthdays(individual_info_dict, use_todays_date=False))
+    elif list_upcoming_birthdays(individual_info_dict) != None:
+         print(list_upcoming_birthdays(individual_info_dict))
 
 
 #US39
-def list_upcoming_anniversaries(individual_info_dict, family_info_dict):
+def list_upcoming_anniversaries(individual_info_dict, family_info_dict, use_todays_date=True):
     """ Lists all anniversaries that occur within a month in a GEDCOM file. """
     upcoming_anniversary_list = []
-    today = datetime.date.today()
+    if use_todays_date == True:
+        today = datetime.date.today()
+    else:
+        today = datetime.date(2019, 6, 1)
     pt = ''
     for family_id, family_info in family_info_dict.items():
         
@@ -59,7 +67,7 @@ def list_upcoming_anniversaries(individual_info_dict, family_info_dict):
         wedding_date = Date(str(family_info.get("MARR"))).date_time_obj
         if wedding_date not in [None, 'NA', '']:
             this_year_anniversary = datetime.date(today.year, wedding_date.month, wedding_date.day)
-            difference = today - this_year_anniversary
+            difference = this_year_anniversary - today
             if difference > datetime.timedelta(0) and difference < datetime.timedelta(30):
                 info = [wife_id, wife_name, husband_id, husb_name]
                 upcoming_anniversary_list.append(info)
@@ -76,8 +84,10 @@ def list_upcoming_anniversaries(individual_info_dict, family_info_dict):
 
     return return_print
 
-def print_list_upcoming_anniversaries(individual_info_dict, family_info_dict):
-    if list_upcoming_anniversaries(individual_info_dict, family_info_dict) != None:
+def print_list_upcoming_anniversaries(individual_info_dict, family_info_dict, use_todays_date=True):
+    if use_todays_date == False and list_upcoming_anniversaries(individual_info_dict, family_info_dict, use_todays_date=False) != None:
+        print(list_upcoming_anniversaries(individual_info_dict, family_info_dict, use_todays_date=False))
+    elif list_upcoming_anniversaries(individual_info_dict, family_info_dict) != None:
         print(list_upcoming_anniversaries(individual_info_dict, family_info_dict))
 
         
