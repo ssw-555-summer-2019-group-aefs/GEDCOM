@@ -12,6 +12,7 @@ from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
 from Saransh_Sprint3 import us21, us31
 from US29_30_Source_File import print_list_deceased, print_list_living_married
 from US38_39_Source_File import print_list_upcoming_anniversaries, print_list_upcoming_birthdays
+from Saransh_Sprint4 import us16, us26
    
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
@@ -42,7 +43,6 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
                     tag_array = LEVEL_TAGS.get(line[0])
                     line_split = line.split()
                     if tag_array == None:
-                        print("Invalid tag")
                         line = fp.readline()
                         continue
                     elif line_split[0] == "0":
@@ -148,7 +148,6 @@ def print_pretty_table(directory_path):
     get_spouse_block(individuals, families) #US01, US02, US03, US04, US05, US06, US10
     get_child_block(individuals, families) #US13, US14, US15, US17, US18, US28, US32, US33
     get_recent_block(individuals, families) #US34, US35, US36, US37
-    
 
     check_150_years_age(individuals)
     check_birth_before_marriage_of_parents(families, individuals)
@@ -160,6 +159,8 @@ def print_pretty_table(directory_path):
     print_list_living_married(individuals, families) #US30
     print_list_upcoming_birthdays(individuals) #US38
     print_list_upcoming_anniversaries(individuals, families) #US39
+    us16(individuals, families)
+    us26(individuals, families)
 
     us31(individuals, families) # US31
     us21(individuals, families) # US21

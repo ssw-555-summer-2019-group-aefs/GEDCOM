@@ -10,7 +10,6 @@ from util_date import Date
 import os
 from collections import OrderedDict, defaultdict
 from prettytable import PrettyTable
-from gedcom_file_parser import gedcom_file_parser
 
 
 def us16(individuals, families):
@@ -53,11 +52,11 @@ def us26(individuals, families):
     error_messages = []
     for individual_key in individuals:
         individual_obj = individuals.get(individual_key)
-        if individual_obj.get("FAMS") != None:
+        if individual_obj.get("FAMS") != None and individual_obj.get("FAMS") != "NA":
             if families.get(individual_obj.get("FAMS")) == None:
                 print(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
                 error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
-        if individual_obj.get("FAMC") != None:
+        if individual_obj.get("FAMC") != None and individual_obj.get("FAMC") != "NA":
             if families.get(individual_obj.get("FAMC")) == None:
                 print(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
                 error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
