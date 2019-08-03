@@ -9,7 +9,10 @@ from US07_US08_Source_File import check_150_years_age, check_birth_before_marria
 from US22 import print_duplicate_ids
 from US09 import birth_before_parents_death
 from source_file_us11_us12 import check_bigamy, check_parents_not_too_old
-
+from Saransh_Sprint3 import us21, us31
+from US29_30_Source_File import print_list_deceased, print_list_living_married
+from US38_39_Source_File import print_list_upcoming_anniversaries, print_list_upcoming_birthdays
+   
 
 def gedcom_file_parser(path, return_duplicate_ids = False):
     """gedcom file parser opens and reads a gedcom file line-byline
@@ -39,6 +42,7 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
                     tag_array = LEVEL_TAGS.get(line[0])
                     line_split = line.split()
                     if tag_array == None:
+                        print("Invalid tag")
                         line = fp.readline()
                         continue
                     elif line_split[0] == "0":
@@ -152,6 +156,13 @@ def print_pretty_table(directory_path):
     print_duplicate_ids(duplicate_ids) #US22
     check_bigamy(individuals, families) # US11
     check_parents_not_too_old(individuals, families) # US12
+    print_list_deceased(individuals) #US29
+    print_list_living_married(individuals, families) #US30
+    print_list_upcoming_birthdays(individuals) #US38
+    print_list_upcoming_anniversaries(individuals, families) #US39
+
+    us31(individuals, families) # US31
+    us21(individuals, families) # US21
 
     return None
 
