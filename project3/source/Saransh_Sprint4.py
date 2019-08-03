@@ -13,7 +13,7 @@ from prettytable import PrettyTable
 from gedcom_file_parser import gedcom_file_parser
 
 
-def us16(individuals, families, print_errors=True):
+def us16(individuals, families):
     """ Husband in family should be male and wife in family should be female """
 
     individual_identifier = ["HUSB", "WIFE", "CHIL"]
@@ -41,14 +41,13 @@ def us16(individuals, families, print_errors=True):
                         individual_name = individual_obj.get("NAME")
                         individual_last_name = individual_name.split("/")[1]
                         if individual_last_name != family_last_name:
-                            if print_errors:
-                                print(f"US16: Error: All males in family {family_key}, do not have same last name")
+                            print(f"US16: Error: All males in family {family_key}, do not have same last name")
                             error_messages.append(f"US16: Error: All males in family {family_key}, do not have same last name")
                             break
     return error_messages
 
 
-def us26(individuals, families, print_errors=True):
+def us26(individuals, families):
     """ List all living people over 30 who have never been married """
 
     error_messages = []
@@ -56,20 +55,10 @@ def us26(individuals, families, print_errors=True):
         individual_obj = individuals.get(individual_key)
         if individual_obj.get("FAMS") != None:
             if families.get(individual_obj.get("FAMS")) == None:
-                if print_errors:
-                    print(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
+                print(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
                 error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
         if individual_obj.get("FAMC") != None:
             if families.get(individual_obj.get("FAMC")) == None:
-                if print_errors:
-                    print(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
+                print(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
                 error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
     return error_messages
-
-
-if __name__ == '__main__':
-    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    individuals, families = gedcom_file_parser(f"{dir_path}/data/us26.ged")
-    us26(individuals, families)
-    individuals, families = gedcom_file_parser(f"{dir_path}/data/us16.ged")
-    us16(individuals, families)

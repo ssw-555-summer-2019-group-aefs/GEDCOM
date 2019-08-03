@@ -22,7 +22,7 @@ class TestSuite(unittest.TestCase):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/us16.ged")
         expected_result = ["US16: Error: All males in family @F1@, do not have same last name"]
-        result = us16(individuals, families, False)
+        result = us16(individuals, families)
         self.assertEqual(result, expected_result)
     
     
@@ -30,9 +30,8 @@ class TestSuite(unittest.TestCase):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/us26.ged")
         expected_result = ["US26: Error: No entry for family id @F4@ exsists", "US26: Error: No entry for family id @F4@ exsists"]
-        result = us26(individuals, families, False)
+        result = us26(individuals, families)
         self.assertEqual(result, expected_result)
-
 
 if __name__ == '__main__':
     unittest.main()
