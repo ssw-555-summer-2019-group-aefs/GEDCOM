@@ -39,7 +39,6 @@ def gedcom_file_parser(path, return_duplicate_ids = False):
                     tag_array = LEVEL_TAGS.get(line[0])
                     line_split = line.split()
                     if tag_array == None:
-                        print("Invalid tag")
                         line = fp.readline()
                         continue
                     elif line_split[0] == "0":
