@@ -13,7 +13,7 @@ from prettytable import PrettyTable
 
 
 def us16(individuals, families):
-    """ Husband in family should be male and wife in family should be female """
+    """ function to check if all male members of the family must have the same last name """
 
     individual_identifier = ["HUSB", "WIFE", "CHIL"]
     error_messages = []
@@ -47,17 +47,18 @@ def us16(individuals, families):
 
 
 def us26(individuals, families):
-    """ List all living people over 30 who have never been married """
+    """ function to check the information in the individual
+    and family records is consistent. """
 
     error_messages = []
     for individual_key in individuals:
         individual_obj = individuals.get(individual_key)
         if individual_obj.get("FAMS") != None and individual_obj.get("FAMS") != "NA":
             if families.get(individual_obj.get("FAMS")) == None:
-                print(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
-                error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} exsists")
+                print(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} available")
+                error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMS')} available")
         if individual_obj.get("FAMC") != None and individual_obj.get("FAMC") != "NA":
             if families.get(individual_obj.get("FAMC")) == None:
-                print(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
-                error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} exsists")
+                print(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} available")
+                error_messages.append(f"US26: Error: No entry for family id {individual_obj.get('FAMC')} available")
     return error_messages

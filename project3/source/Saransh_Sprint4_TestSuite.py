@@ -26,10 +26,10 @@ class TestSuite(unittest.TestCase):
         self.assertEqual(result, expected_result)
     
     
-    def test_us21(self):
+    def test_us26(self):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/us26.ged")
-        expected_result = ["US26: Error: No entry for family id @F4@ exsists", "US26: Error: No entry for family id @F4@ exsists"]
+        expected_result = ["US26: Error: No entry for family id @F4@ available", "US26: Error: No entry for family id @F4@ available"]
         result = us26(individuals, families)
         self.assertEqual(result, expected_result)
 
