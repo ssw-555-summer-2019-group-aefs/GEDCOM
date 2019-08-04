@@ -22,7 +22,7 @@ class TestSuite(unittest.TestCase):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/sprint3userstorytest.ged")
         print_individuals_pretty_table(individuals, False)
-        print_families_pretty_table(families, individuals, False)
+        print_families_pretty_table(individuals, families, False)
 
         expected_result = ['@I5@']
         result = us31(individuals, families)
