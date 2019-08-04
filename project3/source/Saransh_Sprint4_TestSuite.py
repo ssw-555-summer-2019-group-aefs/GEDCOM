@@ -29,7 +29,13 @@ class TestSuite(unittest.TestCase):
     def test_us26(self):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/us26.ged")
-        expected_result = ["US26: Error: No entry for family id @F4@ available", "US26: Error: No entry for family id @F4@ available"]
+        expected_result = [
+            'US26: Error: individual spouse with id @I1@ not available in family @F1@',
+            'US26: Error: No entry for family id @F4@ available',
+            'US26: Error: No entry for family id @F4@ available',
+            'US26: Error: Husband in family @F5@ is not listed as spouse in individual record @I2@',
+            'US26: Error: Wife in family @F5@ is not listed as spouse in individual record @I9@'
+        ]
         result = us26(individuals, families)
         self.assertEqual(result, expected_result)
 
