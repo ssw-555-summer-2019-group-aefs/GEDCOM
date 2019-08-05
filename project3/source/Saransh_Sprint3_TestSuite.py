@@ -33,8 +33,8 @@ class TestSuite(unittest.TestCase):
     def test_us21(self):
         dir_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
         individuals, families = gedcom_file_parser(f"{dir_path}/data/sprint3userstorytest.ged")
-        print_individuals_pretty_table(individuals, False)
-        print_families_pretty_table(families, individuals, False)
+        #print_individuals_pretty_table(individuals, False)
+        #print_families_pretty_table(families, individuals, False)
 
         expected_result = ["US21: Error: Family @F4@ does not have a male husband."]
         result = us21(individuals, families)
